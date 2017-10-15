@@ -24,7 +24,6 @@ class LoadDocumentation
         ])));
         $pug->setOption('basedir', null);
         $pug->setOption('paths', $paths);
-        $pug->initCompiler();
 
         return $next($request);
     }
