@@ -13,10 +13,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-$index = function () {
+Route::get('/', function () {
     return view('index');
-};
+});
 
-Route::get('/', $index);
-
-Route::get('/:locale', $index)->name('lang');
+Route::get('/lang', function () {
+    return back();
+})->name('lang');

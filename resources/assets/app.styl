@@ -35,10 +35,21 @@ button:focus, .navbar-dark .navbar-toggler:focus
     border thin solid rgba(248, 243, 240, 0.3)
 
 .languages
-    float right
+    white-space nowrap
+    border-radius 2px
+    background rgba(0, 0, 0, 0.2)
+    height 34px
+    padding 0 5px
+    box-sizing content-box
     a
         display inline-block
-        margin 10px
+        padding 5px
+        transition opacity .2s
+        opacity 0.6
+        &:hover
+            opacity 1
+        img
+            margin 0
 
 /*
  * Header

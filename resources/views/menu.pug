@@ -1,7 +1,3 @@
-.languages
-    each locale in locales
-        a(href=route('lang', {locale: locale}))
-            img(src="img/flag-" + locale + ".png" width="24" height="24")
 a.home(href="/")
     img(src="img/pug.png" alt="Phug" width="50" height="50")
     h1 Phug
@@ -14,3 +10,8 @@ nav.collapse.navbar-collapse
         a.nav-item.nav-link(href="#language" data-close="try") Language Reference
         a.nav-item.nav-link(href="#resources" data-close="try") Resources
         a.nav-item.nav-link(href="https://github.com/phug-php/phug/" data-close="try") GitHub
+
+.languages
+    each locale in locales
+        a(href=route('lang', {locale: locale}))
+            img(src="img/flag-" + locale + ".png" width="24" height="24")
