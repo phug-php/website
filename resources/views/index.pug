@@ -1,11 +1,34 @@
 doctype html
 html(lang=app().locale)
     head
-        title=__('title')
+        meta(charset="utf-8")
+        title=__('index.title')
+        link(href="https://fonts.googleapis.com/css?family=Raleway:400,400i,600" rel="stylesheet")
+        link(href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge,chrome=1")
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        minify app
+            link(href="app.styl" rel="stylesheet")
+            link(href="try.styl" rel="stylesheet")
     body
-        header
+        nav.navbar.navbar-expand-lg.fixed-top.navbar-dark.site-navbar
             include menu.pug
-        aside
-            include table-of-content.pug
-        section
-            include documentation.pug
+        aside#try.try-phug.container-fluid(data-example="try")
+            include try.pug
+        .container-fluid#top: .row.flex-nowrap
+            nav.sidebar.col-lg-3.br-ribbed-light: nav.navbar.contents#contents
+                nav.nav.flex-column
+                    a.nav-link.d-md-none(href="#try" data-action="sidebar-nav" data-toggle="try") Try Phug
+                    a.nav-link(href="#top" data-action="sidebar-nav") Overview
+                    nav.nav.flex-column
+                        a.nav-link(href="#top" data-action="sidebar-nav") Overview
+                        a.nav-link(href="#top" data-action="sidebar-nav") Overview
+                    include table-of-content.pug
+            main.main.col-lg-9.ml-auto
+                include documentation.pug
+
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+            integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous")
+        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous")

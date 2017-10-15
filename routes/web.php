@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
+use Illuminate\Support\Facades\Route;
+
+$index = function () {
     return view('index');
-});
+};
+
+Route::get('/', $index);
+
+Route::get('/:locale', $index)->name('lang');

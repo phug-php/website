@@ -27,7 +27,7 @@
     //'php5compatibility'  => false,
     //'postRender'         => null,
     //'preRender'          => null,
-    //'prettyprint'        => false,
+    'prettyprint'        => true,
     //'pugjs'              => false,
     //'restrictedScope'    => false,
     //'singleQuote'        => false,
