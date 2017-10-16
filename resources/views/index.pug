@@ -1,4 +1,3 @@
-- locale = app().locale
 doctype html
 html(lang=locale)
     head
@@ -26,7 +25,9 @@ html(lang=locale)
                 include documentation.pug
         .d-none
             #edit-btn
-                .sticky-top: a.btn-light.btn(href="https://github.com/phug-php/website/edit/master/doc/" + locale + "/{id}.md") &#128393; &nbsp;
+                a.edit-btn.btn-light.btn(href="https://github.com/phug-php/website/edit/master/doc/" + locale + "/{id}.md")
+                    img(src="img/edit.svg" width="16" height="16")
+                    | &nbsp;
                     =__('index.edit')
 
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"

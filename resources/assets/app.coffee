@@ -12,6 +12,7 @@ $ ->
         $nav.append group
         tableOfContents.push $nav
         group = []
+      return
     $section.find('h1, h2').each ->
       $header = $ @
       isH1 = $header.is 'h1'
@@ -30,13 +31,33 @@ $ ->
         tableOfContents.push $a
       else
         group.push $a
+      return
     do dumpGroup
+    return
   $('.table-of-content').append tableOfContents
   $('body').scrollspy
     target: '#contents'
     offset: Math.round $('main').css('padding-top').replace('px','')
   $(document)
+    .on 'scroll', ->
+      scrollTop = $(@).scrollTop() - 10
+      $('.chapter').each ->
+        $chapter = $ @
+        top = $(@).offset().top
+        method = if top <= scrollTop and top + $chapter.height() >= scrollTop
+          'addClass'
+        else
+          'removeClass'
+        $chapter.find('.edit-btn:visible')[method] 'sticky-button'
+        return
+      return
     .on 'click', '[data-close]', ->
       $('#' + $(@).data('close')).removeClass 'opened'
+      return
     .on 'click', '[data-toggle]', ->
       $('#' + $(@).data('toggle')).toggleClass 'opened'
+      return
+    .on 'click', '[data-toggle="offcanvas"]', ->
+      $('.navbar-toggler, .sidebar').toggleClass 'show'
+      return
+  return

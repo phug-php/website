@@ -7,7 +7,9 @@
 	 */
 
 	// Required for extending layouts
-	'basedir' => resource_path('views'),
+	'basedir'            => resource_path('views'),
+    'not_found_template' => '### Not yet translated',
+    'pretty'             => true,
 
     //'allowMixedIndent'   => true,
     //'allowMixinOverride' => true,
@@ -27,7 +29,6 @@
     //'php5compatibility'  => false,
     //'postRender'         => null,
     //'preRender'          => null,
-    'prettyprint'        => true,
     //'pugjs'              => false,
     //'restrictedScope'    => false,
     //'singleQuote'        => false,
