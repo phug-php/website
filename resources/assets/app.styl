@@ -1,15 +1,9 @@
-accent-color = #1f648b
-accent-light-color = #69add3
-dark-background = #314456
-navlink-background = #455e7c
-light-background = #ecf5fe
-light-border = #cbdff9
+@import 'colors.styl'
 
 html,
 body
     margin 0
     padding 0
-    height 100%
     overflow-x hidden
 
 body
@@ -37,17 +31,18 @@ button:focus, .navbar-dark .navbar-toggler:focus
 .languages
     white-space nowrap
     border-radius 2px
-    background rgba(0, 0, 0, 0.2)
-    height 34px
-    padding 0 5px
-    box-sizing content-box
+    background rgba(255, 255, 255, 0.2)
+    height 36px
+    padding 3px
     a
         display inline-block
-        padding 5px
-        transition opacity .2s
-        opacity 0.6
+        padding 3px 7px
+        border-radius 2px
+        transition all .2s
+        opacity 0.7
         &:hover
             opacity 1
+            background rgba(255, 255, 255, 0.2)
         img
             margin 0
 
@@ -185,24 +180,22 @@ code, td code
 pre code
     white-space pre /* We want newlines to be newlines in code blocks */
 
-h2, h3, h4
-    margin-top 1.3em
-    margin-bottom 0.6em
-
 h2
     font-weight 600
 
 h3, h4, h2 time
     font-weight normal
 
-.main section
+.main .chapter
     /* Offset the anchor so that clicking on the sidebar links don’t hide the heading under the header bar */
-    padding-top 2.3rem
-    margin-top -2.3rem
+    &,
+    .h1, .h2,
+    h1, h2
+        padding-top 60px
+        margin -50px 0 0.7em
 
-@media (min-width: 1200px)
-    .main > header, .main section > h2, .main section > h3, .main section > h4, .main section > p, .main section > blockquote, .main section > ul, .main section > table
-        max-width 80%
+    .h3, .h4, .h5, .h6, h3, h4, h5, h6
+        margin 0 0 0.7em
 
 code, a > code
     background-color #f8f3f0
@@ -240,40 +233,3 @@ textarea
     color #060a08
     border-color #4de486
     outline 0
-
-//header
-//    position fixed
-//    top 0
-//    left 0
-//    width 100%
-//    background #a06026
-//    color #f9f9f9
-//    padding 0 20px
-//    line-height 50px
-//
-//    h1
-//        margin 0
-//
-//.page
-//    margin-top 50px
-//    display flex
-//    flex 1
-//    min-height calc(100% - 50px)
-//
-//section
-//    h1
-//        margin 10px 0
-
-//
-//aside
-//    display flex
-//    flex-grow 0
-//    height 100%
-//    background #f7e1b5
-//    width 200px
-//    padding 10px 20px
-//    margin-right 20px
-//
-//@media (max-width: 500px)
-//    aside
-//        display none

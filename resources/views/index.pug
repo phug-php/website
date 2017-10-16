@@ -1,5 +1,6 @@
+- locale = app().locale
 doctype html
-html(lang=app().locale)
+html(lang=locale)
     head
         meta(charset="utf-8")
         title=__('index.title')
@@ -20,15 +21,17 @@ html(lang=app().locale)
             nav.sidebar.col-lg-3.br-ribbed-light: nav.navbar.contents#contents
                 nav.nav.flex-column
                     a.nav-link.d-md-none(href="#try" data-action="sidebar-nav" data-toggle="try") Try Phug
-                    a.nav-link(href="#top" data-action="sidebar-nav") Overview
-                    nav.nav.flex-column
-                        a.nav-link(href="#top" data-action="sidebar-nav") Overview
-                        a.nav-link(href="#top" data-action="sidebar-nav") Overview
-                    include table-of-content.pug
+                    .table-of-content
             main.main.col-lg-9.ml-auto
                 include documentation.pug
+        .d-none
+            #edit-btn
+                .sticky-top: a.btn-light.btn(href="https://github.com/phug-php/website/edit/master/doc/" + locale + "/{id}.md") &#128393; &nbsp;
+                    =__('index.edit')
 
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
             integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous")
+        minify app
+            script(src="app.coffee")
         script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous")
