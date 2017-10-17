@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
 class SetLocale
@@ -25,14 +25,14 @@ class SetLocale
         if (preg_match($pattern, Request::server('HTTP_HOST'), $match)) {
             // If the subdomain contains a locale
             $locale = $match[1];
-            Session::put('locale', $locale);
+            Cookie::queue('locale', $locale);
         } elseif (request('locale')) {
             // If the URL contains a locale
             $locale = request('locale');
-            Session::put('locale', $locale);
-        } elseif (Session::has('locale')) {
+            Cookie::queue('locale', $locale);
+        } elseif (Cookie::has('locale')) {
             // If the session contains a locale
-            $locale = Session::get('locale');
+            $locale = Cookie::get('locale');
         }
         // If no locale found or if the locale is not available
         if (!in_array($locale, self::LOCALES)) {

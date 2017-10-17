@@ -6,13 +6,28 @@ Content
 
 Content
 
-Content
+Example:
+
+```pug
+body
+  h1 Phug
+```
 
 Content
 
 Content
 
 Content
+
+Content
+
+Example:
+
+```pug
+- $var = true
+if $var
+  p Displayed only if $var is true
+```
 
 Content
 

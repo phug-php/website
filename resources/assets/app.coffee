@@ -33,6 +33,19 @@ $ ->
         group.push $a
       return
     do dumpGroup
+    $section.find('pre > code.language-pug').each ->
+      $pre = $(@).parent()
+      lineHeight = 14
+      code = $pre.text()
+      lines = code.split(/\n/g).length + 4
+      $pre.replaceWith '<iframe src="https://pug-demo.herokuapp.com/' +
+        '?embed&theme=xcode&border=silver&options-color=rgba(120,120,120,0.5)&engine=phug' +
+        '&input=' + encodeURIComponent(code) +
+        '&hide-vars' +
+        # '&vars=' +
+        '" style="width: 100%; margin: 0; border: none;">'
+      $section.find('iframe:not(.language-pug)').height(lines * lineHeight + 2).addClass('language-pug')
+      return
     return
   $('.table-of-content').append tableOfContents
   $('body').scrollspy

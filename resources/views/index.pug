@@ -22,6 +22,26 @@ html(lang=locale)
                     a.nav-link.d-md-none(href="#try" data-action="sidebar-nav" data-toggle="try") Try Phug
                     .table-of-content
             main.main.col-lg-9.ml-auto
+                h1 Phug
+                p: em=__('index.title')
+                p
+                    =__('index.last_release')
+                    | &nbsp;
+                    a(href="https://packagist.org/packages/phug/phug")
+                        img(
+                            src="https://camo.githubusercontent.com/9ff236cbfba46cf8c9a6be7502a500f1bb09bd52/68747470733a2f2f706f7365722e707567782e6f72672f706875672f706875672f762f737461626c652e706e67"
+                            alt=__('index.last_release')
+                            data-canonical-src="https://poser.pugx.org/phug/phug/v/stable.png"
+                        )
+                    | &nbsp; &nbsp; | &nbsp;&nbsp;
+                    =__('index.build_status')
+                    | &nbsp;
+                    a(href="https://travis-ci.org/phug-php/phug")
+                        img(
+                            src="https://camo.githubusercontent.com/4d30d769cc4ee366702a649921389a3aceebb130/68747470733a2f2f7472617669732d63692e6f72672f706875672d7068702f706875672e7376673f6272616e63683d6d6173746572"
+                            alt=__('index.build_status')
+                            data-canonical-src="https://travis-ci.org/phug-php/phug.svg?branch=master"
+                        )
                 include documentation.pug
         .d-none
             #edit-btn
