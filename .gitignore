@@ -12,3 +12,10 @@ yarn-error.log
 .env
 composer.lock
 package-lock.json
+/tmp/
+/public/app.css
+/public/try.css
+/public/app.js
+/public/css/
+/public/js/
+/public/mix-manifest.json

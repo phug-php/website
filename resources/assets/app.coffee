@@ -4,6 +4,7 @@ $ ->
   $('main').find('.chapter').each ->
     $section = $ @
     sectionId = $section.attr 'id'
+    $section.removeAttr 'id'
     group = []
     $section.prepend $('#edit-btn').html().replace /\{id\}/g, sectionId
     dumpGroup = ->
@@ -20,11 +21,10 @@ $ ->
         do dumpGroup
       headerText = $header.text()
       id = headerText.toLowerCase().replace /[^a-z0-9]+/g, '-'
-      anchor = sectionId + '-' + id
-      $header.attr 'id', anchor
+      $header.attr 'id', id
       $a = $ '<a>'
       $a.text headerText
-      $a.prop 'href', '#' + anchor
+      $a.prop 'href', '#' + id
       $a.data 'action', 'sidebar-nav'
       $a.addClass 'nav-link'
       if isH1
@@ -33,18 +33,32 @@ $ ->
         group.push $a
       return
     do dumpGroup
-    $section.find('pre > code.language-pug').each ->
-      $pre = $(@).parent()
+    $section.find('pre > code').filter('.language-phug, .language-pug').each ->
+      $code = $ @
+      $pre = $code.parent()
       lineHeight = 14
       code = $pre.text()
-      lines = code.split(/\n/g).length + 4
+      outputLines = code.split(/\n/g).length
+      lines = outputLines + 4
+      vars = ''
+      $vars = $pre.next()
+      if $vars.is 'pre'
+        vars = $vars.find('> code.language-vars').html()
+      if vars
+        varsLines = vars.split(/\n/g).length
+        lines += varsLines
+        $vars.remove()
       $pre.replaceWith '<iframe src="https://pug-demo.herokuapp.com/' +
-        '?embed&theme=xcode&border=silver&options-color=rgba(120,120,120,0.5)&engine=phug' +
+        '?embed&theme=xcode&border=silver&options-color=rgba(120,120,120,0.5)' +
+        '&engine=' + ($code.is('language-phug') ? 'phug' : 'pug-php') +
         '&input=' + encodeURIComponent(code) +
-        '&hide-vars' +
-        # '&vars=' +
+        (if vars
+          '&vars=' + encodeURIComponent(vars) + '&vars-height=' + (varsLines * 100 / lines)
+        else
+          '&hide-vars'
+        ) +
         '" style="width: 100%; margin: 0; border: none;">'
-      $section.find('iframe:not(.language-pug)').height(lines * lineHeight + 2).addClass('language-pug')
+      $section.find('iframe:not(.live-code)').height(Math.max(158, lines * lineHeight + 2)).addClass('live-code')
       return
     return
   $('.table-of-content').append tableOfContents

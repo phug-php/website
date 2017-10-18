@@ -2,149 +2,85 @@
 
 **Phug** is the [pug](https://pugjs.org/) template engine for PHP.
 
-Content
-
-Content
+Phug offer you a clean way to write your templates (such as HTML pages).
 
 Example:
 
-```pug
+```phug
 body
   h1 Phug
 ```
 
-Content
+Instead of writing verbose tags syntax, Phug is based on the indentation.
+Here `<h1>` is inside `<body>` because `h1` has one more indent level. Try
+to remove the spaces, you will see `<h1>` becoming a sibling of `<body>`
+instead of a child. You can indent with any tabs or spaces you want, Phug
+will always try to guess the structure by detecting indent level. However
+we recommend you to have consistent indentation in you files.
 
-Content
-
-Content
-
-Content
+As a template engine, Phug also provide an optimized way to handle dynamic
+values.
 
 Example:
 
-```pug
+```phug
 - $var = true
 if $var
   p Displayed only if $var is true
+else
+  p Fallback
 ```
 
-Content
+Try to set `$var` to `false` to see how the template react to it.
 
-Content
+Variables can be set outside of your template (for example in a controller):
 
-Content
+```phug
+label Username
+input(value=$userName)
+```
+```vars
+[
+  'userName' => 'Bob',
+]
+```
 
-Content
+Phug is an agnostic pug template engine written in PHP, so by default, expressions
+are written in PHP, but you can plug modules such as
+[js-phpize](https://github.com/pug-php/js-phpize-phug) or wrapper like
+[pug-php](https://github.com/pug-php/pug) that enable this module by default to get
+js expressions working in your templates. See the example below:
 
-Content
+**Phug**:
+```phug
+p=$arr['obj']->a . $arr['obj']->b
+```
+```vars
+[
+  'arr' => [
+    'obj' => (object) [
+      'a' => 'A',
+      'b' => 'B',
+    ],
+  ],
+]
+```
+**Pug-php**:
+```pug
+p=arr.obj.a + $arr.obj.b
+```
+```vars
+[
+  'arr' => [
+    'obj' => (object) [
+      'a' => 'A',
+      'b' => 'B',
+    ],
+  ],
+]
+```
 
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-## Sub1
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-## Sub2
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
-
-Content
+Now you know what Phug is you can learn:
+ - [to install it in the next chapter](#installation)
+ - [check the original JS project](https://pugjs.org)
+ - [see all the language features](#language-reference)
