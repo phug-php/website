@@ -20,7 +20,13 @@ html(lang=locale)
         .container-fluid#top: .row.flex-nowrap
             nav.sidebar.col-lg-3.br-ribbed-light: nav.navbar.contents#contents
                 nav.nav.flex-column
-                    a.nav-link.d-md-none(href="#try" data-action="sidebar-nav" data-toggle="try") Try Phug
+                    .d-lg-none
+                        a.nav-link#try-link(href="#try" data-action="sidebar-nav" data-toggle="try") Try Phug
+                        a.nav-link(href="#language-reference" data-action="sidebar-nav") Language Reference
+                        a.nav-link(href="/api/namespaces/Phug.html" data-action="sidebar-nav") API Reference
+                        a.nav-link(href="#resources" data-action="sidebar-nav" data-close="try") Resources
+                        a.nav-link(href="https://github.com/phug-php/phug/" data-action="sidebar-nav" data-close="try") GitHub
+                        hr
                     .table-of-content
             main.main.col-lg-9.ml-auto
                 h1 Phug

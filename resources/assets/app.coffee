@@ -53,12 +53,11 @@ $ ->
         '&engine=' + ($code.is('language-phug') ? 'phug' : 'pug-php') +
         '&input=' + encodeURIComponent(code) +
         (if vars
-          '&vars=' + encodeURIComponent(vars) + '&vars-height=' + (varsLines * 100 / lines)
+          '&vars=' + encodeURIComponent(vars) + '&vars-height=' + (varsLines * 100 / (outputLines + 2 + varsLines))
         else
           '&hide-vars'
         ) +
-        '" style="width: 100%; margin: 0; border: none;">'
-      $section.find('iframe:not(.live-code)').height(Math.max(158, lines * lineHeight + 2)).addClass('live-code')
+        '" class="live-code" style="height: ' + Math.max(158, lines * lineHeight + 2) + 'px;">'
       return
     return
   $('.table-of-content').append tableOfContents

@@ -11,7 +11,8 @@ body
   h1 Phug
 ```
 
-Instead of writing verbose tags syntax, Phug is based on the indentation.
+Instead of writing verbose tags syntax, Phug is based on the indentation
+(like Python, CoffeeScript or Stylus).
 Here `<h1>` is inside `<body>` because `h1` has one more indent level. Try
 to remove the spaces, you will see `<h1>` becoming a sibling of `<body>`
 instead of a child. You can indent with any tabs or spaces you want, Phug
@@ -67,7 +68,7 @@ p=$arr['obj']->a . $arr['obj']->b
 ```
 **Pug-php**:
 ```pug
-p=arr.obj.a + $arr.obj.b
+p=arr.obj.a + arr.obj.b
 ```
 ```vars
 [
@@ -84,3 +85,4 @@ Now you know what Phug is you can learn:
  - [to install it in the next chapter](#installation)
  - [check the original JS project](https://pugjs.org)
  - [see all the language features](#language-reference)
+ 
