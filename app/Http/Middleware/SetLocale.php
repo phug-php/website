@@ -14,14 +14,15 @@ class SetLocale
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         $locale = null;
-        $pattern = '/^(?:www\.)?(' . implode('|', self::LOCALES) . ')\./i';
+        $pattern = '/^(?:www\.)?('.implode('|', self::LOCALES).')\./i';
         if (preg_match($pattern, Request::server('HTTP_HOST'), $match)) {
             // If the subdomain contains a locale
             $locale = $match[1];

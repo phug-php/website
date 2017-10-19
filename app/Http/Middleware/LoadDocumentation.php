@@ -10,8 +10,9 @@ class LoadDocumentation
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -19,7 +20,7 @@ class LoadDocumentation
         /** @var Pug $pug */
         $pug = app()->get('laravel-pug.pug');
         $paths = array_unique(array_filter(array_merge($pug->getOption('paths') ?: [], [
-            base_path('doc/' . app()->getLocale()),
+            base_path('doc/'.app()->getLocale()),
             $pug->getOption('basedir'),
         ])));
         $pug->setOption('basedir', null);
