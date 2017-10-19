@@ -1,5 +1,7 @@
 # Overview
 
+## What is Phug?
+
 **Phug** is the [pug](https://pugjs.org/) template engine for PHP.
 
 Phug offer you a clean way to write your templates (such as HTML pages).
@@ -85,4 +87,14 @@ Now you know what Phug is you can learn:
  - [to install it in the next chapter](#installation)
  - [check the original JS project](https://pugjs.org)
  - [see all the language features](#language-reference)
- 
+
+If you are not sure you should use Phug or not, please check our **Why** section
+below:
+
+## Why Phug?
+
+### Why a template engine?
+
+### Why not to use pugjs?
+
+### Why upgrade/migrate to Phug?

@@ -20,7 +20,7 @@ $ ->
       if isH1
         do dumpGroup
       headerText = $header.text()
-      id = headerText.toLowerCase().replace /[^a-z0-9]+/g, '-'
+      id = headerText.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+/, '').replace(/-+$/, '')
       $header.attr 'id', id
       $a = $ '<a>'
       $a.text headerText

@@ -34,9 +34,89 @@ First you need composer if you have'nt yet: https://getcomposer.org/download/
 
 Then run:
 ```shell
-composer require js-phpize/js-phpize-phug
 composer require phug/phug
 ```
+
+Replace `composer` with `php composer.phar` if you installed composer locally.
+And same goes for every composer commands mentioned in this documentation.
+
+Create a PHP file with the following content:
+```php
+<?php
+
+use Phug\Phug;
+
+include_once __DIR__ . '/vendor/autoload.php';
+
+Phug::display('p=$message', [
+  'message' => 'Hello',
+]);
+```
+
+You can edit first and second arguments of `Phug::display` in the code editors
+below and see the results in the right panel.
+
+```phug
+p=$message
+```
+```vars
+[
+  'message' => 'Hello',
+]
+```
+
+`Phug::display` take a template string as first argument and variables values
+as second optional argument, and a third optional argument allow you to specify
+options (see [Options chapter](#options)).
+
+You can use `Phug::displayFile` to display a template file:
+```inline-php
+Phug::displayFile('views-directory/my-pug-template.pug');
+```
+The same optional variables and option arguments are available.
+
+You can also return the result instead of displaying it with `Phug::render`
+and `Phug::renderFile`.
+
+The Phug class will also act like a facade for the renderer class, it means
+you can call statically on `Phug\Phug` any `Phug\Rebderer`'s method. For example,
+it makes `compile` and `compileFile` available:
+
+```inline-php
+file_put_contents('cache/my-compiled-page.php', Phug::compileFile('view/my-template.pug'));
+```
+
+This code will compile the template file `view/my-template.pug` and save it into
+`cache/my-compiled-page.php`, this is basically what we do when the **cache**
+option is set.
+
+You may notice the PHP file contain debug code, this code allow us to provide
+you accurate error trace (give you matching line and offset in the pug source)
+and profiling tools to check performance.
+
+In production, you can easily disable that stuff with `setOption`:
+
+```inline-php
+Phug::setOption('debug', false);
+
+echo Phug::compile('p=userName');
+```
+
+This will display the PHP compiled code with no debug code.
+
+See all available methods in the API reference:
+- [Phug\Phug](https://phug.selfbuild.fr/api/classes/Phug.Phug.html)
+- [Phug\Renderer](https://phug.selfbuild.fr/api/classes/Phug.Renderer.html)
+
+## Use JavaScript expressions
+
+To handle js-style expressions:
+```shell
+composer require js-phpize/js-phpize-phug
+```
+
+Replace `composer` with `php composer.phar` if you installed composer locally.
+
 PHP:
 ```php
 <?php
@@ -46,12 +126,10 @@ use Phug\Phug;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
+Phug::addExtension(JsPhpizePhug::class);
+
 Phug::display('p=userName', [
   'userName' => 'Bob',
-], [
-  'modules' => [
-    JsPhpizePhug::class,
-  ],
 ]);
 
 ```
