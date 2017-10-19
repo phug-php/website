@@ -48,11 +48,12 @@ input(value=$userName)
 ]
 ```
 
-Phug is an agnostic pug template engine written in PHP, so by default, expressions
-are written in PHP, but you can plug modules such as
+Phug is written in PHP, so by default, expressions are written in PHP,
+but you can plug modules such as
 [js-phpize](https://github.com/pug-php/js-phpize-phug) or wrapper like
-[pug-php](https://github.com/pug-php/pug) that enable this module by default to get
-js expressions working in your templates. See the example below:
+[pug-php](https://github.com/pug-php/pug) that enable this module by
+default to get js expressions working in your templates. See the
+comparison below:
 
 **Phug**:
 ```phug
@@ -83,8 +84,8 @@ p=arr.obj.a + arr.obj.b
 ]
 ```
 
-Now you know what Phug is you can learn:
- - [to install it in the next chapter](#installation)
+Now you know what Phug is you can:
+ - [see how to install it in the next chapter](#installation)
  - [check the original JS project](https://pugjs.org)
  - [see all the language features](#language-reference)
 

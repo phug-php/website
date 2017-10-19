@@ -70,7 +70,7 @@ as second optional argument, and a third optional argument allow you to specify
 options (see [Options chapter](#options)).
 
 You can use `Phug::displayFile` to display a template file:
-```inline-php
+```php
 Phug::displayFile('views-directory/my-pug-template.pug');
 ```
 The same optional variables and option arguments are available.
@@ -82,7 +82,7 @@ The Phug class will also act like a facade for the renderer class, it means
 you can call statically on `Phug\Phug` any `Phug\Rebderer`'s method. For example,
 it makes `compile` and `compileFile` available:
 
-```inline-php
+```php
 file_put_contents('cache/my-compiled-page.php', Phug::compileFile('view/my-template.pug'));
 ```
 
@@ -96,7 +96,7 @@ and profiling tools to check performance.
 
 In production, you can easily disable that stuff with `setOption`:
 
-```inline-php
+```php
 Phug::setOption('debug', false);
 
 echo Phug::compile('p=userName');
@@ -117,7 +117,7 @@ composer require js-phpize/js-phpize-phug
 
 Replace `composer` with `php composer.phar` if you installed composer locally.
 
-PHP:
+Then enable the extension before calling the render/display method:
 ```php
 <?php
 

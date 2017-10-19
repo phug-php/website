@@ -5,7 +5,7 @@
 Phug offre un moyen simple d'écrire des templates (telles que des pages
 HTML).
 
-Exemple:
+Exemple :
 
 ```phug
 body
@@ -16,43 +16,46 @@ Au lieu d'écrire de verbeuses balises, Phug est structuré par indentation
 (comme le Python, CoffeeScript ou Stylus).
 Ici `<h1>` est à l'intérieur de `<body>` car `h1` a un niveau
 d'indentation de plus. Essayez de supprimer les espaces, vous verez
-que `<h1>` devient `<body>`
-instead of a child. You can indent with any tabs or spaces you want, Phug
-will always try to guess the structure by detecting indent level. However
-we recommend you to have consistent indentation in you files.
+que `<h1>` et `<body>` sont alors au même niveau. Vous pouvez indenter
+avec autant de tabulations ou espaces que vous voulez, Phug va toujours
+essayer de deviner la structure en détectant les niveaux d'indentation.
+Toutefois il est recommandé d'avoir un indentation constante dans vos
+fichiers.
 
-As a template engine, Phug also provide an optimized way to handle dynamic
-values.
+En tant que moteur de templates, Phug fournit aussi un moyen optimisé
+de gérer les valeurs dynamiques.
 
-Example:
+Exemple :
 
 ```phug
 - $var = true
 if $var
-  p Displayed only if $var is true
+  p S'affiche si $var vaut true
 else
-  p Fallback
+  p S'affiche sinon
 ```
 
-Try to set `$var` to `false` to see how the template react to it.
+Essayez de passer `$var` à `false` pour voir comment réagit le template.
 
-Variables can be set outside of your template (for example in a controller):
+Les variables peuvent être définies à l'extérieur des templates (par exemple
+dans les contrôleurs):
 
 ```phug
-label Username
-input(value=$userName)
+label Nom
+input(value=$nom)
 ```
 ```vars
 [
-  'userName' => 'Bob',
+  'nom' => 'Bob',
 ]
 ```
 
-Phug is an agnostic pug template engine written in PHP, so by default, expressions
-are written in PHP, but you can plug modules such as
-[js-phpize](https://github.com/pug-php/js-phpize-phug) or wrapper like
-[pug-php](https://github.com/pug-php/pug) that enable this module by default to get
-js expressions working in your templates. See the example below:
+Phug est écrit en PHP, donc par défaut, les expressions sont en PHP,
+mais vous pouvez activer des modules tels que :
+[js-phpize](https://github.com/pug-php/js-phpize-phug) ou utiliser un
+wrapper comme
+[pug-php](https://github.com/pug-php/pug) qui active par défaut
+js-phpize. Voyez la comparaison ci-dessous :
 
 **Phug**:
 ```phug
@@ -83,8 +86,18 @@ p=arr.obj.a + arr.obj.b
 ]
 ```
 
-Now you know what Phug is you can learn:
- - [to install it in the next chapter](#installation)
- - [check the original JS project](https://pugjs.org)
- - [see all the language features](#language-reference)
+Maintenant que vous savez ce qu'est Phug, vous pouvez :
+ - [voir comment l'installer dans le chapitre suivant](#installation)
+ - [consulter le projet original pugjs](https://pugjs.org)
+ - [voir toutes les fonctionnalités de ce language](#language-reference)
  
+Si vous n'êtes pas sûr que Phug est adapté à vos besoin, consultez
+la section **Pourquoi** ci-dessous :
+
+## Pourquoi Phug ?
+
+### Pourquoi un moteur de templates ?
+
+### Pourquoi pas pugjs ?
+
+### Pourquoi migrer vers Phug ?
