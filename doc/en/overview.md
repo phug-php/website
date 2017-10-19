@@ -94,6 +94,22 @@ below:
 
 ## Why Phug?
 
+HTML is born in 1989 in the CERN, and it seem to suit, or at least to
+be sufficient for its purpose: write pages with titles and links.
+It's a wonderful invention but nowadays, we build user interfaces for
+various devices and it's not because HTML is what we must send to
+the browsers that we, human developers, must use to code our pages. 
+A lot a template engines just allow to insert dynamic elements inside
+HTML, with an engine like Phug, you will no longer write HTML at all. 
+You have choices, so why not choosing a clean and suitable language
+that also embed many tools dedicated to templates (layouts, mixins,
+conditions, iterations, etc.)
+
+Note that Phug support several versions and doctypes  of HTML but
+also XML, and you van easily create any format you would need ; as
+you can customize expressions handling, etc. Phug has much options
+and extension possibilities, *very* much.
+
 ### Why a template engine?
 
 ### Why not to use pugjs?
