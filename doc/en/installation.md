@@ -2,7 +2,7 @@
 
 ## In your favorite framework
 
-If you use one of the following framework, click on the link to see how to install
+If you use one of the following frameworks, click on the link to see how to install
 phug directly in your application.
 
 - Laravel: https://github.com/BKWLD/laravel-pug
@@ -17,22 +17,22 @@ The framework adapters above are based on **pug-php 3**, that means expressions
 should be written in JS style by default, but you can use PHP native style by
 setting `expressionLanguage` to `php`.
 
-Yii and Slim adapters are also available but based on **pug-php 2** and so there
-are not compatible with Phug:
+Yii and Slim adapters are also available but based on **pug-php 2** right now
+and so there are not yet compatible with Phug:
 
 - Yii 2: https://github.com/rmrevin/yii2-pug
 
 - Slim 3: https://github.com/MarcelloDuarte/pug-slim
 
-You want us to support some other framework, please open an issue here:
+If you want us to support some other framework, please open an issue here:
 https://github.com/phug-php/phug/issues/new and if your issue get some votes,
 we'll work on it.
 
 ## Installation from scratch
 
-First you need composer if you have'nt yet: https://getcomposer.org/download/
+First you need *composer* if you have'nt yet: https://getcomposer.org/download/
 
-Then run:
+Then run in your application directory:
 ```shell
 composer require phug/phug
 ```
@@ -65,8 +65,8 @@ p=$message
 ]
 ```
 
-`Phug::display` take a template string as first argument and variables values
-as second optional argument, and a third optional argument allow you to specify
+`Phug::display` take a template string as first argument, variables values
+as second optional argument  and a third optional argument allow you to specify
 options (see [Options chapter](#options)).
 
 You can use `Phug::displayFile` to display a template file:
@@ -78,7 +78,7 @@ The same optional variables and option arguments are available.
 You can also return the result instead of displaying it with `Phug::render`
 and `Phug::renderFile`.
 
-The Phug class will also act like a facade for the renderer class, it means
+The **Phug** class will also act like a facade for the **Renderer** class, it means
 you can call statically on `Phug\Phug` any `Phug\Rebderer`'s method. For example,
 it makes `compile` and `compileFile` available:
 
