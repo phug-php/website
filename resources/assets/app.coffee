@@ -48,7 +48,7 @@ $ ->
         varsLines = vars.split(/\n/g).length
         lines += varsLines
         $vars.remove()
-      $pre.replaceWith '<iframe src="https://pug-demo.herokuapp.com/' +
+      $pre.replaceWith '<iframe data-src="https://pug-demo.herokuapp.com/' +
         '?embed&theme=xcode&border=silver&options-color=rgba(120,120,120,0.5)' +
         '&engine=' + ($code.is('language-phug') ? 'phug' : 'pug-php') +
         '&input=' + encodeURIComponent(code) +
@@ -64,19 +64,28 @@ $ ->
   $('body').scrollspy
     target: '#contents'
     offset: Math.round $('main').css('padding-top').replace('px','')
-  $(document)
-    .on 'scroll', ->
-      scrollTop = $(@).scrollTop() - 10
-      $('.chapter').each ->
-        $chapter = $ @
-        top = $(@).offset().top
-        method = if top <= scrollTop and top + $chapter.height() >= scrollTop
-          'addClass'
-        else
-          'removeClass'
-        $chapter.find('.edit-btn:visible')[method] 'sticky-button'
-        return
+  scrollCheck = ->
+    scrollTop = $(@).scrollTop() - 10
+    scrollBottom = scrollTop + $(window).height() + 20
+    viewMargin = 400
+    $('.chapter').each ->
+      $chapter = $ @
+      top = $chapter.offset().top
+      method = if top <= scrollTop and top + $chapter.height() >= scrollTop
+        'addClass'
+      else
+        'removeClass'
+      $chapter.find('.edit-btn:visible')[method] 'sticky-button'
       return
+    $('iframe[data-src]').each ->
+      $iframe = $ @
+      top = $iframe.offset().top + $iframe.parents().filter('.chapter').first().offset().top
+      if top + $iframe.height() + viewMargin > scrollTop and top - viewMargin < scrollBottom
+        $iframe.prop('src', $iframe.data 'src').removeAttr 'data-src'
+      return
+    return
+  $(document)
+    .on 'scroll', scrollCheck
     .on 'click', '[data-close]', ->
       $('#' + $(@).data('close')).removeClass 'opened'
       return
@@ -86,4 +95,5 @@ $ ->
     .on 'click', '[data-toggle="offcanvas"]', ->
       $('.navbar-toggler, .sidebar').toggleClass 'show'
       return
+  do scrollCheck
   return

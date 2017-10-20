@@ -112,6 +112,98 @@ and extension possibilities, *very* much.
 
 ### Why a template engine?
 
+Most PHP frameworks have a templates system. It's a efficient way to
+separate the view layer. Delegate view responsability to template
+engine is a best practice since it avoids mixing logic (calcul, retrieving
+and parsing data) with presentation (display, formatting) and it will
+help you to respect the PSR (principal of single responsability, that
+aims to not giving an entity multiple responsibilities), so you will
+be able to organize your views into pages and visual components with
+no constraint from your PHP code.
+
+Finally, if you respect this principle (by avoiding inserting, among
+others, inserting treatments in your templates), then your templates
+will not contain complex code but only variable inserts. This make this
+code easy to modify for someone who don't know your application back-end
+and even neither the PHP language.
+
 ### Why not to use pugjs?
 
+Isn't it possible to use the JavaScript pug package in a PHP
+application? Yes it is. There are even many ways to achieve this
+goal. See the [alternatives](#alternatives) section for more
+details. But know this approach has limits. Most important is
+the data flattening. Any class instance become a flat object
+when passed through pugjs, it means the object will lost
+its methods.
+
+Here is a example of what's working well with Phug but would not
+be possible with pugjs if called via a proxy or a command:
+
+```pug
+p=today.format('d/m/Y H:i')
+```
+```vars
+[
+  'today' => new DateTime('now'),
+]
+```
+
 ### Why upgrade/migrate to Phug?
+
+Vous utilisez peut-être déjà une autre librairie PHP proposant
+la syntaxe Pug.
+
+Tout d'abord si vous n'utilisez pas composer, je ne peux que vous
+encouragez à adopter ce système de gestion des dépendences.
+Il est sans équivalent dans l'écosystème PHP en terme de paquets
+disponibles et il vous permettra de garder vos dépendences à
+jour très facilement. Je vous invite donc à choisir votre
+librairie parmi celle disponible via composer (voir https://packagist.org/) 
+
+Ensuite sachez que si vous utilisez un projet dont le nom
+contient "jade", il y a de grandes chances qu'il soit obsolète
+car jade est l'ancien nom de pug, par exemple les packages
+**kylekatarnls/jade-php**, **ronan-gloo/jadephp**,
+**opendena/jade.php**, **jumplink/jade.php**, **dz0ny/jade.php**,
+**everzet/jade** are all no longer maintained projects that fork
+the same origin, they are not pugjs 2 compliant and miss a lot
+of pug features. The most up-to-date project that replace them
+all is **pug-php/pug**. In its version 2 it still use the same
+original engine.
+Same goes for **talesoft/tale-jade** replaced with
+**talesoft/tale-pug** and its version 2 will also use Phug.
+
+**talesoft/tale-pug** et **pug-php/pug** sont les ports PHP de
+Pug les plus utilisés et sont activement maintenus. En utilisant
+la dernière version de ces projets, vous allez donc
+automatiquement migrer sur le moteur Phug et étant donné que les
+contributeurs de ces deux projets sont maintenant tous regroupés
+dans le projet Phug et déveloperont en priorité Phug, vous
+bénéficierez du meilleur support possible.
+
+Pour mettre à jour **pug-php/pug** et bénéficier de toutes les
+fonctionnalités décrites dans cette documentation, exécutez la
+commande suivante dans votre projet :
+
+```shell
+composer require pug-php/pug:"^3.0@beta"
+```
+
+Pour être prévenu de la sortie de la version 2 de **talesoft/tale-pug**
+vous pouvez utiliser https://www.versioneye.com/ et ajouter
+**talesoft/tale-pug** à votre liste des paquets à surveiller.
+
+Enfin, nous pouvons vous assurer que Phug surpasse toutes les
+implémentations existantes sur de nombreux sujets :
+ - Extensibilité, personalisation, formats, options
+ - Intégration et installation très simple dans les
+ différents frameworks
+ - Documentation
+ - Outil de test en live
+ - Gestion des expressions (js-phpize)
+ - Gestion des assets et de la minification (pug-assets)
+ - Traçace des erreurs
+ - Profiling
+ - Réactivité de la communauté (issues et pull-request sur GitHub,
+ and [pug] [php] keywords on stackoverflow)
