@@ -151,21 +151,20 @@ p=today.format('d/m/Y H:i')
 
 ### Why upgrade/migrate to Phug?
 
-Vous utilisez peut-être déjà une autre librairie PHP proposant
-la syntaxe Pug.
+You may use already a PHP library supporting Pug syntax.
 
-Tout d'abord si vous n'utilisez pas composer, je ne peux que vous
-encouragez à adopter ce système de gestion des dépendences.
-Il est sans équivalent dans l'écosystème PHP en terme de paquets
-disponibles et il vous permettra de garder vos dépendences à
-jour très facilement. Je vous invite donc à choisir votre
-librairie parmi celle disponible via composer (voir https://packagist.org/) 
+First of all, if you do not use composer, I only can encourage
+you to switch to this dependencies management system. It's
+the most used in the PHP ecosystem and it will help you keeping
+your dependencies up to date. So I invite you to to pick a library
+among available ones in composer (see https://packagist.org/),
+prefer most starred ones with regular and recent releases. 
 
-Ensuite sachez que si vous utilisez un projet dont le nom
-contient "jade", il y a de grandes chances qu'il soit obsolète
-car jade est l'ancien nom de pug, par exemple les packages
-**kylekatarnls/jade-php**, **ronan-gloo/jadephp**,
-**opendena/jade.php**, **jumplink/jade.php**, **dz0ny/jade.php**,
+Then know that if you use a project containing "jade" in its
+name, it's probably obsolete as jade is the old name of pug,
+for example packages **kylekatarnls/jade-php**,
+**ronan-gloo/jadephp**, **opendena/jade.php**,
+**jumplink/jade.php**, **dz0ny/jade.php** and
 **everzet/jade** are all no longer maintained projects that fork
 the same origin, they are not pugjs 2 compliant and miss a lot
 of pug features. The most up-to-date project that replace them
@@ -174,36 +173,34 @@ original engine.
 Same goes for **talesoft/tale-jade** replaced with
 **talesoft/tale-pug** and its version 2 will also use Phug.
 
-**talesoft/tale-pug** et **pug-php/pug** sont les ports PHP de
-Pug les plus utilisés et sont activement maintenus. En utilisant
-la dernière version de ces projets, vous allez donc
-automatiquement migrer sur le moteur Phug et étant donné que les
-contributeurs de ces deux projets sont maintenant tous regroupés
-dans le projet Phug et déveloperont en priorité Phug, vous
-bénéficierez du meilleur support possible.
+**talesoft/tale-pug** and **pug-php/pug** are the most used
+Pug ports and are actively maintained. By using the last version
+of these projects, you will therefore automatically migrate to
+the Phug engine and as contributors of these both projects
+are now gather in the Phug project and will develop Phug in
+priority, you will benefit from the best possible support.
 
-Pour mettre à jour **pug-php/pug** et bénéficier de toutes les
-fonctionnalités décrites dans cette documentation, exécutez la
-commande suivante dans votre projet :
+To upgrade **pug-php/pug** and benefit all the features
+described in this documentation, run the following command
+in your project:
 
 ```shell
-composer require pug-php/pug:"^3.0@beta"
+composer require pug-php/pug:"^3.0@rc"
 ```
 
-Pour être prévenu de la sortie de la version 2 de **talesoft/tale-pug**
-vous pouvez utiliser https://www.versioneye.com/ et ajouter
-**talesoft/tale-pug** à votre liste des paquets à surveiller.
+To be informed about **talesoft/tale-pug** version 2 release,
+you can use https://www.versioneye.com/ and add
+**talesoft/tale-pug** to your watchlist.
 
-Enfin, nous pouvons vous assurer que Phug surpasse toutes les
-implémentations existantes sur de nombreux sujets :
- - Extensibilité, personalisation, formats, options
- - Intégration et installation très simple dans les
- différents frameworks
+At least, we can assure you Phug surpass others existing
+implementations on many subjects:
+ - Extensibility, customization, formats, options
+ - Integration and easy install in different frameworks
  - Documentation
- - Outil de test en live
- - Gestion des expressions (js-phpize)
- - Gestion des assets et de la minification (pug-assets)
- - Traçace des erreurs
+ - Live test tool
+ - Expression handling (js-phpize or any custom language)
+ - Assets handling and minification (pug-assets)
+ - Error tracking
  - Profiling
- - Réactivité de la communauté (issues et pull-request sur GitHub,
- and [pug] [php] keywords on stackoverflow)
+ - Community reactivity (issues and pull-request on GitHub,
+ and [pug] [php] keywords on https://stackoverflow.com/search?q=pug+php)

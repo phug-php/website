@@ -175,8 +175,8 @@ Ensuite sachez que si vous utilisez un projet dont le nom
 contient "jade", il y a de grandes chances qu'il soit obsolète
 car jade est l'ancien nom de pug, par exemple les packages
 **kylekatarnls/jade-php**, **ronan-gloo/jadephp**,
-**opendena/jade.php**, **jumplink/jade.php**, **dz0ny/jade.php**,
-**everzet/jade** sont tous basés sur le projet de base et aucun
+**opendena/jade.php**, **jumplink/jade.php**, **dz0ny/jade.php**
+et **everzet/jade** sont tous basés sur le projet de base et aucun
 n'est plus maintenu, ils ne sont pas compatibles avec pugjs 2
 et beaucoup de fonctionnalités de pug leur font défaut. Le projet
 le plus à jour qui les remplace tous est **pug-php/pug**. Dans sa
@@ -199,23 +199,23 @@ fonctionnalités décrites dans cette documentation, exécutez la
 commande suivante dans votre projet :
 
 ```shell
-composer require pug-php/pug:"^3.0@beta"
+composer require pug-php/pug:"^3.0@rc"
 ```
 
 Pour être prévenu de la sortie de la version 2 de **talesoft/tale-pug**
 vous pouvez utiliser https://www.versioneye.com/ et ajouter
 **talesoft/tale-pug** à votre liste des paquets à surveiller.
 
-Enfin, nous pouvons vous assurer que Phug surpasse toutes les
+Enfin, nous pouvons vous assurer que Phug surpasse les autres
 implémentations existantes sur de nombreux sujets :
  - Extensibilité, personalisation, formats, options
  - Intégration et installation très simple dans les
  différents frameworks
  - Documentation
  - Outil de test en live
- - Gestion des expressions (js-phpize)
+ - Gestion des expressions (js-phpize ou n'importe tel language personnalisé)
  - Gestion des assets et de la minification (pug-assets)
  - Traçace des erreurs
  - Profiling
  - Réactivité de la communauté (issues et pull-request sur GitHub,
- and [pug] [php] keywords on stackoverflow)
+ et les tags [pug] [php] sur https://stackoverflow.com/search?q=pug+php)

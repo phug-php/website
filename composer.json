@@ -4,13 +4,14 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": ">=7.0.0",
         "bkwld/laravel-pug": "^1.5",
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.5.*",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "pug-php/pug": "^3.0@rc"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
