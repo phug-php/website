@@ -57,7 +57,8 @@ $ ->
         else
           '&hide-vars'
         ) +
-        '" class="live-code" style="height: ' + Math.max(158, lines * lineHeight + 2) + 'px;">'
+        '" class="live-code" style="height: ' + Math.max(158, lines * lineHeight + 2) + 'px;"></iframe>' +
+        '<div class="live-code-resizer"></div>'
       return
     return
   $('.table-of-content').append tableOfContents
@@ -79,12 +80,24 @@ $ ->
       return
     $('iframe[data-src]').each ->
       $iframe = $ @
-      top = $iframe.offset().top + $iframe.parents().filter('.chapter').first().offset().top
+      top = $iframe.offset().top
       if top + $iframe.height() + viewMargin > scrollTop and top - viewMargin < scrollBottom
         $iframe.prop('src', $iframe.data 'src').removeAttr 'data-src'
       return
     return
+  resize = {}
   $(document)
+    .on 'mousedown', '.live-code-resizer', (e) ->
+      editor = $(@).prev()
+      while editor.length && !editor.is '.live-code'
+        editor = editor.prev()
+      if editor.length
+        resize =
+          editor: editor
+          y: e.pageY
+          height: editor.css('pointer-events', 'none').height()
+      e.preventDefault()
+      false
     .on 'scroll', scrollCheck
     .on 'click', '[data-close]', ->
       $('#' + $(@).data('close')).removeClass 'opened'
@@ -96,4 +109,14 @@ $ ->
       $('.navbar-toggler, .sidebar').toggleClass 'show'
       return
   do scrollCheck
+  $(window)
+    .on 'mousemove', (e) ->
+      if resize.editor
+        resize.editor.height resize.height + e.pageY - resize.y
+      return
+    .on 'mouseup', ->
+      if resize.editor
+        resize.editor.css 'pointer-events', ''
+        resize = {}
+      return
   return
