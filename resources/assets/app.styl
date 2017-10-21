@@ -159,10 +159,17 @@ button:focus, .navbar-dark .navbar-toggler:focus
     .chapter
         /* Offset the anchor so that clicking on the sidebar links don’t hide the heading under the header bar */
         &,
-        .h1, .h2,
-        h1, h2
+        .h1, .h2, .h3,
+        h1, h2, h3
             padding-top 60px
             margin -50px 0 0.7em
+            .header-anchor
+                opacity 0
+                transition all .2s
+        .h1, .h2, .h3,
+        h1, h2, h3
+            &:hover .header-anchor
+                opacity 1
 
         .live-code
             width 100%

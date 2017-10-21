@@ -106,7 +106,7 @@ that also embed many tools dedicated to templates (layouts, mixins,
 conditions, iterations, etc.)
 
 Note that Phug support several versions and doctypes  of HTML but
-also XML, and you van easily create any format you would need ; as
+also XML, and you van easily create any format you would need; as
 you can customize expressions handling, etc. Phug has much options
 and extension possibilities, *very* much.
 
@@ -185,7 +185,7 @@ described in this documentation, run the following command
 in your project:
 
 ```shell
-composer require pug-php/pug:"^3.0@rc"
+composer require pug-php/pug:"^3.0"
 ```
 
 To be informed about **talesoft/tale-pug** version 2 release,

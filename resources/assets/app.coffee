@@ -14,14 +14,17 @@ $ ->
         tableOfContents.push $nav
         group = []
       return
-    $section.find('h1, h2').each ->
+    $section.find('h1, h2, h3').each ->
       $header = $ @
-      isH1 = $header.is 'h1'
-      if isH1
-        do dumpGroup
       headerText = $header.text()
       id = headerText.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+/, '').replace(/-+$/, '')
       $header.attr 'id', id
+      $header.append '&nbsp; <a class="header-anchor" href="#' + id + '">¶</a>'
+      if $header.is 'h3'
+        return
+      isH1 = $header.is 'h1'
+      if isH1
+        do dumpGroup
       $a = $ '<a>'
       $a.text headerText
       $a.prop 'href', '#' + id
@@ -44,7 +47,9 @@ $ ->
       $vars = $pre.next()
       if $vars.is 'pre'
         vars = $vars.find('> code.language-vars').html()
+      minHeight = 100
       if vars
+        minHeight = 158
         varsLines = vars.split(/\n/g).length
         lines += varsLines
         $vars.remove()
@@ -57,7 +62,7 @@ $ ->
         else
           '&hide-vars'
         ) +
-        '" class="live-code" style="height: ' + Math.max(158, lines * lineHeight + 2) + 'px;"></iframe>' +
+        '" class="live-code" style="height: ' + Math.max(minHeight, lines * lineHeight + 2) + 'px;"></iframe>' +
         '<div class="live-code-resizer"></div>'
       return
     return

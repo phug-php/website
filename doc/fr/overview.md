@@ -199,7 +199,7 @@ fonctionnalités décrites dans cette documentation, exécutez la
 commande suivante dans votre projet :
 
 ```shell
-composer require pug-php/pug:"^3.0@rc"
+composer require pug-php/pug:"^3.0"
 ```
 
 Pour être prévenu de la sortie de la version 2 de **talesoft/tale-pug**
