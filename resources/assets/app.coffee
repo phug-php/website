@@ -112,7 +112,7 @@ $ ->
   $(window)
     .on 'mousemove', (e) ->
       if resize.editor
-        resize.editor.height resize.height + e.pageY - resize.y
+        resize.editor.height Math.max 100, resize.height + e.pageY - resize.y
       return
     .on 'mouseup', ->
       if resize.editor
