@@ -12,6 +12,7 @@ return [
     'basedir'            => resource_path('views'),
     'not_found_template' => '### Not yet translated',
     'pretty'             => true,
+    'execution_max_time' => 300000,
 
     //'allowMixedIndent'   => true,
     //'allowMixinOverride' => true,

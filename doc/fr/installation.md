@@ -102,34 +102,38 @@ Ce code va compiler le fichier de template `vue/mon-template.pug`
 et l'enregistrer dans `cache/ma-page-compilée.php`, c'est basiquement
 ce que fait notre option de cache.
 
-You may notice the PHP file contain debug code, this code allow us to provide
-you accurate error trace (give you matching line and offset in the pug source)
-and profiling tools to check performance.
+Vous pouvez remarquer que le fichier PHP contient du code de débogage,
+ce code permet de fournir des traces d'erreur précise (line et colonne
+dans le fichier source pug) et des outils de profilage pour vérifier
+la performance des différents composants du template.
 
-In production, you can easily disable that stuff with `setOption`:
+En production, vous pouvez facilement désactiver ces outils avec
+`setOption` :
 
 ```php
 Phug::setOption('debug', false);
 
-echo Phug::compile('p=userName');
+echo Phug::compile('p=$utilisateur');
 ```
 
-This will display the PHP compiled code with no debug code.
+Ceci va afficher le fichier compilé sans code de débogage.
 
-See all available methods in the API reference:
+Consultez toutes les méthodes disponibles dans la référence de l'API :
 - [Phug\Phug](https://phug.selfbuild.fr/api/classes/Phug.Phug.html)
 - [Phug\Renderer](https://phug.selfbuild.fr/api/classes/Phug.Renderer.html)
 
-## Use JavaScript expressions
+## Utiliser des expressions JavaScript
 
-To handle js-style expressions:
+Pour supporter des expressions de style JS, installez l'extension
+**js-phpize** pour **phug** :
 ```shell
 composer require js-phpize/js-phpize-phug
 ```
 
-Replace `composer` with `php composer.phar` if you installed composer locally.
+Remplacez `composer` par `php composer.phar` si vous avez installé
+composer localement.
 
-Then enable the extension before calling the render/display method:
+Puis activez l'extension avant d'appeler la méthode render ou display :
 ```php
 <?php
 
@@ -140,18 +144,18 @@ include_once __DIR__ . '/vendor/autoload.php';
 
 Phug::addExtension(JsPhpizePhug::class);
 
-Phug::display('p=userName', [
-  'userName' => 'Bob',
+Phug::display('p=utilisateur', [
+  'utilisateur' => 'Bob',
 ]);
 
 ```
 
 ```pug
 label Username
-input(value=userName)
+input(value=utilisateur)
 ```
 ```vars
 [
-  'userName' => 'Bob',
+  'utilisateur' => 'Bob',
 ]
 ```

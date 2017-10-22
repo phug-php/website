@@ -99,7 +99,7 @@ In production, you can easily disable that stuff with `setOption`:
 ```php
 Phug::setOption('debug', false);
 
-echo Phug::compile('p=userName');
+echo Phug::compile('p=$userName');
 ```
 
 This will display the PHP compiled code with no debug code.
@@ -110,7 +110,8 @@ See all available methods in the API reference:
 
 ## Use JavaScript expressions
 
-To handle js-style expressions:
+To handle js-style expressions, install the **js-phpize** extension
+for **phug**:
 ```shell
 composer require js-phpize/js-phpize-phug
 ```

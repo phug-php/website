@@ -3,7 +3,7 @@
 ## Attributes
 
 Tag attributes look similar to HTML (with optional commas),
-but their values are just regular expressions.
+but their values are just expressions.
 
 ```phug
 a(href='google.com') Google
@@ -13,8 +13,8 @@ a(class='button' href='google.com') Google
 a(class='button', href='google.com') Google
 ```
 
-(`="\n"` are just here to add whitespace between links in the
-output HTML).
+(`="\n"` are just here to add whitespace between links for an
+easier reading of the output HTML).
 
 Normal PHP expressions work fine by default on **phug** and
 **tale-pug**; and on **pug-php** with `expressionLanguage`
@@ -63,7 +63,7 @@ quotes `"`.
 ### Quoted Attributes
 
 If your attribute name contains odd characters that might interfere
-with JavaScript syntax, either quote it using `""` or `''`, or use
+with expressions syntax, either quote it using `""` or `''`, or use
 commas to separate different attributes. Examples of such characters
 include `[]` and `()` (frequently used in Angular 2).
 
@@ -83,8 +83,8 @@ div(class='div-class' '[click]'='play()')
 
 A small note about a syntax you may hav known in **pugjs 1**:
 `a(href="/#{url}") Link`, this syntax is no longer valid in **pugjs 2**
-and so we decided to not support it in **Phug**. So you can simply
-use concatenation:
+and so we decided to not support it in **Phug**. You can simply
+use concatenation instead:
 ```phug
 - $btnType = 'info'
 - $btnSize = 'lg'
@@ -108,7 +108,7 @@ sure to sanitize any user inputs to avoid
 
 ### Boolean Attributes
 
-Boolean attributes are mirrored by Pug. Boolean values (`true` and
+Boolean attributes are mirrored by **Phug**. Boolean values (`true` and
 `false`) are accepted. When no value is specified `true` is assumed.
 ```phug
 input(type='checkbox' checked)
@@ -120,7 +120,7 @@ input(type='checkbox' checked=false)
 input(type='checkbox' checked='true')
 ```
 
-If the doctype is `html`, Phug knows not to mirror the attribute,
+If the doctype is `html`, **Phug** knows not to mirror the attribute,
 and instead uses the terse style (understood by all browsers).
 ```phug
 doctype html
@@ -137,12 +137,13 @@ input(type='checkbox' checked='checked')
 ### Style Attributes
 
 The `style` attribute can be a string, like any normal attribute; but
-it can also be an object or an array, which is handy when styles are
-generated.
+it can also be an object or an array.
 
 PHP-style:
 ```phug
-a(style=array('color' => 'red', 'background' => 'green'))
+a(style=['color' => 'red', 'background' => 'green'])
+="\n"
+a(style=(object)['color' => 'red', 'background' => 'green'])
 ```
 
 JS-style:
@@ -163,16 +164,15 @@ a(class=$classes)
 a.bang(class=$classes class=['bing'])
 ```
 
-It can also be an object or array which maps class names
-to `true` or `false` values. This is useful for applying
-conditional classes.
+It can also be an array which maps class names to `true` or
+`false` values. This is useful for applying conditional classes.
 
 PHP-style:
 ```pug
 - $currentUrl = '/about'
-a(ref='/' class=array('active' => $currentUrl === '/')) Home
+a(ref='/' class=['active' => $currentUrl === '/']) Home
 ="\n"
-a(href='/about' class=array('active' => $currentUrl === '/about')) About
+a(href='/about' class=['active' => $currentUrl === '/about']) About
 ```
 
 JS-style:
@@ -224,8 +224,8 @@ JS-style:
 div#foo(data-bar="foo")&attributes({'data-foo': 'bar'})
 ```
 
-The above example uses an array literal. But you can also use
-a variable whose value is an object, too. (See also:
+The above examples uses an array literal. But you can also use
+a variable whose value is an array, too. (See also:
 [Mixin Attributes](#mixin-attributes)).
 ```phug
 - $attributes = []
