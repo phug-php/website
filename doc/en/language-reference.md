@@ -106,6 +106,38 @@ div(unescaped!="&lt;code>")
 sure to sanitize any user inputs to avoid
 [cross-site scripting](https://en.wikipedia.org/wiki/Cross-site_scripting).
 
+### Unchecked Attributes
+
+Here is a specific concept of **Phug** you would not find in **pugjs**,
+it's about checking a variable exist.
+
+In PHP, when error are displayed and error level enable notices, calling
+a non-existing variable will throw an error.
+
+By default, we will hide those error, but this could hide some bug, so
+you can use `?=` operator to avoid this behavior:
+
+```phug
+- $wrong = ''
+p?=$wronk
+```
+In this example, the `?=` operator will reveal the miss typo of "wrong".
+Click on the `[Preview]` button to see the error.
+
+Attributes can be both unchecked and unescaped:
+
+```phug
+- $html = '&lt;strong>OK&lt;/strong>'
+p?!=$html
+```
+
+To disable globally the checking (always throw an error if the variable
+called is not defined), use the `php_token_handlers` option:
+
+```php
+Phug::setOption(['php_token_handlers', T_VARIABLE], null);
+```
+
 ### Boolean Attributes
 
 Boolean attributes are mirrored by **Phug**. Boolean values (`true` and
@@ -239,3 +271,69 @@ inputs to avoid
 [cross-site scripting](https://en.wikipedia.org/wiki/Cross-site_scripting)
 (XSS). If passing in `attributes` from a mixin call, this is
 done automatically.
+
+## Case
+
+The `case` statement is a shorthand for the PHP `switch` statement.
+It takes the following form:
+
+```phug
+- $friends = 10
+case $friends
+  when 0
+    p you have no friends
+  when 1
+    p you have a friend
+  default
+    p you have #{$friends} friends
+```
+
+### Case Fall Through
+
+You can use fall through, just as you would in a PHP `switch` statement.
+
+```phug
+- $friends = 0
+case $friends
+  when 0
+  when 1
+    p you have very few friends
+  default
+    p you have #{$friends} friends
+```
+
+The difference, however, is a fall through in PHP happens whenever a
+`break` statement is not explicitly included; in **Phug**, it only happens
+when a block is completely missing.
+
+If you would like to not output anything in a specific case, add a simple
+hidden comment `//-`:
+
+```phug
+- $friends = 0
+case $friends
+  when 0
+    //-
+  when 1
+    p you have very few friends
+  default
+    p you have #{$friends} friends
+```
+
+### Block Expansion
+
+Block expansion may also be used:
+
+```phug
+- $friends = 1
+case friends
+  when 0: p you have no friends
+  when 1: p you have a friend
+  default: p you have #{$friends} friends
+```
+
+## Code
+
+**Phug** allows you to write inline JavaScript code in your templates.
+There are three types of code: Unbuffered, Buffered, and
+Unescaped Buffered.

@@ -108,6 +108,41 @@ div(unescaped!="&lt;code>")
 sûr de toujours sécuriser les entrées du client pour éviter le
 [cross-site scripting](https://fr.wikipedia.org/wiki/Cross-site_scripting).
 
+### Attributs non vérifiés
+
+Ceci est un concept propre à **Phug** que vous ne trouverez pas dans
+**pugjs**, il s'agit de la vérification des variables.
+
+En PHP, quand les erreurs sont affichées et que le niveau d'erreur
+inclus les notices, l'appel d'une variable non définie déclenche une
+erreur.
+
+Par défaut, nous cachons ces erreurs, mais cela peut parfois cacher
+un bug, donc vous pouvez utiliser l'opérateur `?=` pour éviter
+ce comportement :
+
+```phug
+- $mauvais = ''
+p?=$mauvai
+```
+Dans cet exemple, l'opérateur `?=` va révélé l'erreur orthographique
+de "mauvais". Cliquez sur le bouton `[Preview]` pour voir l'erreur.
+
+Les attributs peuvent être à la fois bruts et non vérifiés :
+
+```phug
+- $html = '&lt;strong>OK&lt;/strong>'
+p?!=$html
+```
+
+Pour désactiver globalement la vérification (toujours afficher
+une erreur si la variable appelée n'est pas définie) utilisez
+l'option `php_token_handlers` :
+
+```php
+Phug::setOption(['php_token_handlers', T_VARIABLE], null);
+```
+
 ### Attributs booléens
 
 Les attributs booléens sont reflétés par **Phug**. Les valeurs booléennes
@@ -242,3 +277,64 @@ pour éviter le
 [cross-site scripting](https://fr.wikipedia.org/wiki/Cross-site_scripting)
 (XSS). En passant `attributes` via un appel de mixin, l'échappement
 est fait automatiquement.
+
+## Case
+
+Le mot-clé `case` est un raccourci de `switch` en PHP.
+Il a la forme suivante :
+
+```phug
+- $amis = 10
+case $amis
+  when 0
+    p vous n'avez aucun ami
+  when 1
+    p vous avez un ami
+  default
+    p vous avez #{$amis} amis
+```
+
+### Cas groupés
+
+Vous pouvez utiliser les cas groupés juste comme vous le feriez avec
+`switch` en PHP.
+
+```phug
+- $amis = 0
+case $amis
+  when 0
+  when 1
+    p vous avez very few amis
+  default
+    p vous avez #{$amis} amis
+```
+
+Cependent si, en PHP le groupage est automatique si le mot-clé `break`
+n'est pas explicitement inclus ; avec **Phug**, il a lieu seulement
+si le block est complètement vide.
+
+Si vous souhaitez ne rien afficher du tout pour un cas spécifique,
+ajoutez simplement un commentaire caché :
+
+```phug
+- $amis = 0
+case $amis
+  when 0
+    //-
+  when 1
+    p vous avez very few amis
+  default
+    p vous avez #{$amis} amis
+```
+
+### Expension de bloc
+
+L'expension de block peut aussi être utilisée :
+
+```phug
+- $amis = 1
+case amis
+  when 0: p vous n'avez aucun ami
+  when 1: p vous avez un ami
+  default: p vous avez #{$amis} amis
+```
