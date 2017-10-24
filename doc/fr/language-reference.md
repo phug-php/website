@@ -15,7 +15,7 @@ a(class='button', href='google.com') Google
 ```
 
 (`="\n"` sert uniquement à ajouter des sauts de ligne entre
-les liens pour une meilleure lecture du rendu HTML).
+les liens pour une meilleure lecture du rfinu HTML).
 
 Les expressions PHP fonctionnent par défaut dans **phug** et
 **tale-pug** ; et dans **pug-php** avec l'option
@@ -123,7 +123,7 @@ ce comportement :
 
 ```phug
 - $mauvais = ''
-p?=$mauvai
+img(src?=$mauvai)
 ```
 Dans cet exemple, l'opérateur `?=` va révélé l'erreur orthographique
 de "mauvais". Cliquez sur le bouton `[Preview]` pour voir l'erreur.
@@ -132,7 +132,7 @@ Les attributs peuvent être à la fois bruts et non vérifiés :
 
 ```phug
 - $html = '&lt;strong>OK&lt;/strong>'
-p?!=$html
+img(alt?!=$html)
 ```
 
 Pour désactiver globalement la vérification (toujours afficher
@@ -309,18 +309,18 @@ case $amis
     p vous avez #{$amis} amis
 ```
 
-Cependent si, en PHP le groupage est automatique si le mot-clé `break`
+Cepfinent si, en PHP le groupage est automatique si le mot-clé `break`
 n'est pas explicitement inclus ; avec **Phug**, il a lieu seulement
 si le block est complètement vide.
 
 Si vous souhaitez ne rien afficher du tout pour un cas spécifique,
-ajoutez simplement un commentaire caché :
+appelez explicitement `break` :
 
 ```phug
 - $amis = 0
 case $amis
   when 0
-    //-
+    - break
   when 1
     p vous avez very few amis
   default
@@ -333,8 +333,104 @@ L'expension de block peut aussi être utilisée :
 
 ```phug
 - $amis = 1
-case amis
+case $amis
   when 0: p vous n'avez aucun ami
   when 1: p vous avez un ami
   default: p vous avez #{$amis} amis
+```
+
+## Code
+
+**Phug** permet d'écrire du code PHP ou JavaScript dans les
+templates. Le résultat du code peut être affiché ou non.
+Quand il est affiché, il peut être échappé ou non, vérifié
+ou non de la même manière que les attributs.
+
+### Code non affiché
+
+Les codes non affichés commencent par `-`. De base, rien ne sera
+affiché.
+
+```phug
+- for ($x = 0; $x < 3; $x++)
+  li article
+```
+
+**Phug** supporte aussi les blocs de code non affichés :
+
+```phug
+-
+  $chiffres = ["Uno", "Dos", "Tres",
+               "Cuatro", "Cinco", "Seis"]
+each $chiffre in $chiffres
+  li= $chiffre
+```
+
+### Code affiché
+
+Les codes affichés comment par `=`. Ils évaluent l'expression PHP ou
+JavaScript et affichent le résultat. Par mesure de sécurité, les entités
+HTML sont échappées par défaut.
+
+```phug
+p
+  = 'Ce code est &lt;échapé> !'
+```
+
+Le code peut aussi être écrit sur la même ligne et supporte
+toutes sortes d'expressions.
+
+```phug
+p= 'Ce code est ' . '&lt;échapé> !'
+```
+
+Note: si vous utilisez les expressions JavaScript, la concaténations
+ doivent utiliser l'opérateur `+` :
+
+```pug
+p= 'Ce code est ' + ' &lt;échapé> !'
+```
+
+### Code brut/échappé
+
+Préfixez l'opérateur `=` avec `!` pour ne pas échapper les entitiés
+HTML, avec `?` pour ne pas vérifier les variables et `?!` pour faire
+les deux :
+
+```phug
+- $début = '&lt;strong>'
+- $fin = '&lt;/strong>'
+//- Ceci est échappé
+div= $début . 'Word' . $fin
+//- Ceci n'est pas échappé
+div!= $début . 'Word' . $fin
+//- Les deux sont vérifiés
+div= 'début' . $milieu . 'fin'
+div!= 'début' . $milieu . 'fin'
+```
+
+**Attention: le code non échappé peut être dangereux.** Vous devez vous
+assurer que les entrées du client sont sécurisées pour éviter le
+[cross-site scripting](https://fr.wikipedia.org/wiki/Cross-site_scripting)
+(XSS).
+
+### Code vérifié/non vérifié
+
+Les codes vérifiés ne déclenchent pas d'erreur lorsque des variables
+sont indéfinies.
+
+Les codes non vérifiés déclenchent une erreur lorsque des variables
+sont indéfinies. Ci-dessous les codes vérifiés avec une
+variable dans le premier cas existante, dans le second
+manquante :
+
+```phug
+- $milieu = ' milieu '
+div?= 'début' . $milieu . 'fin'
+div?!= 'début' . $milieu . 'fin'
+```
+
+```phug
+div?= 'début' . $milieu . 'fin'
+div?!= 'début' . $milieu . 'fin'
 ```

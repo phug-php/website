@@ -55,7 +55,7 @@ $ ->
         $vars.remove()
       $pre.replaceWith '<iframe data-src="https://pug-demo.herokuapp.com/' +
         '?embed&theme=xcode&border=silver&options-color=rgba(120,120,120,0.5)' +
-        '&engine=' + ($code.is('language-phug') ? 'phug' : 'pug-php') +
+        '&engine=' + (if $code.hasClass('language-phug') then 'phug' else 'pug-php') +
         '&input=' + encodeURIComponent(code) +
         (if vars
           '&vars=' + encodeURIComponent(vars) + '&vars-height=' + (varsLines * 100 / (outputLines + 2 + varsLines))

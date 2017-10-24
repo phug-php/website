@@ -106,7 +106,7 @@ div(unescaped!="&lt;code>")
 sure to sanitize any user inputs to avoid
 [cross-site scripting](https://en.wikipedia.org/wiki/Cross-site_scripting).
 
-### Unchecked Attributes
+### Unchecked attributes
 
 Here is a specific concept of **Phug** you would not find in **pugjs**,
 it's about checking a variable exist.
@@ -119,7 +119,7 @@ you can use `?=` operator to avoid this behavior:
 
 ```phug
 - $wrong = ''
-p?=$wronk
+img(src?=$wronk)
 ```
 In this example, the `?=` operator will reveal the miss typo of "wrong".
 Click on the `[Preview]` button to see the error.
@@ -128,7 +128,7 @@ Attributes can be both unchecked and unescaped:
 
 ```phug
 - $html = '&lt;strong>OK&lt;/strong>'
-p?!=$html
+img(alt?!=$html)
 ```
 
 To disable globally the checking (always throw an error if the variable
@@ -306,14 +306,14 @@ The difference, however, is a fall through in PHP happens whenever a
 `break` statement is not explicitly included; in **Phug**, it only happens
 when a block is completely missing.
 
-If you would like to not output anything in a specific case, add a simple
-hidden comment `//-`:
+If you would like to not output anything in a specific case, add an explicit
+unbuffered `break`:
 
 ```phug
 - $friends = 0
 case $friends
   when 0
-    //-
+    - break
   when 1
     p you have very few friends
   default
@@ -326,7 +326,7 @@ Block expansion may also be used:
 
 ```phug
 - $friends = 1
-case friends
+case $friends
   when 0: p you have no friends
   when 1: p you have a friend
   default: p you have #{$friends} friends
@@ -334,6 +334,94 @@ case friends
 
 ## Code
 
-**Phug** allows you to write inline JavaScript code in your templates.
-There are three types of code: Unbuffered, Buffered, and
-Unescaped Buffered.
+**Phug** allows you to write inline PHP or JavaScript code in
+your templates. The code can be buffered or not. When it is
+buffered, it can be escaped or not, checked or not the same
+way as attributes.
+
+### Unbuffered Code
+
+Unbuffered code starts with `-`. It does not directly add
+anything to the output.
+
+```phug
+- for ($x = 0; $x < 3; $x++)
+  li item
+```
+
+**Phug** also supports block unbuffered code:
+
+```phug
+-
+  $list = ["Uno", "Dos", "Tres",
+          "Cuatro", "Cinco", "Seis"]
+each $item in $list
+  li= $item
+```
+
+### Buffered Code
+
+Buffered code starts with `=`. It evaluates the PHP or JavaScript
+expression and outputs the result.
+For security, buffered code is first HTML escaped.
+
+```phug
+p
+  = 'This code is &lt;escaped>!'
+```
+
+It can also be written inline, and supports the full range of
+expressions:
+
+```phug
+p= 'This code is' . ' &lt;escaped>!'
+```
+
+Note: if you use JavaScript expressions, concatenations must use
+the `+` operator:
+
+```pug
+p= 'This code is' + ' &lt;escaped>!'
+```
+
+### Unescape/escape code
+
+Precede the `=` with `!` to not escape HTML entities, with `?`
+to not check variables to be set and `?!` for both:
+
+```phug
+- $start = '&lt;strong>'
+- $end = '&lt;/strong>'
+//- This one is escaped
+div= $start . 'Word' . $end
+//- This one is not escaped
+div!= $start . 'Word' . $end
+//- Both are checked
+div= 'start' . $middle . 'end'
+div!= 'start' . $middle . 'end'
+```
+
+### Uncheck/check code
+
+Checked code does not throw an error when variables are
+undefined.
+
+Unchecked code throws an error when variables are
+undefined. See the examples below with on the one hand
+an existing variable, and on the other hand a missing
+variable:
+```phug
+- $middle = ' middle '
+div?= 'start' . $middle . 'end'
+div?!= 'start' . $middle . 'end'
+```
+
+```phug
+div?= 'start' . $middle . 'end'
+div?!= 'start' . $middle . 'end'
+```
+
+**Caution: unescaped buffered code can be dangerous.** You must
+be sure to sanitize any user inputs to avoid
+[cross-site scripting](https://en.wikipedia.org/wiki/Cross-site_scripting)
+(XSS).
