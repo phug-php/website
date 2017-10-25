@@ -434,3 +434,71 @@ div?!= 'début' . $milieu . 'fin'
 div?= 'début' . $milieu . 'fin'
 div?!= 'début' . $milieu . 'fin'
 ```
+
+## Commentaires
+
+Les commentaires affichés sur une seule ligne ressemblent à ceux de
+nombreux langages (C, PHP, JavaScript) et produisent des commentaires
+*HTML* dans la page rendue.
+
+Comme les balises, ils doivent apparaître sur leur propre ligne.
+
+```phug
+// juste quelques paragraphes
+p foo
+p bar
+// chaque ligne
+// va produire
+// un commentaire HTML
+footer
+```
+
+**Phug** supporte aussi les commentaires masqués (ils ne seront pas
+compilés, vous pouvez donc en mettre beaucoup sans craindre d'allourdir
+vos fichiers de cache). Ajoutez simplement un tiret (`-`) au début
+du commentaire.
+
+```phug
+//- rien ne s'affichera dans le HTML
+p foo
+p bar
+```
+
+### Blocs de Commentaire
+
+Les blocs de commentaire fonctionne aussi :
+```phug
+body
+  //-
+    Commentaires pour les développeurs de templates.
+    Utilisez autant de texte que vous voulez.
+  //
+    Commentaires pour les lecteurs de HTML.
+    Utilisez autant de texte que vous voulez.
+```
+
+### Commentaires conditionnels
+
+**Phug** n'a pas de syntaxe spécifique pour les commentaires
+conditionnels. (Les commentaires conditionnels sont un méthode
+spécifique à Internet Explorer pour ajouter des balises dédiées
+à versions anciennes.)
+
+Cependant, comme toutes les lignes commençant par `<` sont traitées
+comme du [texte brut](#texte-brut), la syntaxe HTML normale des
+commentaires conditionnels fonctionnera juste telle quelle.
+```phug
+doctype html
+
+&lt;!--[if IE 8]>
+&lt;html lang="fr" class="lt-ie9">
+&lt;![endif]-->
+&lt;!--[if gt IE 8]>&lt;!-->
+&lt;html lang="fr">
+&lt;!--&lt;![endif]-->
+
+body
+  p Supporter les anciennes versions des navigateurs, c'est pénible.
+
+&lt;/html>
+```

@@ -17,7 +17,7 @@ $ ->
     $section.find('h1, h2, h3').each ->
       $header = $ @
       headerText = $header.text()
-      id = headerText.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+/, '').replace(/-+$/, '')
+      id = removeDiacritics(headerText).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+/, '').replace(/-+$/, '')
       $header.attr 'id', id
       $header.append '&nbsp; <a class="header-anchor" href="#' + id + '">¶</a>'
       if $header.is 'h3'
@@ -70,6 +70,7 @@ $ ->
   $('body').scrollspy
     target: '#contents'
     offset: Math.round $('main').css('padding-top').replace('px','')
+  sideNavLinksSelector = 'nav.sidebar .nav-link:visible'
   scrollCheck = ->
     scrollTop = $(@).scrollTop() - 10
     scrollBottom = scrollTop + $(window).height() + 20
@@ -88,6 +89,16 @@ $ ->
       top = $iframe.offset().top
       if top + $iframe.height() + viewMargin > scrollTop and top - viewMargin < scrollBottom
         $iframe.prop('src', $iframe.data 'src').removeAttr 'data-src'
+      return
+    $links = $ sideNavLinksSelector
+    index = $links.index $links.filter '.active:last'
+    $('.languages a').each ->
+      $link = $ @
+      href = $link.prop('href').replace(/[?&]anchor=\d+/g, '')
+      if index > -1
+        href += if href.indexOf('?') is -1 then '?' else '&'
+        href += 'anchor=' + index
+      $link.prop 'href', href
       return
     return
   resize = {}
@@ -113,6 +124,10 @@ $ ->
     .on 'click', '[data-toggle="offcanvas"]', ->
       $('.navbar-toggler, .sidebar').toggleClass 'show'
       return
+  anchor = $('nav.sidebar').data 'anchor'
+  if anchor?
+    $link = $(sideNavLinksSelector).eq anchor
+    location.href = $link.prop 'href'
   do scrollCheck
   $(window)
     .on 'mousemove', (e) ->

@@ -1,5 +1,7 @@
 # Vue d'ensemble
 
+## Qu'est-ce que Phug ?
+
 **Phug** est le moteur de templates de [pug](https://pugjs.org/) pour PHP.
 
 Phug offre un moyen simple d'écrire des templates (telles que des pages

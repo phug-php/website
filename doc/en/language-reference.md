@@ -425,3 +425,69 @@ div?!= 'start' . $middle . 'end'
 be sure to sanitize any user inputs to avoid
 [cross-site scripting](https://en.wikipedia.org/wiki/Cross-site_scripting)
 (XSS).
+
+## Commentaires
+
+Buffered comments look the same as single-line JavaScript comments.
+They act sort of like markup tags, producing *HTML* comments in the
+rendered page.
+
+Like tags, buffered comments must appear on their own line.
+
+```phug
+// just some paragraphs
+p foo
+p bar
+// each line
+// will produce
+// a HTML comment
+footer
+```
+
+**Phug** also supports unbuffered comments (they will be not compiled
+so you can add many with no impact on the cache file size).
+Simply add a hyphen (`-`) to the start of the comment.
+
+```phug
+//- will not output within markup
+p foo
+p bar
+```
+
+### Block Comments
+
+Block comments work, too:
+```phug
+body
+  //-
+    Comments for your template writers.
+    Use as much text as you want.
+  //
+    Comments for your HTML readers.
+    Use as much text as you want.
+```
+
+### Conditional Comments
+
+**Phug** does not have any special syntax for conditional comments.
+(Conditional comments are a peculiar method of adding fallback
+markup for old versions of Internet Explorer.)
+
+However, since all lines beginning with `<` are treated as [plain
+text](#plain-text), normal HTML-style conditional comments work
+just fine.
+```phug
+doctype html
+
+&lt;!--[if IE 8]>
+&lt;html lang="fr" class="lt-ie9">
+&lt;![endif]-->
+&lt;!--[if gt IE 8]>&lt;!-->
+&lt;html lang="fr">
+&lt;!--&lt;![endif]-->
+
+body
+  p Supporting old web browsers is a pain.
+
+&lt;/html>
+```

@@ -12,11 +12,16 @@
 */
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 Route::get('/', function () {
-    return view('index');
+    return view('index', [
+        'anchor' => Session::pull('anchor'),
+    ]);
 });
 
 Route::get('/lang', function () {
+    Session::flash('anchor', request('anchor'));
+
     return back();
 })->name('lang');

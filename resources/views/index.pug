@@ -22,7 +22,7 @@ html(lang=locale)
         aside#try.try-phug.container-fluid(data-example="try")
             include try.pug
         .container-fluid#top: .row.flex-nowrap
-            nav.sidebar.col-lg-3.br-ribbed-light: nav.navbar.contents#contents
+            nav.sidebar.col-lg-3.br-ribbed-light(data-anchor=anchor): nav.navbar.contents#contents
                 nav.nav.flex-column
                     .d-lg-none
                         a.nav-link#try-link(href="#try" data-action="sidebar-nav" data-toggle="try") Try Phug
@@ -64,6 +64,7 @@ html(lang=locale)
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
             integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous")
         minify app
+            script(src="js/remove-accents.js")
             script(src="app.coffee")
             script(src="js/prism.js")
         script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
