@@ -566,3 +566,25 @@ if !user.isAnonymous
   ],
 ]
 ```
+
+## Doctype
+
+```phug
+doctype html
+```
+
+### Doctype Shortcuts
+
+Shortcuts to commonly used doctypes:
+
+```phug
+doctype html
+doctype xml
+doctype transitional
+doctype strict
+doctype frameset
+doctype 1.1
+doctype basic
+doctype mobile
+doctype plist
+```

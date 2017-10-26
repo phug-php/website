@@ -1,25 +1,25 @@
 @import 'colors.styl'
 
 .try-phug
-    position fixed
-    top 50px
-    bottom 0
-    left 0
-    right 0
-    opacity 0
-    transition opacity 0.15s ease-in-out
-    pointer-events none
-    z-index 9999
-    background try-background
+  position fixed
+  top 50px
+  bottom 0
+  left 0
+  right 0
+  opacity 0
+  transition opacity 0.15s ease-in-out
+  pointer-events none
+  z-index 9999
+  background try-background
 
-    &.opened
-        pointer-events all
-        opacity 1
-    iframe
-        width 100%
-        height calc(100% - 10px)
-        border none
+  &.opened
+    pointer-events all
+    opacity 1
+  iframe
+    width 100%
+    height calc(100% - 10px)
+    border none
 
 .try-phug.show
-    opacity 1
-    z-index 1001
+  opacity 1
+  z-index 1001

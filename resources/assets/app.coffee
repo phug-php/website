@@ -95,7 +95,8 @@ $ ->
     $('.languages a').each ->
       $link = $ @
       href = $link.prop('href').replace(/[?&]anchor=\d+/g, '')
-      if index > -1
+      console.log(href, index, href.indexOf('#'), index > -1 and href.indexOf('#') is -1)
+      if index > -1 and href.indexOf('#') is -1
         href += if href.indexOf('?') is -1 then '?' else '&'
         href += 'anchor=' + index
       $link.prop 'href', href
