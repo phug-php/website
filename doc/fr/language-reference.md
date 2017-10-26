@@ -17,8 +17,8 @@ a(class='button', href='google.com') Google
 (`="\n"` sert uniquement à ajouter des sauts de ligne entre
 les liens pour une meilleure lecture du rfinu HTML).
 
-Les expressions PHP fonctionnent par défaut dans **phug** et
-**tale-pug** ; et dans **pug-php** avec l'option
+Les expressions PHP fonctionnent par défaut dans **Phug** et
+**Tale-pug** ; et dans **Pug-php** avec l'option
 `expressionLanguage` réglée sur `php`:
 ```phug
 - $authentifié = true
@@ -27,7 +27,7 @@ body(class=$authentifié ? 'auth' : 'anon')
 
 Les expressions JavaScript fonctionnent également avec **js-phpize-phug**
 installé ([voir comment l'installer](#utiliser-des-expressions-javascript))
-ou la dernière version de **pug-php** avec les options par défaut
+ou la dernière version de **Pug-php** avec les options par défaut
 (soit `expressionLanguage` réglée sur `js`) :
 ```pug
 - var authentifié = true
@@ -185,7 +185,7 @@ a(style=['color' => 'red', 'background' => 'green'])
 a(style=(object)['color' => 'red', 'background' => 'green'])
 ```
 
-Style JS :
+[Style JS](#utiliser-des-expressions-javascript) :
 ```pug
 a(style={color: 'red', background: 'green'})
 ```
@@ -214,7 +214,7 @@ a(ref='/' class=['actif' => $urlCourrante === '/']) Accueil
 a(href='/apropos' class=['actif' => $urlCourrante === '/apropos']) À propos
 ```
 
-Style JS :
+[Style JS](#utiliser-des-expressions-javascript) :
 ```pug
 - var urlCourrante = '/apropos'
 a(href='/' class={actif: urlCourrante === '/'}) Accueil
@@ -256,7 +256,7 @@ Style PHP :
 div#foo(data-bar="foo")&attributes(['data-foo' => 'bar'])
 ```
 
-Style JS :
+[Style JS](#utiliser-des-expressions-javascript) :
 ```pug
 div#foo(data-bar="foo")&attributes({'data-foo': 'bar'})
 ```
@@ -501,4 +501,79 @@ body
   p Supporter les anciennes versions des navigateurs, c'est pénible.
 
 &lt;/html>
+```
+
+## Conditions
+
+Les conditions ont la forme suivante si vous utilisez le style PHP :
+```phug
+- $utilisateur = [ 'description' => 'foo bar baz' ]
+- $autorisé = false
+#utilisateur
+  if $utilisateur['description']
+    h2.vert Description
+    p.description= $utilisateur['description']
+  else if $autorisé
+    h2.bleu Description
+    p.description.
+      L'utilisateur n'a pas de description.
+      Pourquoi ne pas en ajouter une ?
+  else
+    h2.rouge Description
+    p.description L'utilisateur n'a pas de description.
+```
+
+Si vous [utilisez le style JS](#utiliser-des-expressions-javascript) :
+```pug
+- var utilisateur = { description: 'foo bar baz' }
+- var authorised = false
+#utilisateur
+  if utilisateur.description
+    h2.vert Description
+    p.description= utilisateur.description
+  else if authorised
+    h2.bleu Description
+    p.description.
+      L'utilisateur n'a pas de description.
+      Pourquoi ne pas en ajouter une ?
+  else
+    h2.rouge Description
+    p.description L'utilisateur n'a pas de description.
+```
+
+**Phug** fournit aussi le mot-clé `unless`, qui fonctionne
+comme un `if` négatif.
+
+Exemple en style PHP :
+```phug
+unless $utilisateur['estAnonyme']
+  p Vous êtes connecté en tant que #{$utilisateur['nom']}.
+//- est équivalent à
+if !$utilisateur['estAnonyme']
+  p Vous êtes connecté en tant que #{$utilisateur['nom']}.
+```
+```vars
+[
+  'utilisateur' => [
+    'estAnonyme' => false,
+    'nom' => 'Jefferson Airplane',
+  ],
+]
+```
+
+Exemple en [style JS](#utiliser-des-expressions-javascript) :
+```pug
+unless utilisateur.estAnonyme
+  p Vous êtes connecté en tant que #{utilisateur.nom}.
+//- est équivalent à
+if !utilisateur.estAnonyme
+  p Vous êtes connecté en tant que #{utilisateur.nom}.
+```
+```vars
+[
+  'utilisateur' => [
+    'estAnonyme' => false,
+    'nom' => 'Jefferson Airplane',
+  ],
+]
 ```

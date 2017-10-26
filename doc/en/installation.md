@@ -13,12 +13,12 @@ phug directly in your application.
 
 - CodeIgniter: https://github.com/pug-php/ci-pug-engine
 
-The framework adapters above are based on **pug-php 3**, that means expressions
+The framework adapters above are based on **Pug-php 3**, that means expressions
 should be written in JS style by default, but you can use PHP native style by
 setting `expressionLanguage` to `php`.
 
-Yii and Slim adapters are also available but based on **pug-php 2** right now
-and so there are not yet compatible with Phug:
+Yii and Slim adapters are also available but based on **Pug-php 2** right now
+and so there are not yet compatible with **Phug**:
 
 - Yii 2: https://github.com/rmrevin/yii2-pug
 
@@ -110,8 +110,11 @@ See all available methods in the API reference:
 
 ## Use JavaScript expressions
 
-To handle js-style expressions, install the **js-phpize** extension
-for **phug**:
+By default, **Phug** and **Tale-pug** use PHP expressions. And **Pug-php**
+use JS expressions, but you can easily change the default behavior.
+
+To handle js-style expressions on **Phug** and **Tale-pug**, install the
+**js-phpize** extension for **Phug**:
 ```shell
 composer require js-phpize/js-phpize-phug
 ```
@@ -142,5 +145,37 @@ input(value=userName)
 ```vars
 [
   'userName' => 'Bob',
+]
+```
+
+To use PHP expressions in **Pug-php**, use the option `expressionLanguage`:
+
+```php
+<?php
+
+use Pug\Pug;
+
+include_once __DIR__ . '/vendor/autoload.php';
+
+$pug = new Pug([
+    'expressionLanguage' => 'php',
+]);
+
+$pug->display('p=$user->name', [
+  'user' => (object) [
+    'name' => 'Bob',        
+  ],
+]);
+```
+
+```phug
+label Username
+input(value=$user->name)
+```
+```vars
+[
+  'user' => (object) [
+    'name' => 'Bob',        
+  ],
 ]
 ```

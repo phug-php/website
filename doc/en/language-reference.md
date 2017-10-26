@@ -16,8 +16,8 @@ a(class='button', href='google.com') Google
 (`="\n"` are just here to add whitespace between links for an
 easier reading of the output HTML).
 
-Normal PHP expressions work fine by default on **phug** and
-**tale-pug**; and on **pug-php** with `expressionLanguage`
+Normal PHP expressions work fine by default on **Phug** and
+**Tale-pug**; and on **Pug-php** with `expressionLanguage`
 option set to `php`:
 ```phug
 - $authenticated = true
@@ -26,7 +26,7 @@ body(class=$authenticated ? 'authed' : 'anon')
 
 Normal JavaScript expressions work fine too with **js-phpize-phug**
 extension installed ([see how to install](#use-javascript-expressions))
-or **pug-php** last version with default options (or `expressionLanguage`
+or **Pug-php** last version with default options (or `expressionLanguage`
 set to `js`):
 ```pug
 - var authenticated = true
@@ -178,7 +178,7 @@ a(style=['color' => 'red', 'background' => 'green'])
 a(style=(object)['color' => 'red', 'background' => 'green'])
 ```
 
-JS-style:
+[JS-style](#use-javascript-expressions):
 ```pug
 a(style={color: 'red', background: 'green'})
 ```
@@ -207,7 +207,7 @@ a(ref='/' class=['active' => $currentUrl === '/']) Home
 a(href='/about' class=['active' => $currentUrl === '/about']) About
 ```
 
-JS-style:
+[JS-style](#use-javascript-expressions):
 ```pug
 - var currentUrl = '/about'
 a(href='/' class={active: currentUrl === '/'}) Home
@@ -251,7 +251,7 @@ PHP-style:
 div#foo(data-bar="foo")&attributes(['data-foo' => 'bar'])
 ```
 
-JS-style:
+[JS-style](#use-javascript-expressions):
 ```pug
 div#foo(data-bar="foo")&attributes({'data-foo': 'bar'})
 ```
@@ -490,4 +490,79 @@ body
   p Supporting old web browsers is a pain.
 
 &lt;/html>
+```
+
+## Conditionals
+
+Conditionals look like the following if you use PHP-style:
+```phug
+- $user = [ 'description' => 'foo bar baz' ]
+- $authorised = false
+#user
+  if $user['description']
+    h2.green Description
+    p.description= $user['description']
+  else if $authorised
+    h2.blue Description
+    p.description.
+      User has no description,
+      why not add one...
+  else
+    h2.red Description
+    p.description User has no description
+```
+
+If you [use JS-style](#use-javascript-expressions):
+```pug
+- var user = { description: 'foo bar baz' }
+- var authorised = false
+#user
+  if user.description
+    h2.green Description
+    p.description= user.description
+  else if authorised
+    h2.blue Description
+    p.description.
+      User has no description,
+      why not add one...
+  else
+    h2.red Description
+    p.description User has no description
+```
+
+**Phug** also provides the conditional `unless`, which works
+like a negated `if`.
+
+PHP-style example:
+```phug
+unless $user['isAnonymous']
+  p You're logged in as #{$user['name']}.
+//- is equivalent to
+if !$user['isAnonymous']
+  p You're logged in as #{$user['name']}.
+```
+```vars
+[
+  'user' => [
+    'isAnonymous' => false,
+    'name' => 'Jefferson Airplane',
+  ],
+]
+```
+
+[JS-style](#use-javascript-expressions) example:
+```pug
+unless user.isAnonymous
+  p You're logged in as #{user.name}.
+//- is equivalent to
+if !user.isAnonymous
+  p You're logged in as #{user.name}.
+```
+```vars
+[
+  'user' => [
+    'isAnonymous' => false,
+    'name' => 'Jefferson Airplane',
+  ],
+]
 ```

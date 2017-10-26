@@ -151,11 +151,44 @@ Phug::display('p=utilisateur', [
 ```
 
 ```pug
-label Username
+label Nom d'utilisateur
 input(value=utilisateur)
 ```
 ```vars
 [
   'utilisateur' => 'Bob',
+]
+```
+
+Pour utiliser les expressions PHP dans **Pug-php**, utilisez l'option
+`expressionLanguage` :
+
+```php
+<?php
+
+use Pug\Pug;
+
+include_once __DIR__ . '/vendor/autoload.php';
+
+$pug = new Pug([
+    'expressionLanguage' => 'php',
+]);
+
+$pug->display('p=$utilisateur->nom', [
+  'utilisateur' => (object) [
+    'nom' => 'Bob',        
+  ],
+]);
+```
+
+```phug
+label Nom d'utilisateur
+input(value=$utilisateur->nom)
+```
+```vars
+[
+  'utilisateur' => (object) [
+    'nom' => 'Bob',        
+  ],
 ]
 ```
