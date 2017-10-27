@@ -1,6 +1,7 @@
 window.Popper = {}
 $ ->
   tableOfContents = []
+  ids = {}
   $('main').find('.chapter').each ->
     $section = $ @
     sectionId = $section.attr 'id'
@@ -18,6 +19,15 @@ $ ->
       $header = $ @
       headerText = $header.text()
       id = removeDiacritics(headerText).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+/, '').replace(/-+$/, '')
+      if ids[id]
+        id = sectionId + '-' + id
+      if ids[id]
+        baseId = id + '-'
+        i = 2
+        while ids[baseId + i]
+          i++
+        id = baseId + i
+      ids[id] = true
       $header.attr 'id', id
       $header.append '&nbsp; <a class="header-anchor" href="#' + id + '">¶</a>'
       if $header.is 'h3'

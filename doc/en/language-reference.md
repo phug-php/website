@@ -588,3 +588,65 @@ doctype basic
 doctype mobile
 doctype plist
 ```
+
+### Custom Doctypes
+
+You can also use your own literal custom doctype:
+
+```phug
+doctype html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+```
+
+### Doctype Option
+
+In addition to being buffered in the output, a doctype in **Phug**
+can affect compilation in other ways. For example, whether
+self-closing tags end with `/>` or `>` depends on whether HTML
+or XML is specified. The output of
+[boolean attributes](#booleens-attributes)
+may be affected as well.
+
+If, for whatever reason, it is not possible to use the `doctype`
+keyword (e.g., just rendering HTML fragments), but you would
+still like to specify the doctype of the template, you can do
+so via the [doctype option](#options-doctype).
+
+```php
+$source = 'img(src="foo.png")';
+
+Phug::render($source);
+// => '<img src="foo.png"/>'
+
+Phug::render($source, [], [
+  'doctype' => 'xml',
+]);
+// => '<img src="foo.png"></img>'
+
+Phug::render($source, [], [
+  'doctype' => 'html',
+]);
+// => '<img src="foo.png">'
+```
+
+## Filters
+
+Filters let you use other languages in Pug templates. They take a
+block of plain text as an input.
+
+To pass options to the filter, add them inside parentheses after
+the filter name (just as you would do with
+[tag attributes](##attributes)): `:less(ieCompat=false)`.
+
+All JSTransformer modules can be used as Pug filters. Popular
+filters include :babel, :uglify-js, :scss, and :markdown-it.
+Check out the documentation for the JSTransformer for the options
+supported for the specific filter.
+
+If you can’t find an appropriate filter for your use case, you
+can write your own custom filter.
+
+For example, if you want to be able to use CoffeeScript and
+Markdown (using Markdown-it renderer) in your Pug template,
+you would first make sure that these features are installed:
+
+http://pug-filters.selfbuild.fr

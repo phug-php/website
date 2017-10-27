@@ -599,3 +599,41 @@ doctype basic
 doctype mobile
 doctype plist
 ```
+
+### Doctypes personnalisés
+
+Vous pouvez aussi utiliser votre propre doctype :
+
+```phug
+doctype html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+```
+
+### Option doctype
+
+En plus d'ajouter le doctype HTML, le doctype influe sur la
+manière dont **Phug** va formatter les balises auto-fermante
+`/>` en XML, `>` en HTML 5. Il change aussi l'affichage des
+[attributs booléens](#attributs-booleens).
+
+Si, pour quelque raison que ce soit, il n'est pas possible
+d'utiliser le mot-clé `doctype` (par exemple, afficher une
+portion de HTML seule), mais que vous voulez appliquer les
+spécificités du doctype, vous pouvez utiliser
+l'[option doctype](#options-doctype).
+
+```php
+$source = 'img(src="foo.png")';
+
+Phug::render($source);
+// => '<img src="foo.png"/>'
+
+Phug::render($source, [], [
+  'doctype' => 'xml',
+]);
+// => '<img src="foo.png"></img>'
+
+Phug::render($source, [], [
+  'doctype' => 'html',
+]);
+// => '<img src="foo.png">'
+```
