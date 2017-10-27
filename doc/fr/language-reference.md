@@ -85,14 +85,16 @@ div(class='div-class' '[click]'='play()')
 Une simple note à propos d'une syntaxe que vous avez pu connaître
 avec **pugjs 1**: `a(href="/#{url}") Lien`, cette syntaxe n'est plus
 valide depuis **pugjs 2** et nous avons décidé de ne pas la supporter
-non plus dans **Phug**. Vous pouvez utiliser une simple concaténation
+non plus dans **Phug**. Vous pouvez utiliser l'interpolation PHP
 à la place :
 ```phug
 - $btnType = 'info'
 - $btnTaille = 'lg'
-button(type='button' class='btn btn-' . $btnType . ' btn-' . $btnTaille)
+button(type="button" class="btn btn-$btnType btn-$btnTaille")
+- $btn = (object) ['taille' => 'lg']
+button(type="button" class="btn btn-{$btn->taille}")
 ```
-Pour les expressions JS, replacez `.` par `+` et vous pouvez omettre `$`.
+Pour les expressions JS, utilisez la concaténation `" + btnType + "`.
 
 ### Attributs bruts
 
