@@ -644,11 +644,52 @@ filters include :babel, :uglify-js, :scss, and :markdown-it.
 Check out the documentation for the JSTransformer for the options
 supported for the specific filter.
 
-If you can’t find an appropriate filter for your use case, you
-can write your own custom filter.
+To use JSTransformer, install the following phug extension:
 
-For example, if you want to be able to use CoffeeScript and
-Markdown (using Markdown-it renderer) in your Pug template,
-you would first make sure that these features are installed:
+```shell
+composer require phug/js-transformer-filter
+```
 
+Then enable it:
+
+To use it with **Phug**:
+```php
+use Phug\JsTransformerExtension;
+use Phug\Phug;
+
+Phug::addExtension(JsTransformerExtension::class);
+```
+
+To use it with **Pug-php**:
+```php
+use Phug\JsTransformerExtension;
+use Pug\Pug;
+
+$pug = new Pug();
+$pug->addExtension(new JsTransformerExtension());
+```
+
+You can also use any of the following PHP projects as filter
+in all **Phug** and **Pug-php** projects:
 http://pug-filters.selfbuild.fr
+
+If you can’t find an appropriate filter for your use case, you
+can write your own custom filter. It can be any callable (closure,
+function or object with __invoke method).
+
+```php
+Phug::setFilter('upper-start', function ($inputString, $options) {
+  return strtoupper(mb_substr($inputString, 0, $options['length'])).
+    mb_substr($inputString, $options['length']);
+});
+
+Phug::display('
+div
+  :upper-start(length=3)
+    Youpee
+```
+
+This will output:
+```html
+<div>YOUpee</div>
+```
