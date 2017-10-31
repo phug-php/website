@@ -63,10 +63,16 @@ $ ->
         varsLines = vars.split(/\n/g).length
         lines += varsLines
         $vars.remove()
+      startComment = code.match /^\/[\/\*]-?\s([\w\/]+\.[a-z]{2,4})(\s\*\/)?\n/
+      saveAs = if startComment
+        encodeURIComponent startComment[1]
+      else
+        ''
       $pre.replaceWith '<iframe data-src="https://pug-demo.herokuapp.com/' +
         '?embed&theme=xcode&border=silver&options-color=rgba(120,120,120,0.5)' +
         '&engine=' + (if $code.hasClass('language-phug') then 'phug' else 'pug-php') +
         '&input=' + encodeURIComponent(code) +
+        '&save_as=' + saveAs +
         (if vars
           '&vars=' + encodeURIComponent(vars) + '&vars-height=' + (varsLines * 100 / (outputLines + 2 + varsLines))
         else

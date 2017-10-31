@@ -746,3 +746,31 @@ html
     :script
       console.log('Alias of javascript')
 ```
+
+## Includes
+
+Includes allow you to insert the contents of one Pug file into
+another.
+
+```phug
+//- index.pug
+doctype html
+html
+  include includes/head.pug
+  body
+    h1 My Site
+    p Welcome to my super lame site.
+    include includes/foot.pug
+```
+```phug
+//- includes/head.pug
+head
+  title My Site
+  script(src='/javascripts/jquery.js')
+  script(src='/javascripts/app.js')
+```
+```phug
+//- includes/foot.pug
+footer#footer
+  p Copyright (c) foobar
+```
