@@ -637,14 +637,16 @@ block of plain text as an input.
 
 To pass options to the filter, add them inside parentheses after
 the filter name (just as you would do with
-[tag attributes](##attributes)): `:less(ieCompat=false)`.
+[tag attributes](#attributes)): `:less(compress=false)`.
 
-All JSTransformer modules can be used as Pug filters. Popular
+All [JSTransformer modules](https://www.npmjs.com/browse/keyword/jstransformer)
+can be used as Pug filters. Popular
 filters include :babel, :uglify-js, :scss, and :markdown-it.
 Check out the documentation for the JSTransformer for the options
 supported for the specific filter.
 
-To use JSTransformer, install the following phug extension:
+To use JSTransformer with **Phug**, install the following
+extension:
 
 ```shell
 composer require phug/js-transformer-filter
@@ -652,7 +654,6 @@ composer require phug/js-transformer-filter
 
 Then enable it:
 
-To use it with **Phug**:
 ```php
 use Phug\JsTransformerExtension;
 use Phug\Phug;
@@ -660,20 +661,14 @@ use Phug\Phug;
 Phug::addExtension(JsTransformerExtension::class);
 ```
 
-To use it with **Pug-php**:
-```php
-use Phug\JsTransformerExtension;
-use Pug\Pug;
-
-$pug = new Pug();
-$pug->addExtension(new JsTransformerExtension());
-```
+With **Pug-php**, this extension is installed and enabled by
+default since 3.0.1 version.
 
 You can also use any of the following PHP projects as filter
 in all **Phug** and **Pug-php** projects:
 http://pug-filters.selfbuild.fr
 
-If you can’t find an appropriate filter for your use case, you
+If you can't find an appropriate filter for your use case, you
 can write your own custom filter. It can be any callable (closure,
 function or object with __invoke method).
 
@@ -686,10 +681,70 @@ Phug::setFilter('upper-start', function ($inputString, $options) {
 Phug::display('
 div
   :upper-start(length=3)
-    Youpee
+    gggggg
+');
 ```
 
 This will output:
 ```html
-<div>YOUpee</div>
+<div>GGGggg</div>
+```
+
+The same goes for **Pug-php**:
+
+```php
+$pug = new Pug();
+$pug->setFilter('upper-start', function ($inputString, $options) {
+  return strtoupper(mb_substr($inputString, 0, $options['length'])).
+    mb_substr($inputString, $options['length']);
+});
+
+$pug->display('
+div
+  :upper-start(length=3)
+    gggggg
+');
+```
+
+**Phug** comes with `cdata` filter pre-installed:
+```phug
+data
+  :cdata
+    <![CDATA[
+      Since this is a CDATA section
+      I can use all sorts of reserved characters
+      like > < " and &
+      or write things like
+      <foo></bar>
+      but my document is still well formed!
+    ]]>
+```
+
+**Pug-php** pre-install `JsTransformerExtension` and embed `cdata`,
+`css`, `escaped`, `javascript`, `php`, `pre`, `script`
+and if you not set the `filterAutoLoad` to `false`, it will load
+automatically as filter any invokable class in the `Pug\Filter`
+namespace:
+
+```pug
+doctype html
+html
+  head
+    :css
+      a {
+        color: red;
+      }
+  body
+    :php
+      $calcul = 9 + 8
+    p=calcul
+    :escaped
+      <foo>
+    :pre
+      div
+        h1 Example of Pug code
+    :javascript
+      console.log('Hello')
+    :script
+      console.log('Alias of javascript')
 ```

@@ -639,3 +639,123 @@ Phug::render($source, [], [
 ]);
 // => '<img src="foo.png">'
 ```
+
+## Filtres
+
+Les filtres vous permettent d'utiliser d'autres languages dans vos
+templates Pug. Ils prennent un bloc de texte comme entrée.
+
+Pour passer des options au filtre, ajouter les entre parenthèses
+après le nom du filtre comme vous le fériez pour les 
+[attributs de balises](#attributs)): `:less(compress=false)`.
+
+Tous les [modules JSTransformer](https://www.npmjs.com/browse/keyword/jstransformer)
+peuvent être utilisés comme des filtres. Par exemple
+:babel, :uglify-js, :scss, ou :markdown-it. Consultez la documentation
+du JSTransformer pour connaître les options supportées par ce
+filtre spécifique.
+
+Pour utiliser JSTransformer avec **Phug**, installez l'extension
+suivante :
+
+```shell
+composer require phug/js-transformer-filter
+```
+
+Puis activez-la :
+
+```php
+use Phug\JsTransformerExtension;
+use Phug\Phug;
+
+Phug::addExtension(JsTransformerExtension::class);
+```
+
+Avec **Pug-php**, cette extension est déjà installée et activée
+par défaut depuis la version 3.0.1.
+
+Vous pouvez aussi utiliser les projets PHP suivants en tant que
+filtres dans n'importe quel projet **Phug** ou **Pug-php** :
+http://pug-filters.selfbuild.fr
+
+Si vous ne trouvez pas de filtre approprié pour votre cas
+d'utilisation, vous pouvez écrire vos propres filtres. Ce peut
+être n'importe quel *callable* (closure,
+fonction ou objet possédant une méthode __invoke).
+
+```php
+Phug::setFilter('maj-debut', function ($texte, $options) {
+  return strtoupper(mb_substr($texte, 0, $options['longueur'])).
+    mb_substr($texte, $options['longueur']);
+});
+
+Phug::display('
+div
+  :maj-debut(longueur=3)
+    gggggg
+');
+```
+
+Ce qui va afficher :
+```html
+<div>GGGggg</div>
+```
+
+La même option est disponible dans **Pug-php** :
+
+```php
+$pug = new Pug();
+$pug->setFilter('maj-debut', function ($texte, $options) {
+  return strtoupper(mb_substr($texte, 0, $options['longueur'])).
+    mb_substr($texte, $options['longueur']);
+});
+
+$pug->display('
+div
+  :maj-debut(longueur=3)
+    gggggg
+');
+```
+
+**Phug** inclut le filtre `cdata` :
+```phug
+data
+  :cdata
+    <![CDATA[
+      Puisque c'est une section CDATA
+      Je peux utiliser toute sorte de caractères
+      comme > < " et &
+      ou écrire des choses comme
+      <machin></chose>
+      mais mon document reste bien formé
+    ]]>
+```
+
+**Pug-php** pré-installe `JsTransformerExtension` et embarque `cdata`,
+`css`, `escaped`, `javascript`, `php`, `pre`, `script`
+et si vous n'avez pas réglé l'option `filterAutoLoad` à `false`, toutes
+les classes *invokable* du namespace `Pug\Filter` seront chargées comme
+filtres automatiquement :
+
+```pug
+doctype html
+html
+  head
+    :css
+      a {
+        color: red;
+      }
+  body
+    :php
+      $calcul = 9 + 8
+    p=calcul
+    :escaped
+      <truc>
+    :pre
+      div
+        h1 Exemple de code Pug
+    :javascript
+      console.log('Salut')
+    :script
+      console.log('Alias pour javascript')
+```
