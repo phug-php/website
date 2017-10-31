@@ -662,7 +662,7 @@ Phug::addExtension(JsTransformerExtension::class);
 ```
 
 With **Pug-php**, this extension is installed and enabled by
-default since 3.0.1 version.
+default since 3.1.0 version.
 
 You can also use any of the following PHP projects as filter
 in all **Phug** and **Pug-php** projects:
@@ -710,14 +710,12 @@ div
 ```phug
 data
   :cdata
-    <![CDATA[
-      Since this is a CDATA section
-      I can use all sorts of reserved characters
-      like > < " and &
-      or write things like
-      <foo></bar>
-      but my document is still well formed!
-    ]]>
+    Since this is a CDATA section
+    I can use all sorts of reserved characters
+    like > &lt; " and &
+    or write things like
+    &lt;foo>&lt;/bar>
+    but my document is still well formed!
 ```
 
 **Pug-php** pre-install `JsTransformerExtension` and embed `cdata`,
@@ -739,7 +737,7 @@ html
       $calcul = 9 + 8
     p=calcul
     :escaped
-      <foo>
+      &lt;foo>
     :pre
       div
         h1 Example of Pug code
