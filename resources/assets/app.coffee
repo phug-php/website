@@ -64,7 +64,7 @@ $ ->
         varsLines = vars.split(/\n/g).length
         lines += varsLines
         $vars.remove()
-      fileName = code.match /^(#|\/\*|\/\/-?)\s*([\w\/]+\.\w{2,4})\s*(\*\/)?\n/
+      fileName = code.match /^(#|\/\*|\/\/-?)\s*([\w\/-]+\.\w{2,4})\s*(\*\/)?\n/
       language = null
       if $code.hasClass('language-js') or $code.hasClass('language-javascript')
         language = 'javascript'

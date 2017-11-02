@@ -921,22 +921,18 @@ extends layout.pug
 block content
   .sidebar
     block sidebar
-      p nothing
   .primary
     block primary
-      p nothing
 ```
 ```phug
 //- page-b.pug
 extends sub-layout.pug
 
-block content
-  .sidebar
-    block sidebar
-      p nothing
-  .primary
-    block primary
-      p nothing
+block sidebar
+  p something
+
+block primary
+  p something
 ```
 
 ### Block `append` / `prepend`
@@ -974,7 +970,7 @@ optional:
 
 ```phug
 //- page.pug
-extends page-layout
+extends page-layout.pug
 
 append head
   script(src='/vendor/three.js')
