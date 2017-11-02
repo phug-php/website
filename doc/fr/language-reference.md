@@ -1,4 +1,10 @@
-# Language reference
+# Référence du language
+
+Comme **Phug** est aligné sur pugjs, ce chapitre est quasiment
+le même que celui que vous pouvez trouver sur la documentation
+de [pugjs](https://pugjs.org) à lexception des spécificités de
+**Phug** et des éditeurs de code qui vous permettent de tester
+le rendu du moteur **Phug**.
 
 ## Attributs
 
