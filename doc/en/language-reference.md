@@ -746,3 +746,93 @@ html
     :script
       console.log('Alias of javascript')
 ```
+
+## Includes
+
+Includes allow you to insert the contents of one Pug file into another.
+
+```phug
+//- index.pug
+doctype html
+html
+  include includes/head.pug
+  body
+    h1 My Site
+    p Welcome to my super lame site.
+    include includes/foot.pug
+```
+
+```phug
+//- includes/head.pug
+head
+  title My Site
+  script(src='/javascripts/jquery.js')
+  script(src='/javascripts/app.js')
+```
+
+```phug
+//- includes/foot.pug
+footer#footer
+  p Copyright (c)
+    =date(' Y')
+```
+
+If the path is absolute (e.g., `include /root.pug`), it is resolved
+from [paths option](#paths). This option works like the `basedir` in
+pugjs but allow you to specify multiple directories. The `basdir`
+option also exists in **Pug-php** to provide full pugjs options
+supports but we recommend you prefer `paths`.
+
+Otherwise, paths are resolved relative to the current file being
+compiled.
+
+If no file extension is given, `.pug` is automatically appended to
+the file name.
+
+### Including Plain Text
+
+Including non-Pug files simply includes their raw text.
+
+```phug
+//- index.pug
+doctype html
+html
+  head
+    style
+      include style.css
+  body
+    h1 My Site
+    p Welcome to my super lame site.
+    script
+      include script.js
+```
+```css
+/* style.css */
+h1 {
+  color: red;
+}
+```
+```js
+// script.js
+console.log('You are awesome');
+```
+
+### Including Filtered Text
+
+You can combine filters with includes, allowing you to filter
+things as you include them.
+
+```phug
+//- index.pug
+doctype html
+html
+  head
+    title An article
+  body
+    include:markdown article.md
+```
+```markdown
+# article.md
+
+This is an article written in markdown.
+```

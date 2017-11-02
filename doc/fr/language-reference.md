@@ -757,3 +757,96 @@ html
     :script
       console.log('Alias pour javascript')
 ```
+
+## Include
+
+Le mot-clé `include` vous permet d'insérer le contenu d'un fichier Pug
+dans un autre.
+
+```phug
+//- index.pug
+doctype html
+html
+  include includes/head.pug
+  body
+    h1 Mon site web
+    p Bienvenue sur mon super site
+    include includes/foot.pug
+```
+
+```phug
+//- includes/head.pug
+head
+  title Mon site web
+  script(src='/javascripts/jquery.js')
+  script(src='/javascripts/app.js')
+```
+
+```phug
+//- includes/foot.pug
+footer#footer
+  p Tous droits réservés
+    =date(' Y')
+```
+
+Si le chemin est absolu (c.f. `include /racine.pug`), it sera résolus
+depuis les chemins choisis via l'[option paths](#paths). Cette option
+fonctionne comme `basedir` dans
+pugjs mais permet de spécifier plusieurs dossiers. L'option `basdir`
+existe aussi dans **Pug-php** pour fournir une pleine compatibilité
+avec les options de pugjs mais nous vous recommandons d'utiliser
+`paths` de préférence.
+
+Sinon, les chemins sont résolus relativement au fichier courrant en
+court de compilation.
+
+Si le fichier n'a pas d'extension, `.pug` sera ajouté automatiquement.
+
+### Inclusion de texte brut
+
+Tout autre fichier que les fichiers pug seront simplement inclus
+comme du texte brut.
+
+```phug
+//- index.pug
+doctype html
+html
+  head
+    style
+      include style.css
+  body
+    h1 Mon site web
+    p Bienvenue sur mon super site
+    script
+      include script.js
+```
+```css
+/* style.css */
+h1 {
+  color: red;
+}
+```
+```js
+// script.js
+console.log('Vous êtes fantastique');
+```
+
+### Inclusion de texte filtré
+
+Vous pouvez appliquer des filtres lors de l'inclusion, ce qui vous
+permet de gérer d'autres formats de fichiers.
+
+```phug
+//- index.pug
+doctype html
+html
+  head
+    title Un article
+  body
+    include:markdown article.md
+```
+```markdown
+# article.md
+
+Ceci est un article écrit en markdown.
+```
