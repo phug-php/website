@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('index', [
         'anchor' => Session::pull('anchor'),
     ]);
-});
+})->name('home');
 
 Route::get('/lang', function () {
     Session::flash('anchor', request('anchor'));

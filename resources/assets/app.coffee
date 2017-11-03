@@ -46,7 +46,8 @@ $ ->
         group.push $a
       return
     do dumpGroup
-    $section.find('pre > code').filter('.language-phug, .language-pug').each ->
+    selector = (('.language-' + lang) for lang in ['phug', 'pug', 'css', 'js', 'javascript', 'markdown']).join(', ')
+    $section.find('pre > code').filter(selector).each ->
       $code = $ @
       $pre = $code.parent()
       lineHeight = 14
@@ -63,9 +64,16 @@ $ ->
         varsLines = vars.split(/\n/g).length
         lines += varsLines
         $vars.remove()
-      startComment = code.match /^\/[\/\*]-?\s([\w\/]+\.[a-z]{2,4})(\s\*\/)?\n/
-      saveAs = if startComment
-        encodeURIComponent startComment[1]
+      fileName = code.match /^(#|\/\*|\/\/-?)\s*([\w\/-]+\.\w{2,4})\s*(\*\/)?\n/
+      language = null
+      if $code.hasClass('language-js') or $code.hasClass('language-javascript')
+        language = 'javascript'
+      else if $code.hasClass('language-css')
+        language = 'css'
+      else if $code.hasClass('language-markdown')
+        language = 'markdown'
+      saveAs = if fileName
+        fileName[2]
       else
         ''
       $pre.replaceWith '<iframe data-src="https://pug-demo.herokuapp.com/' +
@@ -73,6 +81,12 @@ $ ->
         '&engine=' + (if $code.hasClass('language-phug') then 'phug' else 'pug-php') +
         '&input=' + encodeURIComponent(code) +
         '&save_as=' + saveAs +
+        (if language
+          '&language=' + language +
+          '&hide-output'
+        else
+          ''
+        ) +
         (if vars
           '&vars=' + encodeURIComponent(vars) + '&vars-height=' + (varsLines * 100 / (outputLines + 2 + varsLines))
         else

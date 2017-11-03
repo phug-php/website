@@ -1,5 +1,11 @@
 # Language reference
 
+As **Phug** aims to be pugjs compliant, the language reference
+is nearly the same as the one you can find for
+[pugjs](https://pugjs.org) and this chapter follow the pugjs
+one content except for **Phug** specificities and live code
+editors that allows you to test with the **Phug** engine.
+
 ## Attributes
 
 Tag attributes look similar to HTML (with optional commas),
@@ -749,8 +755,7 @@ html
 
 ## Includes
 
-Includes allow you to insert the contents of one Pug file into
-another.
+Includes allow you to insert the contents of one Pug file into another.
 
 ```phug
 //- index.pug
@@ -762,6 +767,7 @@ html
     p Welcome to my super lame site.
     include includes/foot.pug
 ```
+
 ```phug
 //- includes/head.pug
 head
@@ -769,8 +775,235 @@ head
   script(src='/javascripts/jquery.js')
   script(src='/javascripts/app.js')
 ```
+
 ```phug
 //- includes/foot.pug
 footer#footer
-  p Copyright (c) foobar
+  p Copyright (c)
+    =date(' Y')
 ```
+
+If the path is absolute (e.g., `include /root.pug`), it is resolved
+from [paths option](#paths). This option works like the `basedir` in
+pugjs but allow you to specify multiple directories. The `basdir`
+option also exists in **Pug-php** to provide full pugjs options
+supports but we recommend you prefer `paths`.
+
+Otherwise, paths are resolved relative to the current file being
+compiled.
+
+If no file extension is given, `.pug` is automatically appended to
+the file name.
+
+### Including Plain Text
+
+Including non-Pug files simply includes their raw text.
+
+```phug
+//- index.pug
+doctype html
+html
+  head
+    style
+      include style.css
+  body
+    h1 My Site
+    p Welcome to my super lame site.
+    script
+      include script.js
+```
+```css
+/* style.css */
+h1 {
+  color: red;
+}
+```
+```js
+// script.js
+console.log('You are awesome');
+```
+
+### Including Filtered Text
+
+You can combine filters with includes, allowing you to filter
+things as you include them.
+
+```phug
+//- index.pug
+doctype html
+html
+  head
+    title An article
+  body
+    include:markdown article.md
+```
+```markdown
+# article.md
+
+This is an article written in markdown.
+```
+
+## Template Inheritance
+
+**Phug** supports template inheritance. Template inheritance works
+via the `block` and `extends` keywords.
+
+In a template, a `block` is simply a “block” of Pug that a child
+template may replace. This process is recursive.
+
+**Phug** blocks can provide default content, if appropriate. Providing
+default content is purely optional, though. The example below
+defines `block scripts`, `block content`, and `block foot`.
+
+```phug
+//- layout.pug
+html
+  head
+    title My Site - #{$title}
+    block scripts
+      script(src='/jquery.js')
+  body
+    block content
+    block foot
+      #footer
+        p some footer content
+```
+```vars
+[
+  'title' => 'Blog',
+]
+```
+*&#42;No `$` needed if you [use JS-style](#use-javascript-expressions)*
+
+To extend this layout, create a new file and use the `extends`
+directive with a path to the parent template. (If no file
+extension is given, `.pug` is automatically appended to the
+file name.) Then, define one or more blocks to override the
+parent block content.
+
+Below, notice that the `foot` block is *not* redefined, so it
+will use the parent's default and output “some footer content”.
+
+```phug
+//- page-a.pug
+extends layout.pug
+
+block scripts
+  script(src='/jquery.js')
+  script(src='/pets.js')
+
+block content
+  h1= $title
+  each $petName in $pets
+    include pet.pug
+```
+```vars
+[
+  'title' => 'Blog',
+  'pets'  => ['cat', 'dog']
+]
+```
+```phug
+//- pet.pug
+p= $petName
+```
+*&#42;No `$` needed if you [use JS-style](#use-javascript-expressions)*
+
+It's also possible to override a block to provide additional blocks, as
+shown in the following example. As it shows, `content` now exposes a
+`sidebar` and `primary` block for overriding. (Alternatively, the child
+template could override `content` altogether.)
+
+```phug
+//- sub-layout.pug
+extends layout.pug
+
+block content
+  .sidebar
+    block sidebar
+  .primary
+    block primary
+```
+```phug
+//- page-b.pug
+extends sub-layout.pug
+
+block sidebar
+  p something
+
+block primary
+  p something
+```
+
+### Block `append` / `prepend`
+
+**Phug** allows you to `replace` (default), `prepend`, or `append` blocks.
+
+Suppose you have default scripts in a `head` block that you wish to use on
+every page. You might do this:
+
+```phug
+//- page-layout.pug
+html
+  head
+    block head
+      script(src='/vendor/jquery.js')
+      script(src='/vendor/caustic.js')
+  body
+    block content
+```
+
+Now, consider a page of your JavaScript game. You want some game related
+scripts as well as these defaults. You can simply `append` the block:
+
+```phug
+//- page.pug
+extends page-layout.pug
+
+block append head
+  script(src='/vendor/three.js')
+  script(src='/game.js')
+```
+
+When using `block append` or `block prepend`, the word “`block`” is
+optional:
+
+```phug
+//- page.pug
+extends page-layout.pug
+
+append head
+  script(src='/vendor/three.js')
+  script(src='/game.js')
+```
+
+### Common mistakes
+
+**Phug**'s template inheritance is a powerful feature that allows you to split
+complex page template structures into smaller, simpler files. However,
+if you chain many, many templates together, you can make things a lot
+more complicated for yourself.
+
+Note that **only named blocks and mixin definitions** can appear at the top
+(unindented) level of a child template. This is important! Parent templates
+define a page’s overall structure, and child templates can only `append`,
+`prepend`, or replace specific blocks of markup and logic. If a child
+template tried to add content outside of a block, Pug would have no way of
+knowing where to put it in the final page.
+
+This includes [unbuffered code](#unbuffered-code),
+which can also contain markup. If you need to
+define variables for use in a child template, you can do so a few different
+ways:
+
+- Add the variables to the Pug [options](#options) object, or define them
+in unbuffered code in a parent template. The child template will inherit
+these variables.
+- Define the variables *in a block* in the child template. Extending templates
+must have at least one block, or it would be empty — just define your
+variables there.
+
+For the same reason, **Phug**'s [buffered comments](#comments) cannot
+appear at the top level of an extending template: they produce HTML comments
+which would have nowhere to go in the resulting HTML. (Unbuffered Pug
+comments, however, can still go anywhere.)
