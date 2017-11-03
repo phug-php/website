@@ -932,7 +932,7 @@ block sidebar
   p something
 
 block primary
-  p something
+  p something else
 ```
 
 ### Block `append` / `prepend`
@@ -940,7 +940,7 @@ block primary
 **Phug** allows you to `replace` (default), `prepend`, or `append` blocks.
 
 Suppose you have default scripts in a `head` block that you wish to use on
-every page. You might do this:
+every page, you might do this:
 
 ```phug
 //- page-layout.pug
@@ -986,24 +986,12 @@ more complicated for yourself.
 
 Note that **only named blocks and mixin definitions** can appear at the top
 (unindented) level of a child template. This is important! Parent templates
-define a page’s overall structure, and child templates can only `append`,
+define a page's overall structure, and child templates can only `append`,
 `prepend`, or replace specific blocks of markup and logic. If a child
-template tried to add content outside of a block, Pug would have no way of
-knowing where to put it in the final page.
+template tried to add content outside of a block, **Phug** would have no way
+of knowing where to put it in the final page.
 
 This includes [unbuffered code](#unbuffered-code),
-which can also contain markup. If you need to
-define variables for use in a child template, you can do so a few different
-ways:
-
-- Add the variables to the Pug [options](#options) object, or define them
-in unbuffered code in a parent template. The child template will inherit
-these variables.
-- Define the variables *in a block* in the child template. Extending templates
-must have at least one block, or it would be empty — just define your
-variables there.
-
-For the same reason, **Phug**'s [buffered comments](#comments) cannot
-appear at the top level of an extending template: they produce HTML comments
-which would have nowhere to go in the resulting HTML. (Unbuffered Pug
-comments, however, can still go anywhere.)
+which the placement can have an impact and [buffered comments](#comments) as
+they produce HTML comments which would have nowhere to go in the resulting
+HTML. (Unbuffered Pug comments, however, can still go anywhere.)
