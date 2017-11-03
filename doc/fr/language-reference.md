@@ -857,167 +857,166 @@ html
 Ceci est un article écrit en markdown.
 ```
 
-## Template Inheritance
+## Héritage de template
 
-**Phug** supports template inheritance. Template inheritance works
-via the `block` and `extends` keywords.
+**Phug** supporte l'héritage de template via les mots-clés
+`block` et `extends`.
 
-In a template, a `block` is simply a “block” of Pug that a child
-template may replace. This process is recursive.
+Dans un template, un `block` est simplement un “bloc” de code Pug
+qu'un template enfant peut remplacer. The processus est récursif.
 
-**Phug** blocks can provide default content, if appropriate. Providing
-default content is purely optional, though. The example below
-defines `block scripts`, `block content`, and `block foot`.
+Les blocs **Phug** peuvent fournir un contenu par défaut, si approprié.
+Ce qui reste purement optionnel. L'exemple ci-dessous définit
+`block scripts`, `block contenu`, et `block pied`.
 
 ```phug
-//- layout.pug
+//- disposition.pug
 html
   head
-    title My Site - #{$title}
+    title Mon site web - #{$titre}
     block scripts
       script(src='/jquery.js')
   body
-    block content
-    block foot
-      #footer
-        p some footer content
+    block contenu
+    block pied
+      #pied-de-page
+        p Contenu du pied de page
 ```
 ```vars
 [
-  'title' => 'Blog',
+  'titre' => 'Journal',
 ]
 ```
-*&#42;No `$` needed if you [use JS-style](#use-javascript-expressions)*
+*&#42;Pas besoin de `$` si vous
+[utilisez des expressions JS](#utiliser-des-expressions-javascript)*
 
-To extend this layout, create a new file and use the `extends`
-directive with a path to the parent template. (If no file
-extension is given, `.pug` is automatically appended to the
-file name.) Then, define one or more blocks to override the
-parent block content.
+Pour étendre cette disposition, créez un nouveau fichier et utilisez
+la directive `extends` avec un chemin vers le template parent.
+(Si aucune extension de fichier n'est fournie, `.pug` sera ajouté
+automatiquement au nom de fichier.) Puis définissez un ou plusieurs
+blocs à remplacer.
 
-Below, notice that the `foot` block is *not* redefined, so it
-will use the parent's default and output “some footer content”.
+Ci-dessous notez que le bloc `pied` *n'est pas* redéfini, donc il
+va utiliser le contenu par défaut reçu du parent et afficher
+“Contenu du pied de page”.
 
 ```phug
 //- page-a.pug
-extends layout.pug
+extends disposition.pug
 
 block scripts
   script(src='/jquery.js')
   script(src='/pets.js')
 
-block content
-  h1= $title
-  each $petName in $pets
-    include pet.pug
+block contenu
+  h1= $titre
+  each $nom in $animaux
+    include animal.pug
 ```
 ```vars
 [
-  'title' => 'Blog',
-  'pets'  => ['cat', 'dog']
+  'titre' => 'Blog',
+  'animaux'  => ['chat', 'chien']
 ]
 ```
 ```phug
-//- pet.pug
-p= $petName
+//- animal.pug
+p= $nom
 ```
-*&#42;No `$` needed if you [use JS-style](#use-javascript-expressions)*
+*&#42;Pas besoin de `$` si vous
+[utilisez des expressions JS](#utiliser-des-expressions-javascript)*
 
-It's also possible to override a block to provide additional blocks, as
-shown in the following example. As it shows, `content` now exposes a
-`sidebar` and `primary` block for overriding. (Alternatively, the child
-template could override `content` altogether.)
+Il est aussi possible de remplacer un bloc en fournissant des blocs
+supplémentaires, comme montré dans l'exemple ci-dessous.
+Ici, `contenu` expose désormais deux nouveaux blocs
+`menu` et `principal` qui pourront à leur tour être remplacés.
+(Alternativement, le template enfant pourrait aussi remplacer le
+bloc `contenu` en entier.)
 
 ```phug
-//- sub-layout.pug
-extends layout.pug
+//- sous-disposition.pug
+extends disposition.pug
 
 block content
-  .sidebar
-    block sidebar
-  .primary
-    block primary
+  .menu
+    block menu
+  .principal
+    block principal
 ```
 ```phug
 //- page-b.pug
-extends sub-layout.pug
+extends sous-disposition.pug
 
-block sidebar
-  p something
+block menu
+  p Quelque chose
 
-block primary
-  p something
+block principal
+  p Autre chose
 ```
 
-### Block `append` / `prepend`
+### Directives `append` / `prepend`
 
-**Phug** allows you to `replace` (default), `prepend`, or `append` blocks.
+**Phug** permet de replacer un bloc avec `replace` (également par défaut),
+insérer au début du bloc avec `prepend`, ou d'ajouter à la fin du bloc
+avec `append`.
 
-Suppose you have default scripts in a `head` block that you wish to use on
-every page. You might do this:
+Par exemple si vous avez des scripts par défaut dans un bloc `head` et
+que vous souhaitez les utiliser sur toutes les pages, vous pouvez faire
+ceci :
 
 ```phug
-//- page-layout.pug
+//- page-disposition.pug
 html
   head
     block head
       script(src='/vendor/jquery.js')
       script(src='/vendor/caustic.js')
   body
-    block content
+    block contenu
 ```
 
-Now, consider a page of your JavaScript game. You want some game related
-scripts as well as these defaults. You can simply `append` the block:
+Maintenant, imaginons une page de votre jeu JavaScript. Vous voulez
+certains scripts relatif au jeu en plus des scripts par défaut. Vous
+pouvez simplement utiliser `append` :
 
 ```phug
 //- page.pug
-extends page-layout.pug
+extends page-disposition.pug
 
 block append head
   script(src='/vendor/three.js')
   script(src='/game.js')
 ```
 
-When using `block append` or `block prepend`, the word “`block`” is
-optional:
+Quand vous utilisez `block append` ou `block prepend`, le mot “`block`”
+est optionnel :
 
 ```phug
 //- page.pug
-extends page-layout.pug
+extends page-disposition.pug
 
 append head
   script(src='/vendor/three.js')
   script(src='/game.js')
 ```
 
-### Common mistakes
+### Erreurs fréquentes
 
-**Phug**'s template inheritance is a powerful feature that allows you to split
-complex page template structures into smaller, simpler files. However,
-if you chain many, many templates together, you can make things a lot
-more complicated for yourself.
+L'héritage dans **Phug** est une fonctionnalité puissante qui permet
+de séparer des structures de pages complexes en fichiers plus petits
+et plus simples. Cependant, si vous chaînez beaucoup, beaucoup de
+templates ensemble, vous pouvez rendre les choses plus compliquées
+pour vous-même.
 
-Note that **only named blocks and mixin definitions** can appear at the top
-(unindented) level of a child template. This is important! Parent templates
-define a page’s overall structure, and child templates can only `append`,
-`prepend`, or replace specific blocks of markup and logic. If a child
-template tried to add content outside of a block, Pug would have no way of
-knowing where to put it in the final page.
+Notez que **seuls les blocs nommés et les définitions de mixin**
+peuvent apparaître au premier niveau (non indenté) d'un template enfant.
+C'est important ! Les templates parents définissent une structure
+globale de page et les templates enfants peuvent seulement `append`,
+`prepend`, ou remplacer des blocs spécifiques de code ou de logique.
+Si un template enfant essaye d'ajouter du contenu en dehors d'un
+bloc, **Phug** n'aura aucun moyen de savoir où le mettre dans la page
+finale.
 
-This includes [unbuffered code](#unbuffered-code),
-which can also contain markup. If you need to
-define variables for use in a child template, you can do so a few different
-ways:
-
-- Add the variables to the Pug [options](#options) object, or define them
-in unbuffered code in a parent template. The child template will inherit
-these variables.
-- Define the variables *in a block* in the child template. Extending templates
-must have at least one block, or it would be empty — just define your
-variables there.
-
-For the same reason, **Phug**'s [buffered comments](#comments) cannot
-appear at the top level of an extending template: they produce HTML comments
-which would have nowhere to go in the resulting HTML. (Unbuffered Pug
-comments, however, can still go anywhere.)
+Ceci inclut [les codes non affichés](#code-non-affiche), dont le placement
+peut également avoir un impact et [les commentaires affichés](#commentaires)
+puisqu'ils produisent du code HTML.
