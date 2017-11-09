@@ -360,7 +360,7 @@ Les codes non affichés commencent par `-`. De base, rien ne sera
 affiché.
 
 ```phug
-- for ($x = 0; $x < 3; $x++)
+- for ($x = 0; $x &lt; 3; $x++)
   li article
 ```
 
@@ -633,17 +633,17 @@ l'[option doctype](#options-doctype).
 $source = 'img(src="foo.png")';
 
 Phug::render($source);
-// => '<img src="foo.png"/>'
+// => '&lt;img src="foo.png"/>'
 
 Phug::render($source, [], [
   'doctype' => 'xml',
 ]);
-// => '<img src="foo.png"></img>'
+// => '&lt;img src="foo.png">&lt;/img>'
 
 Phug::render($source, [], [
   'doctype' => 'html',
 ]);
-// => '<img src="foo.png">'
+// => '&lt;img src="foo.png">'
 ```
 
 ## Filtres
@@ -704,7 +704,7 @@ div
 
 Ce qui va afficher :
 ```html
-<div>GGGggg</div>
+&lt;div>GGGggg&lt;/div>
 ```
 
 La même option est disponible dans **Pug-php** :
@@ -1023,101 +1023,219 @@ puisqu'ils produisent du code HTML.
 
 ## Interpolation
 
-Pug provides operators for a variety of your different interpolative
-needs.
+**Phug** fournit différents opérateurs pour couvrir vos différents
+besoin en interpolations.
 
-### String Interpolation, Escaped
+### Interpolation de chaîne, échappée
 
-Consider the placement of the following template's locals: `title`,
-`author`, and `theGreat`.
-
-```phug
-- $title = "On Dogs: Man's Best Friend";
-- $author = "enlore";
-- $theGreat = "<span>escape!</span>";
-
-h1= $title
-p Written with love by #{$author}
-p This will be safe: #{$theGreat}
-```
-
-`title` follows the basic pattern for evaluating a template local, but
-the code in between `#{` and `}` is evaluated, escaped, and the result
-buffered into the output of the template being rendered.
-
-This can be any valid Javascript expression, so you can do whatever
-feels good.
+Considérons le code suivant :
 
 ```phug
-- $msg = "not my inside voice";
-p This is #{strtoupper($msg)}
+- $titre = "Les Misérables";
+- $auteur = "Victor Hugo";
+- $super = "&lt;span>echappé !&lt;/span>";
+
+h1= $titre
+p Écrit par #{$auteur}
+p Ceci va être fiable : #{$super}
 ```
 
-**Phug** is smart enough to figure out where the expression ends, so you can
-even include `}` without escaping.
+`titre` suit le schéma classique d'insertion de variable, mais
+les codes entre `#{` et `}` est évalué, échappé, et le résultat
+est inséré dans le texte.
+
+Vous pouvez insérer n'importe quelle expression valide :
 
 ```phug
-p No escaping for #{'}'}!
+- $msg = "pas ma voix intérieure";
+p Ce n'est #{strtoupper($msg)}
 ```
 
-If you need to include a verbatim `#{`, you can either escape it, or use
-interpolation.
-```phug
-p Escaping works with \#{interpolation}
-p Interpolation works with #{'#{interpolation}'} too!
-```
-
-### String Interpolation, Unescaped
+**Phug** est assez intelligent pour savoir où l'interpolation
+finit, même si par exemple ell contient `}` :
 
 ```phug
-- $riskyBusiness = "<em>Some of the girls are wearing my mother's clothing.</em>";
-.quote
-  p Joel: !{$riskyBusiness}
+p Pas besoin d'échappement pour #{'}'} !
 ```
 
-**Caution ! Keep in mind that buffering unescaped content into your
-templates can be mighty risky if that content comes fresh from your
-users.** Never trust user input!
+Si vous avez besoin d'insérer `#{` en tant que texte brut,
+vous pouvez également l'interpoler, ou bien le préfixer
+d'un anti-slash.
+```phug
+p Échappement par anti-slash \#{interpolation}
+p L'interpolation fonctionne aussi avec l'#{'#{interpolation}'} !
+```
 
-### Tag Interpolation
+### Interpolation de chaîne, non échappée
 
-Interpolation works not only on JavaScript values, but on Pug as well.
-Just use the tag interpolation syntax, like so:
+```phug
+- $affaireRisquée = "&lt;em>Il faut quand même faire attention.&lt;/em>";
+.citation
+  p Joël: !{$affaireRisquée}
+```
+
+**Attention ! Gardez à l'esprit que le code non échappé s'il vient
+directement d'une entrée utilisateur, présente un risque.**
+Ne faites jamais confiance aux entrées de l'utilisateur !
+
+### Interpolation de balise
+
+L'interpolation fonctionne aussi avec du code **Phug** en utilisant
+la syntaxe suivante :
 
 ```phug
 p.
-  This is a very long and boring paragraph that spans multiple lines.
-  Suddenly there is a #[strong strongly worded phrase] that cannot be
-  #[em ignored].
+  C'est un long et très ennuyeux paragraphe sur plusieurs lignes.
+  Soudainement il y a #[strong quelques mots en gras] qui ne
+  peuvent être #[em ignorés].
 p.
-  And here's an example of an interpolated tag with an attribute:
+  Et ici un exemple d'interpolation de balise avec un attribut:
   #[q(lang="es") ¡Hola Mundo!]
 ```
 
-You could accomplish the same thing by writing an HTML tag inline with
-your **Phug**… but then, what's the point of writing the **Phug**?
-Wrap an inline Pug tag declaration in `#[` and `]`, and it'll be
-evaluated and buffered into the content of its containing tag.
+Encapsulez une déclaration de balise entre `#[` et `]`, et il
+sera évalué et inséré dans le texte.
 
-### Whitespace Control
+### Contrôle des espaces blancs
 
-The tag interpolation syntax is especially useful for inline tags,
-where whitespace before and after the tag is significant.
+La syntaxe des interpolations de balises est particulièrement
+utile pour les balises *inline*, lorsque les espaces blancs
+avant et après sont important.
 
-By default, however, Pug removes all spaces before and after tags.
-Check out the following example:
+Par défaut, cependant, **Phug** supprime les espaces blancs
+entre les balises. Voyez dans cet exemple :
 
 ```phug
 p
-  | If I don't write the paragraph with tag interpolation, tags like
+  | Si vous écrivez ce paragraphe sans interpolations, les balises comme
   strong strong
-  | and
+  | et
   em em
-  | might produce unexpected results.
+  | pourrait produire des résultats inattendus.
 p.
-  If I do, whitespace is #[strong respected] and #[em everybody] is happy.
+  Avec l'interpolation, les espaces blancs sont #[strong respectés] et #[em tout le monde] est content.
 ```
 
-See the whitespace section in the
-[Plain Text](#plain-text)
-page for more discussion on this topic.
+Consultez la section [Text brut](#texte-brut)
+pour plus d'information et exemples à ce sujet.
+
+## Itération
+
+**Phug** supporte principalement 2 methodes d'itération :
+`each` et `while`.
+
+### each
+
+`each` est le moyen le plus simple de parcourir des
+arrays et des  objets dans un template :
+
+Style PHP :
+```phug
+ul
+  each $val in [1, 2, 3, 4, 5]
+    li= $val
+```
+
+[Style JS](#utiliser-des-expressions-javascript) :
+```pug
+ul
+  each val in [1, 2, 3, 4, 5]
+    li= val
+```
+
+Vous pouvez aussi récupérer l'index lorsque vous itérez :
+
+Style PHP :
+```phug
+ul
+  each $val, $index in ['zéro', 'un', 'deux']
+    li= $index . ' : ' . $val
+```
+
+[Style JS](#utiliser-des-expressions-javascript) :
+```pug
+ul
+  each val, index in ['zéro', 'un', 'deux']
+    li= index + ' : ' + val
+```
+
+**Phug** permet aussi d'iétérer les clés d'un objet :
+
+Style PHP :
+```phug
+ul
+  each $val, $index in (object) ['un' => 'UN', 'deux' => 'DEUX', 'trois' => 'TROIS']
+    li= $index . ' : ' . $val
+```
+
+[Style JS](#utiliser-des-expressions-javascript) :
+```pug
+ul
+  each val, index in {un: 'UN', deux: 'DEUX', trois: 'TROIS'}
+    li= index + ' : ' + val
+```
+
+L'objet ou l'array que vous itérez peut être une variable,
+le résultat d'une fonction, ou à peu près n'importe quoi d'autre.
+
+Style PHP :
+```phug
+- $valeurs = []
+ul
+  each $val in count($valeurs) ? $valeurs : ["Il n'y a aucune valeur"]
+    li= $val
+```
+
+[Style JS](#utiliser-des-expressions-javascript) :
+```pug
+- var valeurs = [];
+ul
+  each val in valeurs.length ? valeurs : ["Il n'y a aucune valeur"]
+    li= val
+```
+
+Vous pouvez aussi ajouter un bloc `else` qui sera exécuté si l'array
+ou l'objet ne contien aucun élément à itérer. Le code ci-dessous est
+donc équivalent aux exemples ci-dessus :
+
+Style PHP :
+```phug
+- $valeurs = []
+ul
+  each $val in $valeurs
+    li= $val
+  else
+    li Il n'y a aucune valeur
+```
+
+[Style JS](#utiliser-des-expressions-javascript) :
+```pug
+- var valeurs = [];
+ul
+  each val in valeurs
+    li= val
+  else
+    li Il n'y a aucune valeur
+```
+
+Vous pouvez aussi utiliser `for` comme un alias de `each`.
+
+Une fonctionnalité spéciales de **Phug** (non disponible dans
+pugjs) permet aussi d'utiliser `for` comme une boucle PHP :
+
+```phug
+ul
+  for $n = 0; $n &lt; 4; $n++
+    li= $n
+```
+
+### while
+
+Vous pouvez aussi créer des boucles avec `while` :
+
+```phug
+- $n = 0
+ul
+  while $n &lt; 4
+    li= $n++
+```

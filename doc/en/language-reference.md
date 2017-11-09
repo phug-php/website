@@ -353,7 +353,7 @@ Unbuffered code starts with `-`. It does not directly add
 anything to the output.
 
 ```phug
-- for ($x = 0; $x < 3; $x++)
+- for ($x = 0; $x &lt; 3; $x++)
   li item
 ```
 
@@ -623,17 +623,17 @@ so via the [doctype option](#options-doctype).
 $source = 'img(src="foo.png")';
 
 Phug::render($source);
-// => '<img src="foo.png"/>'
+// => '&lt;img src="foo.png"/>'
 
 Phug::render($source, [], [
   'doctype' => 'xml',
 ]);
-// => '<img src="foo.png"></img>'
+// => '&lt;img src="foo.png">&lt;/img>'
 
 Phug::render($source, [], [
   'doctype' => 'html',
 ]);
-// => '<img src="foo.png">'
+// => '&lt;img src="foo.png">'
 ```
 
 ## Filters
@@ -693,7 +693,7 @@ div
 
 This will output:
 ```html
-<div>GGGggg</div>
+&lt;div>GGGggg&lt;/div>
 ```
 
 The same goes for **Pug-php**:
@@ -998,18 +998,16 @@ HTML. (Unbuffered Pug comments, however, can still go anywhere.)
 
 ## Interpolation
 
-Pug provides operators for a variety of your different interpolative
+**Phug** provides operators for a variety of your different interpolative
 needs.
 
 ### String Interpolation, Escaped
 
-Consider the placement of the following template's locals: `title`,
-`author`, and `theGreat`.
-
+Consider the following code:
 ```phug
 - $title = "On Dogs: Man's Best Friend";
 - $author = "enlore";
-- $theGreat = "<span>escape!</span>";
+- $theGreat = "&lt;span>escape!&lt;/span>";
 
 h1= $title
 p Written with love by #{$author}
@@ -1020,7 +1018,7 @@ p This will be safe: #{$theGreat}
 the code in between `#{` and `}` is evaluated, escaped, and the result
 buffered into the output of the template being rendered.
 
-This can be any valid Javascript expression, so you can do whatever
+This can be any valid expression, so you can do whatever
 feels good.
 
 ```phug
@@ -1045,7 +1043,7 @@ p Interpolation works with #{'#{$interpolation}'} too!
 ### String Interpolation, Unescaped
 
 ```phug
-- $riskyBusiness = "<em>Some of the girls are wearing my mother's clothing.</em>";
+- $riskyBusiness = "&lt;em>Some of the girls are wearing my mother's clothing.&lt;/em>";
 .quote
   p Joel: !{$riskyBusiness}
 ```
@@ -1056,7 +1054,7 @@ users.** Never trust user input!
 
 ### Tag Interpolation
 
-Interpolation works not only on JavaScript values, but on Pug as well.
+Interpolation works with **Phug** as well.
 Just use the tag interpolation syntax, like so:
 
 ```phug
@@ -1069,9 +1067,7 @@ p.
   #[q(lang="es") ¡Hola Mundo!]
 ```
 
-You could accomplish the same thing by writing an HTML tag inline with
-your **Phug**… but then, what's the point of writing the **Phug**?
-Wrap an inline Pug tag declaration in `#[` and `]`, and it'll be
+Wrap an inline **Phug** tag declaration in `#[` and `]`, and it'll be
 evaluated and buffered into the content of its containing tag.
 
 ### Whitespace Control
@@ -1079,7 +1075,7 @@ evaluated and buffered into the content of its containing tag.
 The tag interpolation syntax is especially useful for inline tags,
 where whitespace before and after the tag is significant.
 
-By default, however, Pug removes all spaces before and after tags.
+By default, however, **Phug** removes all spaces before and after tags.
 Check out the following example:
 
 ```phug
@@ -1093,9 +1089,8 @@ p.
   If I do, whitespace is #[strong respected] and #[em everybody] is happy.
 ```
 
-See the whitespace section in the
-[Plain Text](#plain-text)
-page for more discussion on this topic.
+See the section [Plain Text](#plain-text)
+for more information and examples on this topic.
 
 ## Iteration
 
@@ -1103,8 +1098,8 @@ page for more discussion on this topic.
 
 ### each
 
-**Phug**'s first-class iteration syntax makes it easier to iterate over
-arrays and objects in a template:
+`each` is the easiest way to iterate over arrays and objects in
+a template:
 
 PHP-style:
 ```phug
@@ -1136,7 +1131,7 @@ ul
     li= index + ': ' + val
 ```
 
-Pug also lets you iterate over the keys in an object:
+**Phug** also lets you iterate over the keys in an object:
 
 PHP-style:
 ```phug
@@ -1152,9 +1147,8 @@ ul
     li= index + ': ' + val
 ```
 
-The object or array to iterate over is just plain JavaScript.
-So, it can be a variable, or the result of a function call,
-or almost anything else.
+The object or array to iterate over can be a variable, or the
+result of a function call, or almost anything else.
 
 PHP-style:
 ```phug
@@ -1203,17 +1197,17 @@ to use `for` like a PHP for loop:
 
 ```phug
 ul
-  for $n = 0; $n < 4; $n++
+  for $n = 0; $n &lt; 4; $n++
     li= $n
 ```
 
 ### while
 
-You can also use while to create a loop:
+You can also use `while` to create a loop:
 
 ```phug
 - $n = 0
 ul
-  while $n < 4
+  while $n &lt; 4
     li= $n++
 ```
