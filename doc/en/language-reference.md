@@ -1211,3 +1211,32 @@ ul
   while $n &lt; 4
     li= $n++
 ```
+
+## Mixins
+
+Mixins allow you to create reusable blocks of **Phug**.
+
+```phug
+//- Declaration
+mixin list
+  ul
+    li foo
+    li bar
+    li baz
+//- Use
++list
++list
+```
+
+Mixins are compiled to functions, and can take arguments:
+```phug
+mixin pet($name)
+  li.pet= $name
+ul
+  +pet('cat')
+  +pet('dog')
+  +pet('pig')
+```
+
+No need to prefix parameters/variables with `$` if you
+[use JS-style](#use-javascript-expressions)
