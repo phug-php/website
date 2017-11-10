@@ -1240,3 +1240,81 @@ ul
 
 No need to prefix parameters/variables with `$` if you
 [use JS-style](#use-javascript-expressions)
+
+### Mixin Blocks
+
+Mixins can also take a block of Pug to act as the content:
+
+```phug
+mixin article($title)
+  .article
+    .article-wrapper
+      h1= $title
+      if $block
+        block
+      else
+        p No content provided
+
++article('Hello world')
+
++article('Hello world')
+  p This is my
+  p Amazing article
+```
+
+No need to prefix parameters/variables with `$` if you
+[use JS-style](#use-javascript-expressions)
+
+**Important**: in pugjs, the `block` variable is a function
+representation of the block. In **Phug**, we just pass a
+boolean as an helper to know if the mixin call has children
+elements. So you can use `$block` anywhere inside the mixin
+declaration (or just `block` if you
+[use JS-style](#use-javascript-expressions)) and you will
+get `true` if the block is filled, `false` if it's empty.
+
+### Mixin Attributes
+
+Mixins also get an implicit `attributes` argument, which is
+taken from the attributes passed to the mixin:
+
+PHP-style:
+```phug
+mixin link($href, $name)
+  //- attributes == {class: "btn"}
+  a(class!=$attributes['class'], href=$href)= $name
+
++link('/foo', 'foo')(class="btn")
+```
+
+[JS-style](#use-javascript-expressions):
+```pug
+- var values = [];
+mixin link(href, name)
+  //- attributes == {class: "btn"}
+  a(class!=attributes.class href=href)= name
+
++link('/foo', 'foo')(class="btn")
+```
+
+**Note: The values in `attributes` by default are already
+escaped!** You should use != to avoid escaping them a second
+time. (See also [unescaped attributes](#unescaped-attributes).)
+
+You can also use mixins with [`&attributes`](#language-reference-attributes):
+
+PHP-style:
+```phug
+mixin link($href, $name)
+  a(href=$href)&attributes($attributes)= $name
+
++link('/foo', 'foo')(class="btn")
+```
+
+[JS-style](#use-javascript-expressions):
+```pug
+mixin link(href, name)
+  a(href=href)&attributes(attributes)= name
+
++link('/foo', 'foo')(class="btn")
+```
