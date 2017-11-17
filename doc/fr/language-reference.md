@@ -1239,3 +1239,151 @@ ul
   while $n &lt; 4
     li= $n++
 ```
+
+## Mixins
+
+Les *mixins* permettent de créer des blocs de code **Phug**
+réutilisables.
+
+```phug
+//- Déclaration
+mixin liste
+  ul
+    li truc
+    li machin
+    li chose
+//- Utilisation
++liste
++liste
+```
+
+Les *mixins* sont compilés en fonctions et peuvent prendre
+des arguments :
+```phug
+mixin animal($nom)
+  li.animal= $nom
+ul
+  +animal('chat')
+  +animal('chien')
+  +animal('cochon')
+```
+
+Pas besoin de préfixer les paramètres/variables avec
+`$` si vous
+[utiliser le Style JS](#utiliser-des-expressions-javascript)
+
+### Blocs de mixin
+
+Les *mixins* peuvent aussi prendre un bloc de code **Phug**
+qui lui tiendra lieu de contenu :
+
+```phug
+mixin article($titre)
+  .article
+    .article-zone
+      h1= $titre
+      if $block
+        block
+      else
+        p Pas de contenu
+
++article('Salut tout le monde')
+
++article('Salut tout le monde')
+  p Ceci est mon
+  p Super article
+```
+
+Pas besoin de préfixer les paramètres/variables avec
+`$` si vous
+[utiliser le Style JS](#utiliser-des-expressions-javascript)
+
+**Important**: Dans pugjs, la variable `block` est une
+fonction représentant le bloc. Dans **Phug**, nous passons
+seulement un booléen comme indicateur vous permettant de
+savoir si l'appel au mixins contenant des éléments enfants.
+Donc vous pouvez utiliser `$block` n'importe où à l'intérieur
+de la déclaration du mixin (ou juste `block` si vous
+[utiliser le Style JS](#utiliser-des-expressions-javascript))
+et vous obtiendrez `true` si le bloc est rempli, `false`
+s'il est vide.
+
+### Attributs de mixin
+
+Les *mixins* peuvent aussi recevoir un argument implicite
+`attributes`, qui contient les attributs passé à l'appel
+du mixin :
+
+Style PHP :
+```phug
+mixin lien($href, $nom)
+  //- attributes == {class: "btn"}
+  a(class!=$attributes['class'], href=$href)= $nom
+
++lien('/foo', 'foo')(class="btn")
+```
+
+[Style JS](#utiliser-des-expressions-javascript) :
+```pug
+- var values = [];
+mixin lien(href, nom)
+  //- attributes == {class: "btn"}
+  a(class!=attributes.class href=href)= nom
+
++lien('/foo', 'foo')(class="btn")
+```
+
+**Note: Les valeurs dans `attributes` sont déjà échappées par défaut.**
+Vous devez donc utiliser `!=` pour éviter un double échappement.
+(Voir aussi [attributs bruts](#attributs-bruts).)
+
+Vous pouvez aussi appeler les mixins avec [`&attributes`](#attributes):
+
+Style PHP :
+```phug
+mixin lien($href, $nom)
+  a(href=$href)&attributes($attributes)= $nom
+
++lien('/foo', 'foo')(class="btn")
+```
+
+[Style JS](#utiliser-des-expressions-javascript) :
+```pug
+mixin lien(href, nom)
+  a(href=href)&attributes(attributes)= nom
+
++lien('/foo', 'foo')(class="btn")
+```
+
+**Note:** La syntaxe `+lien(class="btn")` est aussi valide et équivalente
+à `+lien()(class="btn")`, car **Phug** essaye de détecter si les contenus des
+parenthèses sont des attributs ou des arguments. Néanmoins nous vous
+encourageons à utiliser la seconde syntax, car vous passez explicitement
+aucun argument et vous vous assurrez que la première parenthèse est
+bien comprise comme la liste des arguments.
+
+### Arguments restants
+
+Vous pouvez écrire des mixins qui prennent un nombre inconnu d'arguments
+en utilisant la syntax des arguments restants (“rest arguments”).
+
+
+Style PHP :
+```phug
+mixin liste($id, ...$elements)
+  ul(id=$id)
+    each $element in $elements
+      li= $element
+
++liste('ma-liste', 1, 2, 3, 4)
+```
+
+[Style JS](#utiliser-des-expressions-javascript) :
+```pug
+mixin liste(id, ...elements)
+  ul(id=id)
+    each element in items
+      li= element
+
++liste('ma-liste', 1, 2, 3, 4)
+```

@@ -1243,7 +1243,7 @@ No need to prefix parameters/variables with `$` if you
 
 ### Mixin Blocks
 
-Mixins can also take a block of Pug to act as the content:
+Mixins can also take a block of **Phug** to act as the content:
 
 ```phug
 mixin article($title)
@@ -1298,7 +1298,7 @@ mixin link(href, name)
 ```
 
 **Note: The values in `attributes` by default are already
-escaped!** You should use != to avoid escaping them a second
+escaped!** You should use `!=` to avoid escaping them a second
 time. (See also [unescaped attributes](#unescaped-attributes).)
 
 You can also use mixins with [`&attributes`](#language-reference-attributes):
@@ -1317,4 +1317,36 @@ mixin link(href, name)
   a(href=href)&attributes(attributes)= name
 
 +link('/foo', 'foo')(class="btn")
+```
+
+**Note:** The syntax `+link(class="btn")` is also valid and equivalent
+to `+link()(class="btn")`, since **Phug** tries to detect if parentheses’
+contents are attributes or arguments. Nevertheless, we encourage you
+to use the second syntax, as you pass explicitly no arguments and you
+ensure the first parenthesis is the arguments list.
+
+### Rest Arguments
+
+You can write mixins that take an unknown number of arguments using the
+“rest arguments” syntax.
+
+
+PHP-style:
+```phug
+mixin list($id, ...$items)
+  ul(id=$id)
+    each $item in $items
+      li= $item
+
++list('my-list', 1, 2, 3, 4)
+```
+
+[JS-style](#use-javascript-expressions):
+```pug
+mixin list(id, ...items)
+  ul(id=id)
+    each item in items
+      li= item
+
++list('my-list', 1, 2, 3, 4)
 ```
