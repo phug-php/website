@@ -1350,3 +1350,29 @@ mixin list(id, ...items)
 
 +list('my-list', 1, 2, 3, 4)
 ```
+
+## Plain Text
+
+Pug provides four ways of getting *plain text* — that is, any code
+or text content that should go, mostly unprocessed, directly into
+the rendered HTML. They are useful in different situations.
+
+Plain text does still use tag and string
+[interpolation](#interpolations), but the
+first word on the line is not a **Phug** tag. And because plain
+text is not escaped, you can also include literal HTML.
+
+One common pitfall here is managing whitespace in the rendered
+HTML. We’ll talk about that at the end of this page.
+
+### Inline in a Tag
+
+The easiest way to add plain text is *inline*. The first term
+on the line is the tag itself. Everything after the tag and
+one space will be the text contents of that tag. This is
+most useful when the plain text content is short (or if
+you don’t mind lines running long).
+
+```phug
+p This is plain old <em>text</em> content.
+```
