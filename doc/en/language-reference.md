@@ -1353,12 +1353,12 @@ mixin list(id, ...items)
 
 ## Plain Text
 
-Pug provides four ways of getting *plain text* — that is, any code
+**Phug** provides four ways of getting *plain text* — that is, any code
 or text content that should go, mostly unprocessed, directly into
 the rendered HTML. They are useful in different situations.
 
 Plain text does still use tag and string
-[interpolation](#interpolations), but the
+[interpolation](#interpolation), but the
 first word on the line is not a **Phug** tag. And because plain
 text is not escaped, you can also include literal HTML.
 
@@ -1374,5 +1374,222 @@ most useful when the plain text content is short (or if
 you don’t mind lines running long).
 
 ```phug
-p This is plain old <em>text</em> content.
+p This is plain old &lt;em>text&lt;/em> content.
 ```
+
+### Literal HTML
+
+Whole lines are also treated as plain text when they begin with a
+left angle bracket (`<`), which may occasionally be useful for writing
+literal HTML tags in places that could otherwise be inconvenient.
+For example, one use case is
+[conditional comments](#conditional-comments).
+Since literal HTML tags do not get processed, they do not
+self-close, unlike **Phug** tags.
+
+```phug
+&lt;html>
+
+body
+  p Indenting the body tag here would make no difference.
+  p HTML itself isn't whitespace-sensitive.
+
+&lt;/html>
+```
+
+### Piped Text
+
+Another way to add plain text to templates is to prefix a line
+with a pipe character (`|`). This method is useful for mixing
+plain text with inline tags, as we discuss later, in the
+Whitespace Control section.
+
+```phug
+p
+  | The pipe always goes at the beginning of its own line,
+  | not counting indentation.
+```
+
+### Block in a Tag
+
+Often you might want large blocks of text within a tag.
+A good example is writing JavaScript and CSS code in
+the `script` and `style` tags. To do this, just add a `.`
+right after the tag name, or after the closing parenthesis,
+if the tag has [attributes](#attributes).
+
+There should be no space between the tag and the dot.
+Plain text contents of the tag must be indented one level:
+
+```phug
+script.
+  if (usingPug)
+    console.log('you are awesome')
+  else
+    console.log('use pug')
+```
+
+You can also create a dot block of plain text *after* other
+tags within the parent tag.
+
+```phug
+div
+  p This text belongs to the paragraph tag.
+  br
+  .
+    This text belongs to the div tag.
+```
+
+### Whitespace Control
+
+Managing the whitespace of the rendered HTML is one of the
+trickiest parts about learning Pug. Don't worry, though,
+you'll get the hang of it soon enough.
+
+You just need to remember two main points about how whitespace
+works. When compiling to HTML:
+
+ 1. **Phug** removes *indentation*, and all whitespace
+ *between* elements.
+    - So, the closing tag of an HTML element will touch
+    the opening tag of the next. This is generally not a
+    problem for block-level elements like paragraphs,
+    because they will still render as separate paragraphs
+    in the web browser (unless you have changed their CSS
+    `display` property). See the methods described below,
+    however, for when you do need to insert space between
+    elements.
+ 2. **Phug** *preserves* whitespace *within* elements,
+ including:
+    - all whitespace in the middle of a line of text,
+    - leading whitespace beyond the block indentation,
+    - trailing whitespace,
+    - line breaks within a plain text block, or between
+    consecutive piped lines.
+
+So… **Phug** drops the whitespace between tags, but keeps
+the whitespace inside them. The value here is that it gives
+you full control over whether tags and/or plain text should
+touch. It even lets you place tags in the middle of words.
+
+```phug
+| You put the em
+em pha
+| sis on the wrong syl
+em la
+| ble.
+```
+
+The trade-off is that it *requires* you to think about and
+take control over whether tags and text touch.
+
+If you need the text and/or tags to touch — perhaps you
+need a period to appear outside the hyperlink at the end
+of a sentence — this is easy, as it’s basically what
+happens unless you tell **Phug** otherwise.
+
+```phug
+a ...sentence ending with a link
+| .
+```
+
+If you need to *add* space, you have a few options:
+
+### Recommended Solutions
+
+You could add one or more empty piped lines — a pipe
+with either spaces or nothing after it. This will
+insert whitespace in the rendered HTML.
+
+```phug
+| Don't
+|
+button#self-destruct touch
+|
+| me!
+```
+
+If your inline tags don’t require many attributes,
+you may find it easiest to use tag interpolation,
+or literal HTML, within a plain text *block*.
+
+```phug
+p.
+  Using regular tags can help keep your lines short,
+  but interpolated tags may be easier to #[em visualize]
+  whether the tags and text are whitespace-separated.
+```
+
+### Not recommended
+
+Depending on where you need the whitespace, you
+could add an extra space at the beginning of the
+text (after the block indentation, pipe character,
+and/or tag). Or you could add a trailing space
+at the *end* of the text.
+
+**NOTE the trailing and leading spaces here:**
+
+```phug
+| Hey, check out 
+a(href="http://example.biz/kitteh.png") this picture
+|  of my cat!
+```
+
+The above solution works perfectly well, but is
+admittedly perhaps a little dangerous: many code
+editors by default will *remove* trailing whitespace
+on save. You and all your contributors may have
+to configure your editors to prevent automatic
+trailing whitespace removal.
+
+## Tags
+
+By default, text at the start of a line (or after
+only white space) represents an HTML tag. Indented
+tags are nested, creating the tree structure of
+HTML.
+
+```pug
+ul
+  li Item A
+  li Item B
+  li Item C
+```
+
+**Phug** also knows which elements are self-closing:
+
+```pug
+img
+```
+
+### Block Expansion
+
+To save space, **Phug** provides an inline syntax
+for nested tags.
+
+```pug
+a: img
+```
+
+### Self-Closing Tags
+
+Tags such as img, meta, and link are automatically
+self-closing (unless you use the XML doctype).
+
+You can also explicitly self close a tag by appending
+the / character. Only do this if you know what
+you're doing.
+
+```phug
+foo/
+foo(bar='baz')/
+```
+
+### Rendered Whitespace
+
+Whitespace is removed from the beginning and end
+of tags, so that you have control over whether
+the rendered HTML elements touch or not. Whitespace
+control is generally handled via
+[plain text](#plain-text).
