@@ -1390,10 +1390,37 @@ self-close, unlike **Phug** tags.
 &lt;html>
 
 body
-  p Indenting the body tag here would make no difference.
-  p HTML itself isn't whitespace-sensitive.
+  p Both open and close of the html tag are considered
+  p as a line of literal HTML.
 
 &lt;/html>
+```
+
+**Warning:** In **pugjs**, indent the content (body in this example)
+has no incidence. In **pugjs**, only lines starting with `&lt;`
+are literal HTML no mater the indent.
+
+But in **Phug** (and so **pug-php** too), we consider that indented
+content after a line starting with `&lt;` is also literal HTML and
+so not processed, so if you indent `body` in this example, it will
+become unprocessed text content of the `<html>` tag.  
+
+This feature allow you to copy-paste indented HTML as it from
+anywhere to your templates:
+
+```phug
+.foo
+  #bar
+    <p>
+      Unprocessed text #{'except for interpolations'}
+    </p>
+    <p>
+      Title
+      <a href="/link">
+        Button
+      </a>
+    </p>
+    p This is #[strong Phug] code again
 ```
 
 ### Piped Text

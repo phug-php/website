@@ -1419,65 +1419,99 @@ p Ceci est un bon vieux contenu de &lt;em>texte&lt;/em> brut.
 
 ### HTML litéral
 
-Whole lines are also treated as plain text when they begin with a
-left angle bracket (`<`), which may occasionally be useful for writing
-literal HTML tags in places that could otherwise be inconvenient.
-For example, one use case is
-[conditional comments](#conditional-comments).
-Since literal HTML tags do not get processed, they do not
-self-close, unlike **Phug** tags.
+Toutes les lignes qui commencent par un chevron ouvrant (`<`)
+sont également traitées comme du texte brut, ce qui peut être
+utile occasionellement pour écrire des balises HTML telles
+quelles. Par exemple, un cas d'utilisation est le
+[commentaire conditionnel](#commentaires-conditionnels).
+Puisque les balises HTML litérales ne sont pas traitées,
+elle ne sont pas auto-fermantes, à l'inverse des balises
+**Phug**.
 
 ```phug
 &lt;html>
 
 body
-  p Indenting the body tag here would make no difference.
-  p HTML itself isn't whitespace-sensitive.
+  p L'ouverture et fermeture de la balise html
+  p sont chacun considérés comme une ligne de HTML litéral.
 
 &lt;/html>
 ```
 
-### Piped Text
+**Attention:** Avec **pugjs**, indenter le contenu (body dans
+cet exemple) n'a pas d'incidence. Avec **pugjs**, seules les
+lignes commençant par `&lt;` sont du HTML litéral peut importe
+l'indentation.
 
-Another way to add plain text to templates is to prefix a line
-with a pipe character (`|`). This method is useful for mixing
-plain text with inline tags, as we discuss later, in the
-Whitespace Control section.
+Mais avec **Phug** (et donc **pug-php** aussi), nous considérons
+le contenu indenté après une ligne commençant par `&lt;` comme
+étant aussi du HTML litéral et non traité, donc si vous indentez
+`body` dans cet exemple, il deviendra du contenu textuel (non
+traité) de la balise `<html>`.  
+
+Cette fonctionnalité permet de copier-coller du code HTML
+indenté tel quel depuis n'importe où dans vos templates :
+
+```phug
+.machin
+  #chose
+    <p>
+      Texte non traité #{'sauf pour les interpolations'}
+    </p>
+    <p>
+      Titre
+      <a href="/lien">
+        Boutton
+      </a>
+    </p>
+    p Ceci est du code #[strong Phug] à nouveau
+```
+
+### Trait vertical
+
+Une autre façon d'ajouter du texte brut dans les templates
+est de préfixer une ligne avec un trait vertical (`|`) aussi
+appelé *pipe*. Cette méthode est utile pour mélanger du
+texte brut avec des balise inline, nous en reparlerons
+juste après dans la section **Whitespace Control**.
 
 ```phug
 p
-  | The pipe always goes at the beginning of its own line,
-  | not counting indentation.
+  | Le trait vertical va toujours au début de la ligne,
+  | l'indentation ne compte pas.
 ```
 
-### Block in a Tag
+### Bloc dans une balise
 
-Often you might want large blocks of text within a tag.
-A good example is writing JavaScript and CSS code in
-the `script` and `style` tags. To do this, just add a `.`
-right after the tag name, or after the closing parenthesis,
-if the tag has [attributes](#attributes).
+Souvent vous pouvez avoir besoin de grand blocs de texte
+à l'intérieur d'une balise. Un bon exemple est d'écrire
+du code JavaScript et CSS dans les balises `script` et
+`style`. Pour faire ça, ajouter simplement un point `.`
+juste après le nom de la balise, ou après la parenthèse
+fermante si la balise a des [attributs](#attributs).
 
-There should be no space between the tag and the dot.
-Plain text contents of the tag must be indented one level:
+Il ne doit pas y avoir d'espace entre la balise et le
+point. Le contenu de la balise doit être indenté d'un
+niveau :
 
 ```phug
 script.
-  if (usingPug)
-    console.log('you are awesome')
+  if (utilisePhug)
+    console.log('vous êtes génial')
   else
-    console.log('use pug')
+    console.log('utilisez Phug')
 ```
 
-You can also create a dot block of plain text *after* other
-tags within the parent tag.
+Vous pouvez aussi créer un bloc de texte brut en utilisant
+le point *après* d'autres balises à l'intérieur d'une
+balise parente.
 
 ```phug
 div
-  p This text belongs to the paragraph tag.
+  p Ce texte appartien à la balise p.
   br
   .
-    This text belongs to the div tag.
+    Ce texte appartien à la balise div.
 ```
 
 ### Whitespace Control
@@ -1583,7 +1617,7 @@ on save. You and all your contributors may have
 to configure your editors to prevent automatic
 trailing whitespace removal.
 
-## Tags
+## Tags (balises)
 
 By default, text at the start of a line (or after
 only white space) represents an HTML tag. Indented
