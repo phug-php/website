@@ -16,7 +16,7 @@ donc du code en argument),
 **Phug** ne donne aucune information sur le nom du fichier dans les
 exceptions et ne peut pas résoudre les chemins relatifs pour include/extend.
 
-```
+```yaml
 Failed to parse: Failed to outdent: No parent to outdent to. Seems the parser moved out too many levels.
 Near: indent
 
@@ -30,7 +30,7 @@ Avec l'option **filename**, un chemin est fournit :
 Phug::setOption('filename', 'machin-chose.pug');
 Phug::compile("\n  indentation\ncassée");
 ```
-```
+```yaml
 ...
 Line: 3
 Offset: 1
@@ -44,10 +44,9 @@ le *filename* :
 Phug::setOption('filename', 'machin-chose.pug');
 Phug::compile("\n  indentation\ncassée", 'quelque-chose.pug');
 ```
-
-```
+```yaml
 ...
-ine: 3
+Line: 3
 Offset: 1
 Path: quelque-chose.pug 
 ```
@@ -57,10 +56,9 @@ Il en va de même pour `compileFile`, `renderFile` et `displayFile`:
 ```php
 Phug::displayFile('quelque-chose.pug');
 ```
-
-```
+```yaml
 ...
-ine: 3
+Line: 3
 Offset: 1
 Path: quelque-chose.pug 
 ```

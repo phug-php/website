@@ -14,7 +14,7 @@ Phug::compile("\n  broken\nindent");
 By default, when you `compile`, `render` or `display` an input string,
 **Phug** give no source file info in exception and cannot resolve relative
 include/extend.
-```
+```yaml
 Failed to parse: Failed to outdent: No parent to outdent to. Seems the parser moved out too many levels.
 Near: indent
 
@@ -28,7 +28,7 @@ With the **filename** option, it provides a fallback:
 Phug::setOption('filename', 'foobar.pug');
 Phug::compile("\n  broken\nindent");
 ```
-```
+```yaml
 ...
 Line: 3
 Offset: 1
@@ -41,10 +41,9 @@ But, this option is ignored if you specify locally the filename:
 Phug::setOption('filename', 'foobar.pug');
 Phug::compile("\n  broken\nindent", 'something.pug');
 ```
-
-```
+```yaml
 ...
-ine: 3
+Line: 3
 Offset: 1
 Path: something.pug 
 ```
@@ -54,10 +53,9 @@ The same goes for `compileFile`, `renderFile` and `displayFile`:
 ```php
 Phug::displayFile('something.pug');
 ```
-
-```
+```yaml
 ...
-ine: 3
+Line: 3
 Offset: 1
 Path: something.pug 
 ```
