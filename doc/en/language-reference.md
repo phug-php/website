@@ -1490,8 +1490,7 @@ works. When compiling to HTML:
     - all whitespace in the middle of a line of text,
     - leading whitespace beyond the block indentation,
     - trailing whitespace,
-    - line breaks within a plain text block, or between
-    consecutive piped lines.
+    - line breaks within a plain text block.
 
 So… **Phug** drops the whitespace between tags, but keeps
 the whitespace inside them. The value here is that it gives
@@ -1558,7 +1557,7 @@ at the *end* of the text.
 
 ```phug
 | Hey, check out 
-a(href="http://example.biz/kitteh.png") this picture
+a(href="http://example.biz/kitten.png") this picture
 |  of my cat!
 ```
 
@@ -1576,7 +1575,7 @@ only white space) represents an HTML tag. Indented
 tags are nested, creating the tree structure of
 HTML.
 
-```pug
+```phug
 ul
   li Item A
   li Item B
@@ -1585,7 +1584,7 @@ ul
 
 **Phug** also knows which elements are self-closing:
 
-```pug
+```phug
 img
 ```
 
@@ -1594,17 +1593,17 @@ img
 To save space, **Phug** provides an inline syntax
 for nested tags.
 
-```pug
+```phug
 a: img
 ```
 
 ### Self-Closing Tags
 
-Tags such as img, meta, and link are automatically
+Tags such as `img`, `meta`, and `link` are automatically
 self-closing (unless you use the XML doctype).
 
 You can also explicitly self close a tag by appending
-the / character. Only do this if you know what
+the `/` character. Only do this if you know what
 you're doing.
 
 ```phug

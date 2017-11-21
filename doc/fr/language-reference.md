@@ -1514,156 +1514,176 @@ div
     Ce texte appartien à la balise div.
 ```
 
-### Whitespace Control
+### Contrôle des espaces blancs
 
-Managing the whitespace of the rendered HTML is one of the
-trickiest parts about learning Pug. Don't worry, though,
-you'll get the hang of it soon enough.
+Gérer les espaces blancs (espaces, sauts de ligne,
+tabulations) du rendu HTML est une des parties
+les plus délicates de l'apprentissage de **Phug**. Mais ne
+vous inquiétez pas, vous aurez bientôt tous les outils en
+main pour les gérer facilement.
 
-You just need to remember two main points about how whitespace
-works. When compiling to HTML:
+Vous avez juste besoin de vous souvenir de deux principaux
+points à propos du fonctionnement des espaces blancs.
 
- 1. **Phug** removes *indentation*, and all whitespace
- *between* elements.
-    - So, the closing tag of an HTML element will touch
-    the opening tag of the next. This is generally not a
-    problem for block-level elements like paragraphs,
-    because they will still render as separate paragraphs
-    in the web browser (unless you have changed their CSS
-    `display` property). See the methods described below,
-    however, for when you do need to insert space between
-    elements.
- 2. **Phug** *preserves* whitespace *within* elements,
- including:
-    - all whitespace in the middle of a line of text,
-    - leading whitespace beyond the block indentation,
-    - trailing whitespace,
-    - line breaks within a plain text block, or between
-    consecutive piped lines.
+Lors de la compilation en HTML :
 
-So… **Phug** drops the whitespace between tags, but keeps
-the whitespace inside them. The value here is that it gives
-you full control over whether tags and/or plain text should
-touch. It even lets you place tags in the middle of words.
+ 1. **Phug** supprime l'*indentation*, et tous les espaces
+ blancs *entre* les élements.
+    - Donc, la fermeture d'une balise HTML touchera
+    l'ouverture de la suivante. Ce n'est généralement pas
+    un problème pour les éléments de type *block* comme
+    les paragraphes, car ils s'afficheront de la même
+    manière dans le navigateur web (à moins que vous n'ayez
+    changé leur propriété `display` en CSS). Voyez les
+    méthodes ci-dessous pour gérer les cas où vous avez
+    besoin d'insérer un espace entre des éléments.
+ 2. **Phug** *préserve* les espaces blancs *à l'intérieur*
+ des éléments, ce qui inclut :
+    - tous les espaces à l'intérieur d'une ligne de texte,
+    - les espaces en début de ligne au-delà de
+    l'indentation du bloc,
+    - les espaces en fin de ligne (attention toutefois,
+    selon l'éditeur de code que vous utilisez et les
+    réglages de votre projet, ces espaces peuvent être
+    nettoyés automatiquement),
+    - les sauts de lignes dans un bloc de code.
+
+Donc… **Phug** supprimes les espaces blancs entre les
+balises, mais les garde à l'intérieur des balises.
+L'avantage, c'est que vous gardez le plein contrôle sur
+les balises et/ou textes qui doivent se toucher.
+
+Cela vous permet met de placer des balises au milieu
+des mots.
 
 ```phug
-| You put the em
-em pha
-| sis on the wrong syl
+| Vous avez mis l'
+em ac
+| cent sur la mauvaise syl
 em la
 | ble.
 ```
 
-The trade-off is that it *requires* you to think about and
-take control over whether tags and text touch.
+La contrepartie, c'est que vous devez y penser et
+prendre le contrôle sur la manière dont les
+balises et le texte se touchent ou non.
 
-If you need the text and/or tags to touch — perhaps you
-need a period to appear outside the hyperlink at the end
-of a sentence — this is easy, as it’s basically what
-happens unless you tell **Phug** otherwise.
+Si vous avez besoin que des balises et/ou du texte
+se touchent — peut-être avez-vous besoin qu'un point
+apparaisse en dehors d'un lien hypertext à la fin
+d'une phrase — c'est facile, car c'est basiquement
+ce que fait **Phug** sauf contre-indication.
 
 ```phug
-a ...sentence ending with a link
+a ...phrase qui se termine par un lien
 | .
 ```
 
-If you need to *add* space, you have a few options:
+Si vous avez besoin d'*ajouter* un espace, vous
+avez plusieurs options :
 
-### Recommended Solutions
+### Solutions recommandées
 
-You could add one or more empty piped lines — a pipe
-with either spaces or nothing after it. This will
-insert whitespace in the rendered HTML.
+Vous pouvez ajouter un ou plusieurs traits verticaux
+seuls sur leur ligne — un symbole pipe soit suivi
+d'espaces soit seul. Cela va insérer un espace dans
+le rendu HTML.
 
 ```phug
-| Don't
+| Ne me
 |
-button#self-destruct touch
+button#auto-destruction touche
 |
-| me!
+| pas !
 ```
 
-If your inline tags don’t require many attributes,
-you may find it easiest to use tag interpolation,
-or literal HTML, within a plain text *block*.
+Si vos balises inline ne requièrent pas une grande
+quantité d'attribus, vous pouvez trouver plus simple
+d'utiliser l'interpolation de balise ou du HTML
+litéral à l'intérieur d'un bloc de texte brut.
 
 ```phug
 p.
-  Using regular tags can help keep your lines short,
-  but interpolated tags may be easier to #[em visualize]
-  whether the tags and text are whitespace-separated.
+  Utiliser de simples balises peut vous aider à garder
+  vos lignes courtes, mais les balises interpolées
+  sont beaucoup plus pratiques pour #[em visualiser]
+  si les balises sont séparées ou non par des espaces.
 ```
 
-### Not recommended
+### Solutions non recommandées
 
-Depending on where you need the whitespace, you
-could add an extra space at the beginning of the
-text (after the block indentation, pipe character,
-and/or tag). Or you could add a trailing space
-at the *end* of the text.
+Selon l'endroit où vous avez besoin d'espaces blancs,
+vous pouvez ajouter un espace supplémentaire en
+début de texte (après l'indentation de bloc, le
+symbole pipe, et/ou la balise). Ou vous pouvez
+ajouter un espace en *fin* de texte.
 
-**NOTE the trailing and leading spaces here:**
+**NOTEZ les espaces en début et fin de lignes ici :**
 
 ```phug
-| Hey, check out 
-a(href="http://example.biz/kitteh.png") this picture
-|  of my cat!
+| Hé, regardez 
+a(href="http://exemple.biz/chaton.png") cette photo
+|  de mon chat !
 ```
 
-The above solution works perfectly well, but is
-admittedly perhaps a little dangerous: many code
-editors by default will *remove* trailing whitespace
-on save. You and all your contributors may have
-to configure your editors to prevent automatic
-trailing whitespace removal.
+La solution ci-dessus fonctionne parfaitement bien,
+mais est généralement considérée comme dangereuse :
+beaucoup d'éditeurs de code *suppriment* par défaut
+les espaces blancs résiduels à la sauvegarde.
+Vous et vos contributeurs pourriez avoir à configurer
+vos éditeurs pour éviter la suppression automatique
+des espaces.
 
 ## Tags (balises)
 
-By default, text at the start of a line (or after
-only white space) represents an HTML tag. Indented
-tags are nested, creating the tree structure of
-HTML.
+Par défaut, le texte au début d'une ligne (en
+ignorant les espaces/tabulation d'indentation)
+représente une balise HTML. Les balises indentées
+sont imbriquées, créant l'arbre de votre
+structure HTML.
 
-```pug
+```phug
 ul
-  li Item A
-  li Item B
-  li Item C
+  li Puce A
+  li Puce B
+  li Puce C
 ```
 
-**Phug** also knows which elements are self-closing:
+**Phug** sait aussi quels éléments sont
+auto-fermants :
 
-```pug
+```phug
 img
 ```
 
-### Block Expansion
+### Expansion de bloc
 
-To save space, **Phug** provides an inline syntax
-for nested tags.
+Pour économiser de la place, **Phug** fournit une
+syntaxe en ligne pour les balises imbriquées.
 
-```pug
+```phug
 a: img
 ```
 
-### Self-Closing Tags
+### Balises auto-fermantes
 
-Tags such as img, meta, and link are automatically
-self-closing (unless you use the XML doctype).
+Les balises telles que `img`, `meta`, et `link` sont
+automatiquement auto-fermantes (à moins que vous n'utilisiez
+le doctype XML).
 
-You can also explicitly self close a tag by appending
-the / character. Only do this if you know what
-you're doing.
+Vous pouvez aussi auto-fermer explicitement une balise
+en lui ajoutant le symbole `/`. Ne faites ça que si
+vous êtes sûr de vous.
 
 ```phug
-foo/
-foo(bar='baz')/
+machin/
+machin(chose='truc')/
 ```
 
-### Rendered Whitespace
+### Rendu des espaces blancs
 
-Whitespace is removed from the beginning and end
-of tags, so that you have control over whether
-the rendered HTML elements touch or not. Whitespace
-control is generally handled via
-[plain text](#plain-text).
+Les espaces blancs sont supprimés en début et fin
+de balises, donc vous avez le contrôle sur le fait
+que les élémenents HTML doivent se toucher ou non.
+Le contrôle est généralement géré via le
+[texte brut](#texte-brut).
