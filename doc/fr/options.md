@@ -62,3 +62,7 @@ Line: 3
 Offset: 1
 Path: quelque-chose.pug 
 ```
+
+### basedir `string`
+
+Le dossier racine pour les imports par chemin absolu.

@@ -59,3 +59,8 @@ Line: 3
 Offset: 1
 Path: something.pug 
 ```
+
+### basedir `string`
+
+The root directory of all absolute inclusion. This option is
+supported for pugjs compatibility reason.
