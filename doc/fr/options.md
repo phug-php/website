@@ -82,3 +82,16 @@ des attributs booléens. Voir
 [la documentation de doctype](#doctype-option)
 pour plus d'informations.
 
+### pretty `boolean | string`
+
+[Déprécié.] Ajoute des espaces blancs  dans le HTML pour le
+rendre plus facile à lire pour un humain en utilisant `'  '`
+comme indentation. Si une chapine de caractères est passée
+à cette option, elle sera utilisée à la place comme indentation
+(par exemple `'\t'`). Nous vous mettons en garde contre cette
+option. Trop souvent, elle crée de subtiles problèmes dans
+les rendus à cause de la manière dont elle altère le
+rendu, et donc cette fonctionnalité sera prochainement
+supprimée. Elle est réglée par défaut sur `false`.
+
+
