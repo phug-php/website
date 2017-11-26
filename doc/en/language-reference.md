@@ -617,23 +617,23 @@ may be affected as well.
 If, for whatever reason, it is not possible to use the `doctype`
 keyword (e.g., just rendering HTML fragments), but you would
 still like to specify the doctype of the template, you can do
-so via the [doctype option](#options-doctype).
+so via the [doctype option](#doctype-string).
 
 ```php
 $source = 'img(src="foo.png")';
 
 Phug::render($source);
-// => '&lt;img src="foo.png"/>'
+// => '<img src="foo.png"/>'
 
 Phug::render($source, [], [
   'doctype' => 'xml',
 ]);
-// => '&lt;img src="foo.png">&lt;/img>'
+// => '<img src="foo.png"></img>'
 
 Phug::render($source, [], [
   'doctype' => 'html',
 ]);
-// => '&lt;img src="foo.png">'
+// => '<img src="foo.png">'
 ```
 
 ## Filters
@@ -784,7 +784,7 @@ footer#footer
 ```
 
 If the path is absolute (e.g., `include /root.pug`), it is resolved
-from [paths option](#paths). This option works like the `basedir` in
+from [paths option](#paths-array). This option works like the `basedir` in
 pugjs but allow you to specify multiple directories. The `basdir`
 option also exists in **Pug-php** to provide full pugjs options
 supports but we recommend you prefer `paths`.

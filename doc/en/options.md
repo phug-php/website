@@ -63,4 +63,17 @@ Path: something.pug
 ### basedir `string`
 
 The root directory of all absolute inclusion. This option is
-supported for pugjs compatibility reason.
+supported for pugjs compatibility reason, but we recommend you
+to use the [paths](#paths-array) option instead. It has the same
+purpose but you can specify an array of directories that will
+be all tried (in the order you give them) to resolve
+absolute path on `include`/`extend` and the first found
+is used.
+
+### doctype `string`
+
+If the `doctype` is not specified as part of the template, you
+can specify it here. It is sometimes useful to get self-closing
+tags and remove mirroring of boolean attributes. See
+[doctype documentation](#doctype-option)
+for more information.

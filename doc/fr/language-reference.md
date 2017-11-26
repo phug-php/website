@@ -627,23 +627,23 @@ Si, pour quelque raison que ce soit, il n'est pas possible
 d'utiliser le mot-clé `doctype` (par exemple, afficher une
 portion de HTML seule), mais que vous voulez appliquer les
 spécificités du doctype, vous pouvez utiliser
-l'[option doctype](#options-doctype).
+l'[option doctype](#doctype-string).
 
 ```php
 $source = 'img(src="foo.png")';
 
 Phug::render($source);
-// => '&lt;img src="foo.png"/>'
+// => '<img src="foo.png"/>'
 
 Phug::render($source, [], [
   'doctype' => 'xml',
 ]);
-// => '&lt;img src="foo.png">&lt;/img>'
+// => '<img src="foo.png"></img>'
 
 Phug::render($source, [], [
   'doctype' => 'html',
 ]);
-// => '&lt;img src="foo.png">'
+// => '<img src="foo.png">'
 ```
 
 ## Filtres
@@ -796,7 +796,7 @@ footer#footer
 ```
 
 Si le chemin est absolu (c.f. `include /racine.pug`), it sera résolus
-depuis les chemins choisis via l'[option paths](#paths). Cette option
+depuis les chemins choisis via l'[option paths](#paths-array). Cette option
 fonctionne comme `basedir` dans
 pugjs mais permet de spécifier plusieurs dossiers. L'option `basdir`
 existe aussi dans **Pug-php** pour fournir une pleine compatibilité

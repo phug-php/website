@@ -65,4 +65,20 @@ Path: quelque-chose.pug
 
 ### basedir `string`
 
-Le dossier racine pour les imports par chemin absolu.
+Le dossier racine pour les imports par chemin absolu. Cette option
+est supportée pour raison de compatibilité avec pugjs, mais nous
+vous recommandons d'utiliser l'option [paths](#paths) à la place.
+Elle a le même objectif mais vous permet de passer un array de
+dossiers qui vont tous être essayés (dans l'ordre dans lesquels
+vous les passez) pour résoudre les chemins absolus lors des
+`include`/`extend` et le premier trouvé est utilisé.
+
+### doctype `string`
+
+Si le `doctype` n'est pas spécifié dans le template, vous pouvez
+le spécifier via cette option. C'est parfois utile pour avoir
+les balises auto-fermantes et supprimer les valeurs en miroir
+des attributs booléens. Voir
+[la documentation de doctype](#doctype-option)
+pour plus d'informations.
+
