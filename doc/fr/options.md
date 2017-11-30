@@ -127,3 +127,31 @@ Retourne :
 Et notez que vous pouvez utiliser des classes invocables
 (classes qui ont une méthode `__invoke`) au lieu d'une
 simple fonction de callback pour vos filtres personnalisés.
+
+### self `boolean | string`
+
+Utilise un espace de noms `self` pour contenir les variables.
+Au lieu d'écrire `variable` you devrez donc écrire
+`self.variable` pour accéder à une variable. `false` par
+défaut.
+
+```php
+Phug::setOption('self', true);
+Phug::display('p=self.message', [
+    'message' => 'Salut',
+]);
+```
+Affichera :
+```html
+<p>Salut</p>
+```
+
+Et vous pouvez passer n'importe quelle chaine de caractères
+tant qu'elle reste un nom de variable valid, donc le code
+suivant est équivalent :
+```php
+Phug::setOption('self', 'banane');
+Phug::render('p=banane.message', [
+    'message' => 'Salut',
+]);
+```

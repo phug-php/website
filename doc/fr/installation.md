@@ -51,8 +51,6 @@ Créez un fichier PHP avec le contenu suivant :
 ```php
 <?php
 
-use Phug\Phug;
-
 include_once __DIR__ . '/vendor/autoload.php';
 
 Phug::display('p=$message', [
@@ -138,7 +136,6 @@ Puis activez l'extension avant d'appeler la méthode render ou display :
 <?php
 
 use JsPhpize\JsPhpizePhug;
-use Phug\Phug;
 
 include_once __DIR__ . '/vendor/autoload.php';
 

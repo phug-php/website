@@ -44,8 +44,6 @@ Create a PHP file with the following content:
 ```php
 <?php
 
-use Phug\Phug;
-
 include_once __DIR__ . '/vendor/autoload.php';
 
 Phug::display('p=$message', [
@@ -126,7 +124,6 @@ Then enable the extension before calling the render/display method:
 <?php
 
 use JsPhpize\JsPhpizePhug;
-use Phug\Phug;
 
 include_once __DIR__ . '/vendor/autoload.php';
 

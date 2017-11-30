@@ -122,3 +122,30 @@ Returns:
 And note that you can also use callable classes (classes
 that contains an `__invoke` method) instead of a simple
 callback function for your custom filters.
+
+### self `boolean | string`
+
+Use a `self` namespace to hold the locals. Instead of
+writing `variable` you will have to write
+`self.variable` to access a property
+of the locals object. Defaults to `false`.
+
+```php
+Phug::setOption('self', true);
+Phug::render('p=self.message', [
+    'message' => 'Hello',
+]);
+```
+Will output:
+```html
+<p>Hello</p>
+```
+
+And you can pass any string as namespace as long as it's
+a valid variable name, so the following is equivalent:
+```php
+Phug::setOption('self', 'banana');
+Phug::render('p=banana.message', [
+    'message' => 'Hello',
+]);
+```

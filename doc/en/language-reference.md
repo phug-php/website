@@ -662,7 +662,6 @@ Then enable it:
 
 ```php
 use Phug\JsTransformerExtension;
-use Phug\Phug;
 
 Phug::addExtension(JsTransformerExtension::class);
 ```

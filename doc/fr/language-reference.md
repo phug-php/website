@@ -672,7 +672,6 @@ Puis activez-la :
 
 ```php
 use Phug\JsTransformerExtension;
-use Phug\Phug;
 
 Phug::addExtension(JsTransformerExtension::class);
 ```
