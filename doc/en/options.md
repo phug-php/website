@@ -77,3 +77,48 @@ can specify it here. It is sometimes useful to get self-closing
 tags and remove mirroring of boolean attributes. See
 [doctype documentation](#doctype-option)
 for more information.
+
+### pretty `boolean | string`
+
+[Deprecated.] Adds whitespace to the resulting HTML to make it
+easier for a human to read using `'  '` as indentation. If a
+string is specified, that will be used as indentation instead
+(e.g. `'\t'`). We strongly recommend against using this option.
+Too often, it creates subtle bugs in your templates because
+of the way it alters the interpretation and rendering of
+whitespace, and so this feature is going to be removed.
+Defaults to `false`.
+
+### filters `array`
+
+Associative array of custom filters. Defaults to `[]`.
+```php
+Phug::setOption('filters', [
+  'my-filter' => function ($text) {
+    return strtoupper($text);
+  },
+]);
+Phug::render("div\n  :my-filter\n    My text");
+```
+Returns:
+```html
+<div>MY TEXT</div>
+```
+
+You can also use the method `setFilter` and your callback
+can take options:
+
+```php
+Phug::setFilter('add', function ($text, $options) {
+  return $text + $options['value'];
+});
+Phug::render("div\n  :add(value=4) 5");
+```
+Returns:
+```html
+<div>9</div>
+```
+
+And note that you can also use callable classes (classes
+that contains an `__invoke` method) instead of a simple
+callback function for your custom filters.

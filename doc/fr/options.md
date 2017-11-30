@@ -94,4 +94,36 @@ les rendus à cause de la manière dont elle altère le
 rendu, et donc cette fonctionnalité sera prochainement
 supprimée. Elle est réglée par défaut sur `false`.
 
+### filters `array`
 
+Array associatif de filtres personnalisé. `[]` par défaut.
+```php
+Phug::setOption('filters', [
+  'mon-filtre' => function ($texte) {
+    return strtoupper($texte);
+  },
+]);
+Phug::render("div\n  :mon-filtre\n    Mon texte");
+```
+Retourne :
+```html
+<div>MON TEXTE</div>
+```
+
+Vous pouvez aussi utiliser la méthode `setFilter` et votre
+callback peut prendre des options :
+
+```php
+Phug::setFilter('ajoute', function ($texte, $options) {
+  return $texte + $options['valeur'];
+});
+Phug::render("div\n  :ajoute(valeur=4) 5");
+```
+Retourne :
+```html
+<div>9</div>
+```
+
+Et notez que vous pouvez utiliser des classes invocables
+(classes qui ont une méthode `__invoke`) au lieu d'une
+simple fonction de callback pour vos filtres personnalisés.
