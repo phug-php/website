@@ -63,7 +63,7 @@ Path: something.pug
 ### basedir `string`
 
 The root directory of all absolute inclusion. This option is
-supported for pugjs compatibility reason, but we recommend you
+supported for **pugjs** compatibility reason, but we recommend you
 to use the [paths](#paths-array) option instead. It has the same
 purpose but you can specify an array of directories that will
 be all tried (in the order you give them) to resolve
@@ -170,7 +170,7 @@ or `displayFile`.
 
 `globals` and `shared_variables` are 2 different options
 merged together, `globals` only exists to provide an
-equivalent to the pugjs option. And methods like `->share`
+equivalent to the **pugjs** option. And methods like `->share`
 and `->resetSharedVariables` only impact the the
 `shared_variables` option, so we recommend you to use
 `shared_variables`.
@@ -254,3 +254,23 @@ $pug->display('=top + ", " + right + ", " + bottom + ", " + left', [
     'left' => 5,
 ]);
 ```
+
+### cache_dir `boolean | string`
+
+If set to `true`, compiled templates are cached. `filename`
+must be set as the cache key (automatically done when using
+`renderFile` or `displayFile`). Defaults to `false`.
+
+This option can also be a directory path where cached files
+will be stored.
+
+This option is automatically handled
+when you use framework adapters such as
+[pug-symfony](https://github.com/pug-php/pug-symfony) or
+[laravel-pug](https://github.com/BKWLD/laravel-pug).
+
+**pug-php** also provide a `cache` alias for this option
+to match **pug-php** 2 and **pugjs** options. It can also
+provide a better semantic when using boolean value, and
+`cache_dir` stay more appropriate when passing a string.
+
