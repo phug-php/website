@@ -149,3 +149,108 @@ Phug::render('p=banana.message', [
     'message' => 'Hello',
 ]);
 ```
+
+### debug `boolean`
+
+If set to `true`, when an error occurs at render time, you
+will get a complete stack trace including line and offset
+in the original pug source file.
+
+In production, you should set it to `false` to fasten
+the rendering and hide debug information. It's done
+automatically if you use framework adapters such as
+[pug-symfony](https://github.com/pug-php/pug-symfony) or
+[laravel-pug](https://github.com/BKWLD/laravel-pug).
+
+### shared_variables / globals `array`
+
+List of variables stored globally to be available for
+any further calls to `render`, `renderFile`, `display`
+or `displayFile`.
+
+`globals` and `shared_variables` are 2 different options
+merged together, `globals` only exists to provide an
+equivalent to the pugjs option. And methods like `->share`
+and `->resetSharedVariables` only impact the the
+`shared_variables` option, so we recommend you to use
+`shared_variables`.
+
+```php
+Phug::setOptions([
+    'globals' => [
+        'top' => 1,
+        'right' => 1,
+        'bottom' => 1,
+        'left' => 1,
+    ],
+    'shared_variables' => [
+        'right' => 2,
+        'bottom' => 2,
+        'left' => 2,
+    ],
+]);
+
+Phug::share([
+    'bottom' => 3,
+    'left' => 3,
+]);
+
+Phug::display('="$top, $right, $bottom, $left"', [
+    'left' => 4,
+]);
+
+Phug::resetSharedVariables();
+
+Phug::display('="$top, $right, $bottom, $left"', [
+    'left' => 5,
+]);
+```
+
+The first `display` will outputs:
+```
+1, 2, 3, 4
+```
+
+The second `display` will outputs:
+```
+1, 1, 1, 5
+```
+
+As you can note in this examples, locals always have the
+precedence and `shared_variables` has the precedence
+on `globals`.
+
+The same code would look like this using **pug-php**:
+
+```php
+$pug = new Pug([
+    'globals' => [
+        'top' => 1,
+        'right' => 1,
+        'bottom' => 1,
+        'left' => 1,
+    ],
+    'shared_variables' => [
+        'right' => 2,
+        'bottom' => 2,
+        'left' => 2,
+    ],
+]);
+
+// or $pug->setOptions([...])
+
+$pug->share([
+    'bottom' => 3,
+    'left' => 3,
+]);
+
+$pug->display('=top + ", " + right + ", " + bottom + ", " + left', [
+    'left' => 4,
+]);
+
+$pug->resetSharedVariables();
+
+$pug->display('=top + ", " + right + ", " + bottom + ", " + left', [
+    'left' => 5,
+]);
+```
