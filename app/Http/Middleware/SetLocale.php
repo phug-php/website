@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\View;
 
 class SetLocale
 {
-    const LOCALES = ['en', 'fr', 'de'];
+    const LOCALES = ['en', 'fr'];
 
     /**
      * Handle an incoming request.
