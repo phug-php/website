@@ -169,4 +169,16 @@ $ ->
         resize.editor.css 'pointer-events', ''
         resize = {}
       return
+  if /^#[a-z0-9-]+$/i.test location.hash
+    hash = location.hash
+    i = 0
+    goToAnchor = ->
+      if location.hash is hash
+        $anchor = $ hash
+        if $anchor.length
+          $anchor[0].scrollIntoView()
+        else if ++i < 100
+          setTimeout goToAnchor, 100
+      return
+    do goToAnchor
   return
