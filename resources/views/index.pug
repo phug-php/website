@@ -25,10 +25,10 @@ html(lang=locale)
             nav.sidebar.col-lg-3.br-ribbed-light(data-anchor=anchor): nav.navbar.contents#contents
                 nav.nav.flex-column
                     .d-lg-none
-                        a.nav-link#try-link(href="#try" data-action="sidebar-nav" data-toggle="try") Try Phug
-                        a.nav-link(href="#language-reference" data-action="sidebar-nav") Language Reference
-                        a.nav-link(href="/api/namespaces/Phug.html" data-action="sidebar-nav") API Reference
-                        a.nav-link(href="#resources" data-action="sidebar-nav" data-close="try") Resources
+                        a.nav-link#try-link(href="#try" data-action="sidebar-nav" data-toggle="try")=__('index.try_phug')
+                        a.nav-link(href="#language-reference" data-action="sidebar-nav")=__('index.language_reference')
+                        a.nav-link(href="/api/namespaces/Phug.html" data-action="sidebar-nav")=__('index.api_reference')
+                        a.nav-link(href="#resources" data-action="sidebar-nav" data-close="try")=__('index.resources')
                         a.nav-link(href="https://github.com/phug-php/phug/" data-action="sidebar-nav" data-close="try") GitHub
                         hr
                     .table-of-content
