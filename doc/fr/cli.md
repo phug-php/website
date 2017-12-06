@@ -1,48 +1,53 @@
 # CLI
 
-**Phug** and **Pug-php** can be run as CLI commands:
+**Phug** et **Pug-php** peuvent être exécutés en ligne de
+commande :
 
 ```shell
-./vendor/bin/phug render 'p=$msg' '{"msg": "Hello"}'
-./vendor/bin/pug render 'p=msg' '{"msg": "Hello"}'
+./vendor/bin/phug render 'p=$msg' '{"msg": "Salut"}'
+./vendor/bin/pug render 'p=msg' '{"msg": "Salut"}'
 ```
 
-`./vendor/bin/pug` is available only if you installed **Pug-php**,
-`./vendor/bin/phug` is always available if you use any of both.
+`./vendor/bin/pug` n'est disponible que si vous installez
+**Pug-php**,
+`./vendor/bin/phug` est toujours disponible que vous utilisiez
+l'un ou l'autre.
 
-## Globals options
+## Options globales
 
-2 globals options are available for all commands:
+2 options globales sont disponibles pour toutes les commandes :
 
-`--output-file` (or `-o`) redirect success output to the specified
-file, it allow for example to write rendered HTML in a file:
+`--output-file` (ou `-o`) redirige la sortie vers le fichier
+spécifié, cela permet par exemple d'enregister le rendu HTML
+dans un fichier :
 ```shell
-./vendor/bin/phug render-file my-source-file.pug --output-file my-destination-file.html
+./vendor/bin/phug render-file mon-fichier-source.pug --output-file mon-fichier-de-destination.html
 ```
 
-`--bottstrap` (or `-b`) allow you to include a PHP file to be
-executed before the command. For example you can define your
-variables in a dynamic way:
+`--bottstrap` (ou `-b`) permet d'inclure un fichier PHP à
+exécuter avant la commande. Par exemple, vous pouvez y définir
+vos variables de manière dynamique.
 
-Let say you have the following file: **set-variables.php**
+Mettons que vous avez le fichier suivant : **definition-variables.php**
 ```php
 Phug::share([
-  'time' => date('H:i'),
+  'heure' => date('H:i'),
 ]);
 ```
 
 ```shell
-./vendor/bin/phug render 'p=$time' -b set-variables.php -o page.html
+./vendor/bin/phug render 'p=$heure' -b definition-variables.php -o page.html
 ```
 
-**page.html** will contains a paragraph with the time
-inside (example `<p>17:47</p>`).
+**page.html** va contenir un paragraphe avec l'heure
+à l'intérieur (exemple `<p>17:47</p>`).
 
-The bootstrap file can run any PHP code and have all classes
-available thanks to composer autoload.
+Le fichier de démarrage peut exécuter n'importe quel code PHP
+et a accès à toutes les classes grâce à l'autoload de Composer.
 
-Both options above can be set using space delimiter or equal operator,
-so all the following are equivalent:
+Ces deux options peuvent être définies avec un espace ou le
+symbole égal, donc toutes les commandes ci-dessous sont
+équivalentes :
 
 ```shell
 ./vendor/bin/phug render-file a.pug --output-file a.html
@@ -51,14 +56,14 @@ so all the following are equivalent:
 ./vendor/bin/phug render-file a.pug -o=a.html
 ```
 
-## Commands
+## Commandes
 
-Commands are the same for both **phug** and **pug** and will
-call the same methods. The lonely difference is **phug** call
-them on the `Phug` facade (that use `Phug\Renderer` with no
-particular extensions and settings) and
-**pug** call them on the `Pug\Facade` facade (that use
-`Pug\Pug` that comes with `js-phpize` and the **pug-php**
+Les commandes sont les mêmes pour **phug** et **pug** et
+elles vont appeler les mêmes méthodes. La seule différence
+est que **phug** va les appeler sur la façade `Phug`
+(qui utilise `Phug\Renderer` sans extension ni réglages
+particuliers) et **pug** va les appeler sur la façade
+`Pug\Facade` (qui utilise `Pug\Pug` that comes with `js-phpize` and the **pug-php**
 default settings). For both, you can use `--bottstrap`
 to set more options, add extensions, share variables, etc.
 

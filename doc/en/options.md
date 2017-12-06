@@ -274,3 +274,10 @@ to match **pug-php** 2 and **pugjs** options. It can also
 provide a better semantic when using boolean value, and
 `cache_dir` stay more appropriate when passing a string.
 
+See [compile-directory command](#compile-directory-or-cache-directory)
+to cache a whole directory.
+
+We recommend to use this command when you deploy your
+applications in production, it also allow you to set
+the option [up_to_date_check](#up_to_date_check)
+to `false` and get better performance.

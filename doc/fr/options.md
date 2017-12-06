@@ -262,3 +262,36 @@ $pug->display('=haut + ", " + droite + ", " + bas + ", " + gauche', [
     'gauche' => 5,
 ]);
 ```
+
+### cache_dir `boolean | string`
+
+Si réglée sur `true`, les templates compilés seront mis en
+cache. L'option `filename` est alors nécessaire pour déterminer
+la clé de cache (ce qui est fait automatiquement en utilisant
+`renderFile` ou `displayFile`). `false` par défaut.
+
+Cette option peut aussi prendre une valeur `string` qui sera
+alors utilisée comme chemin du dossier où les fichiers de
+cache seront stockés.
+
+[pug-symfony](https://github.com/pug-php/pug-symfony) et
+[laravel-pug](https://github.com/BKWLD/laravel-pug) gèrent
+automatiquement cette option. Si vous utilisez l'un ou
+l'autre, vous n'avez pas à vous en soucier.
+
+**pug-php** fournit aussi un alias `cache` pour cette
+option pour correspondre à **pug-php** 2 et **pugjs**.
+Cela permet aussi une meilleure sémantique lorsque
+vous passez à cette option une valeur booléenne, alors
+que `cache_dir` reste plus appropriée quand vous passez
+une chaîne.
+
+Vous pouvez aussi utiliser
+[la commande compile-directory](#compile-directory-or-cache-directory)
+pour mettre en cache un dossier complet.
+
+Nous vous conseillons d'utiliser cette commande au
+déploiement de vos applications en production, vous
+pouvez alors optimiser les performances du cache en
+passant l'option [up_to_date_check](#up_to_date_check)
+à `false`.

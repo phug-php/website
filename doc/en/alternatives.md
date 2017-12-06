@@ -1,6 +1,6 @@
 # Alternatives
 
-It exists alternative way to get pug templates with a PHP back-end.
+It exists alternative ways to get pug templates with a PHP back-end.
 
 ## V8Js
 
@@ -23,7 +23,8 @@ submit a pull-request.
 When you install **Pug-php**, you will be asked for installing
 **pug-cli** node package. If you enter `Y`, it will use `npm`
 if available on the machine to install the official `pug-cli`
-package, and **Pug-php** has an option to use it:
+package, and **Pug-php** has an option to use it instead of
+its own engine:
 
 ```php
 <?php
