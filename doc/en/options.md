@@ -281,3 +281,174 @@ We recommend to use this command when you deploy your
 applications in production, it also allow you to set
 the option [up_to_date_check](#up_to_date_check)
 to `false` and get better performance.
+
+## Language
+
+### paths
+
+Specify list of paths to be used for `include` and `extend`
+with absolute paths. Example:
+```php
+Phug::setOption('paths', [
+  __DIR__.'/bundle-foo',
+  __DIR__.'/resources/views',
+]);
+
+Phug::render('include /directory/file.pug');
+```
+
+As `/directory/file.pug` starts with a slash, it's considered
+as an absolute path. Phug will first try to find it in the first
+directory you specified: `__DIR__.'/bundle-foo'`, if it does
+not exist in it, it will search in the next
+`__DIR__.'/resources/views'`.
+
+### extensions
+
+List of file extensions Phug will consider as pug files.
+`['', '.pug', '.jade']` by default.
+
+This means:
+```pug
+//- my-file.pug
+p Foo
+```
+```js
+// non-pug-file.js
+alert('foo');
+```
+
+```pug
+//- index.pug
+//-
+  my-file.pug can be imported (included or extended)
+  with or without extension, and its content will be
+  parsed as pug content.
+  (cannot be tested in this live editor as includes
+  are emulated)
+include my-file.pug
+//- include my-file
+//-
+  non-pug-file.js will be included as text
+include non-pug-file.js
+```
+
+So the `extensions` allow you to pass an other list of
+extensions to be handled by Phug and added automatically
+to include/extend paths if missing.
+
+### default_doctype
+
+Doctype to use if not specified. `"html"` by default.
+
+This means:
+```phug
+doctype
+//- will automatically fallback to:
+doctype html
+```
+
+### default_tag
+
+By default, when you do not specify a tag name, **Phug**
+fallback to a `div` tag:
+```phug
+.foo
+#bar(a="b")
+(c="d") Hello
+```
+The same code with `Phug::setOption('default_tag', 'section')`
+would render as:
+```html
+<section class="foo"></section>
+<section id="bar" a="b"></section>
+<section c="d">Hello</section>
+```
+
+### attributes_mapping
+
+This option allow you to replace attributes by others:
+```php
+Phug::setOption('attributes_mapping', [
+  'foo' => 'bar',
+  'bar' => 'foo',
+  'biz' => 'zut',
+]);
+Phug::display('p(foo="1" bar="2" biz="3" zut="4" hop="5")');
+```
+Will output:
+```html
+<p bar="1" foo="2" zut="3" zut="4" hop="5"></p>
+```
+
+## Profiling
+
+**Phug** embed a profiler module to watch, debug or limit
+memory consumption and execution time.
+
+### memory_limit
+
+Fix a memory limit usage. `-1` by default would mean
+*no limit*. But if the [debug](#debug) option is true,
+it automatically pass to `50*1024*1024` (50MB).
+
+If the profiler detect the memory usage exceed the limit,
+it will throw an exception. But be aware, if this limit
+is under the machine limit or the PHP limit, the Phug
+limit will have no effect. 
+
+### execution_max_time
+
+Fix a execution time limit. `-1` by default would mean
+*no limit*. But if the [debug](#debug) option is true,
+it automatically pass to `30*1000` (30 seconds).
+
+If the profiler detect Phug is running for a longer
+time than the specified limit, it will throw an
+exception. But be aware, if this limit the PHP limit,
+the Phug limit will have no effect. 
+
+### enable_profiler
+
+When set to `true`, it will output on render a timeline
+you can inspect in your browser to see wich token/node
+take longer to lex/parse/compile/render.
+
+When enabled, it comes with a subset of options you can
+also edit, these are the default values:
+```php
+'profiler' => [
+    'time_precision' => 3,     // time decimal precision
+    'line_height'    => 30,    // timeline height
+    'display'        => true,  // output the result
+                               // can be true or false
+    'log'            => false, // log the result in a file
+                               // can be a file path or false
+],
+```
+
+## Errors
+
+### error_handler
+
+Set a callback method to handle Phug exceptions.
+`null` by default.
+
+### html_error
+
+Display errors as HTML (by default, it's `false` when run
+on CLI, `true` when run in browser).
+
+### color_support
+
+Used to enable color in CLI errors output, by default
+we will try to detect if the console used support colors.
+
+### error_context_lines
+
+We give you some context on error code dump, `7` lines
+above and below the error line by default. But you can
+pass to this option any number to give more or less
+context.
+
+
