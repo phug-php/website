@@ -67,7 +67,7 @@ Path: quelque-chose.pug
 
 Le dossier racine pour les imports par chemin absolu. Cette option
 est supportée pour raison de compatibilité avec pugjs, mais nous
-vous recommandons d'utiliser l'option [paths](#paths) à la place.
+vous recommandons d'utiliser l'option [paths](#paths-array) à la place.
 Elle a le même objectif mais vous permet de passer un array de
 dossiers qui vont tous être essayés (dans l'ordre dans lesquels
 vous les passez) pour résoudre les chemins absolus lors des
@@ -293,5 +293,189 @@ pour mettre en cache un dossier complet.
 Nous vous conseillons d'utiliser cette commande au
 déploiement de vos applications en production, vous
 pouvez alors optimiser les performances du cache en
-passant l'option [up_to_date_check](#up_to_date_check)
+passant l'option [up_to_date_check](#up_to_date_check-boolean)
 à `false`.
+
+## Langage
+
+### paths `array`
+
+Spécifie la liste des chemins à utiliser pour `include` et
+`extend` avec des chemins absoluts. Exemple :
+```php
+Phug::setOption('paths', [
+  __DIR__.'/paquet',
+  __DIR__.'/ressources/vues',
+]);
+
+Phug::render('include /dossier/fichier.pug');
+```
+
+Comme `/dossier/fichier.pug` commence par un slash, il est considéré
+comme un chemin absolut. Phug va d'abord essayer de le trouver
+dans le premier dossier : `__DIR__.'/paquet'`, s'il n'existe pas,
+il passe au dossier suivant :
+`__DIR__.'/ressources/vues'`.
+
+### extensions `array`
+
+Liste des extensions de ficheir que Phug va considérer comme fichier
+pug.
+`['', '.pug', '.jade']` par défaut.
+
+Ce qui signifie :
+```pug
+//- mon-fichier.pug
+p Truc
+```
+```js
+// fichier-non-pug.js
+alert('truc');
+```
+
+```pug
+//- index.pug
+//-
+  mon-fichier.pug peut être importé (include or extend)
+  avec ou sans extension, et son contenu sera parsé
+  en tant que contenu pug.
+  (ce n'est pas testable dans cet éditeur car les
+  includes sont émulées)
+include mon-fichier.pug
+//- include mon-fichier
+//-
+  fichier-non-pug.js va être inclus en texte brut
+include fichier-non-pug.js
+```
+
+
+Donc l'option `extensions` vous permet de passer une autre
+liste d'extensions que Phug gèrera et ajoutera automatiquement
+lorsqu'elles manquent au chemin d'un import (include/extend).
+
+### default_doctype `string`
+
+Le doctype à utiliser s'il n'est pas spécifié en argument.
+`"html"` par défaut.
+
+Ce qui signifie :
+```phug
+doctype
+//- va automatiquement se transformer en :
+doctype html
+```
+
+### default_tag `string`
+
+Par défaut, quand vous ne spécifiez pas de balise, **Phug**
+va générer une balise `div` :
+```phug
+.truc
+#machin(a="b")
+(c="d") Salut
+```
+Le même code avec `Phug::setOption('default_tag', 'section')`
+va générer :
+```html
+<section class="truc"></section>
+<section id="machin" a="b"></section>
+<section c="d">Salut</section>
+```
+
+### attributes_mapping `array`
+
+Cette option vous permet de remplacer des attributs par
+d'autres :
+```php
+Phug::setOption('attributes_mapping', [
+  'foo' => 'bar',
+  'bar' => 'foo',
+  'biz' => 'zut',
+]);
+Phug::display('p(foo="1" bar="2" biz="3" zut="4" hop="5")');
+```
+Va afficher :
+```html
+<p bar="1" foo="2" zut="3" zut="4" hop="5"></p>
+```
+
+## Profiling
+
+**Phug** embarque un module de profiling pour surveiller,
+deboguer ou limiter la consommation de mémoire et le temps
+d'exécution.
+
+### memory_limit `integer`
+
+Fixe une limite mémoire. `-1` par défaut signifie
+*pas de limite*. Mais si l'option [debug](#debug-boolean)
+vaut `true`, elle passe automatiquement à
+`50*1024*1024` (50Mo).
+
+Si le profiler détecte une utilisation de mémoire
+supérieure à la limite, il va jeter une exception.
+Mais soyez conscient que si la limite est supérieure
+à la limite de la machine ou de PHP, la limite de
+Phug n'aura aucun effet. 
+
+### execution_max_time `integer`
+
+Fixe une limite du temps d'exécution. `-1`
+par défaut signifie *pas de limite*. Mais si
+l'option [debug](#debug-boolean) vaut `true`,
+elle passe automatiquement à
+`30*1000` (30 secondes).
+
+Si le profiler détecte que Phug tourne depuis plus
+de temps que la limite autorisée, il va jeter
+une exception. Mais soyez conscient que si la
+limite de PHP est inférieure, celle de Phug
+n'aura aucun effet. 
+
+### enable_profiler `boolean`
+
+Quand cette option est réglée à `true`, Phug va générer
+une frise temporelle que vous pourrez consulter dans
+votre navigateur pour voir quel token/node prend le
+plus de temps à être parsé, compilé, rendu.
+
+Quand c'est activé, un sous-set d'options supplémentaire
+est disponible, voici leurs valeurs par défaut :
+```php
+'profiler' => [
+    'time_precision' => 3,     // précision décimale des chronos
+    'line_height'    => 30,    // hauteur/ligne de la frise
+    'display'        => true,  // affiche le résultat
+                               // (true ou false)
+    'log'            => false, // enregistre le résultat dans un fichier
+                               // (le chemin du ficheir ou false)
+],
+```
+
+## Erreurs
+
+### error_handler `callable`
+
+Règle un callback to gérer les exceptions Phug.
+`null` par défaut.
+
+### html_error `boolean`
+
+Affiche les erreurs en HTML (`false` par défaut si Phug
+est exécuté en CLI, `true` s'il est exécuté via un
+navigateur).
+
+### color_support `boolean`
+
+Permet d'activer la couleur dans la sortie en ligne de
+commande (pour les erreurs notamment), par défaut
+nous essayons de détecter si la console utilisée
+supporte la couleur.
+
+### error_context_lines `integer`
+
+Nous donnons du contexte en affichant le code source
+lié à une erreur `7` lignes au dessus et en dessous
+de la ligne d'erreur par défaut. Mais vous pouvez
+passez n'importe quel nombre à cette option pour
+avoir plus ou moins de contexte.

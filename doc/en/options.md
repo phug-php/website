@@ -279,12 +279,12 @@ to cache a whole directory.
 
 We recommend to use this command when you deploy your
 applications in production, it also allow you to set
-the option [up_to_date_check](#up_to_date_check)
+the option [up_to_date_check](#up_to_date_check-boolean)
 to `false` and get better performance.
 
 ## Language
 
-### paths
+### paths `array`
 
 Specify list of paths to be used for `include` and `extend`
 with absolute paths. Example:
@@ -303,7 +303,7 @@ directory you specified: `__DIR__.'/bundle-foo'`, if it does
 not exist in it, it will search in the next
 `__DIR__.'/resources/views'`.
 
-### extensions
+### extensions `array`
 
 List of file extensions Phug will consider as pug files.
 `['', '.pug', '.jade']` by default.
@@ -333,13 +333,14 @@ include my-file.pug
 include non-pug-file.js
 ```
 
-So the `extensions` allow you to pass an other list of
-extensions to be handled by Phug and added automatically
-to include/extend paths if missing.
+So the `extensions` extension allow you to pass an other
+list of extensions to be handled by Phug and added
+automatically to include/extend paths if missing.
 
-### default_doctype
+### default_doctype `string`
 
-Doctype to use if not specified. `"html"` by default.
+Doctype to use if not specified as argument.
+`"html"` by default.
 
 This means:
 ```phug
@@ -348,7 +349,7 @@ doctype
 doctype html
 ```
 
-### default_tag
+### default_tag `string`
 
 By default, when you do not specify a tag name, **Phug**
 fallback to a `div` tag:
@@ -365,7 +366,7 @@ would render as:
 <section c="d">Hello</section>
 ```
 
-### attributes_mapping
+### attributes_mapping `array`
 
 This option allow you to replace attributes by others:
 ```php
@@ -386,29 +387,32 @@ Will output:
 **Phug** embed a profiler module to watch, debug or limit
 memory consumption and execution time.
 
-### memory_limit
+### memory_limit `integer`
 
-Fix a memory limit usage. `-1` by default would mean
-*no limit*. But if the [debug](#debug) option is true,
+Set a memory limit usage. `-1` by default would mean
+*no limit*. But if the [debug](#debug-boolean) option is
+`true`,
 it automatically pass to `50*1024*1024` (50MB).
 
 If the profiler detect the memory usage exceed the limit,
 it will throw an exception. But be aware, if this limit
-is under the machine limit or the PHP limit, the Phug
+is greater than the machine limit or the PHP limit, the Phug
 limit will have no effect. 
 
-### execution_max_time
+### execution_max_time `integer`
 
-Fix a execution time limit. `-1` by default would mean
-*no limit*. But if the [debug](#debug) option is true,
+Set an execution time limit. `-1` by default would mean
+*no limit*. But if the [debug](#debug-boolean) option is
+`true`,
 it automatically pass to `30*1000` (30 seconds).
 
 If the profiler detect Phug is running for a longer
 time than the specified limit, it will throw an
-exception. But be aware, if this limit the PHP limit,
+exception. But be aware, if this limit is greater than
+the PHP limit,
 the Phug limit will have no effect. 
 
-### enable_profiler
+### enable_profiler `boolean`
 
 When set to `true`, it will output on render a timeline
 you can inspect in your browser to see wich token/node
@@ -429,26 +433,24 @@ also edit, these are the default values:
 
 ## Errors
 
-### error_handler
+### error_handler `callable`
 
 Set a callback method to handle Phug exceptions.
 `null` by default.
 
-### html_error
+### html_error `boolean`
 
 Display errors as HTML (by default, it's `false` when run
 on CLI, `true` when run in browser).
 
-### color_support
+### color_support `boolean`
 
 Used to enable color in CLI errors output, by default
 we will try to detect if the console used support colors.
 
-### error_context_lines
+### error_context_lines `integer`
 
 We give you some context on error code dump, `7` lines
 above and below the error line by default. But you can
-pass to this option any number to give more or less
+pass to this option any number to get more or less
 context.
-
-
