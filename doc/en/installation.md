@@ -13,14 +13,14 @@ phug directly in your application.
 
 - CodeIgniter: https://github.com/pug-php/ci-pug-engine
 
+- Yii 2: https://github.com/pug-php/pug-yii2
+
 The framework adapters above are based on **Pug-php 3**, that means expressions
 should be written in JS style by default, but you can use PHP native style by
 setting `expressionLanguage` to `php`.
 
-Yii and Slim adapters are also available but based on **Pug-php 2** right now
-and so there are not yet compatible with **Phug**:
-
-- Yii 2: https://github.com/rmrevin/yii2-pug
+Slim adapter is also available but based on **Pug-php 2** right now
+and so it is not yet compatible with **Phug**:
 
 - Slim 3: https://github.com/MarcelloDuarte/pug-slim
 

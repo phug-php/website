@@ -14,16 +14,16 @@ application.
 
 - CodeIgniter: https://github.com/pug-php/ci-pug-engine
 
+- Yii 2: https://github.com/pug-php/pug-yii2
+
 Les adapteurs ci-dessus utilisent **pug-php 3**, ce qui signifie que les
 expressions doivent être écrite en JS par défaut, mais vous pouvez
 utiliser le style natif PHP en règlant l'option `expressionLanguage`
 sur `php`.
 
-Des adapteurs pour Yii et Slim sont aussi disponibles mais basés sur
-**pug-php 2** pour le moment et ne sont donc pas encore compatible
+Un adapteur pour Slim est aussi disponibles mais basé sur
+**pug-php 2** pour le moment et n'est donc pas encore compatible
 avec Phug:
-
-- Yii 2: https://github.com/rmrevin/yii2-pug
 
 - Slim 3: https://github.com/MarcelloDuarte/pug-slim
 
