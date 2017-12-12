@@ -30,6 +30,10 @@ application.
 [![Latest Stable Version](https://poser.pugx.org/pug/slim/v/stable.png)](https://packagist.org/packages/pug/slim)
 [pug/slim](https://github.com/pug-php/pug-slim)
 
+- Silex: [exemple d'implementation](https://gist.github.com/kylekatarnls/ba13e4361ab14f4ff5d2a5775eb0cc10)
+
+- Lumen: [bkwld/laravel-pug](https://github.com/BKWLD/laravel-pug#use-in-lumen) fonctionne aussi avec Lumen
+
 Les adapteurs ci-dessus utilisent **pug-php 3**, ce qui signifie que les
 expressions doivent être écrite en JS par défaut, mais vous pouvez
 utiliser le style natif PHP en règlant l'option `expressionLanguage`

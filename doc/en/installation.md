@@ -29,6 +29,10 @@ phug directly in your application.
 [![Latest Stable Version](https://poser.pugx.org/pug/slim/v/stable.png)](https://packagist.org/packages/pug/slim)
 [pug/slim](https://github.com/pug-php/pug-slim)
 
+- Silex: [implementation example](https://gist.github.com/kylekatarnls/ba13e4361ab14f4ff5d2a5775eb0cc10)
+
+- Lumen: [bkwld/laravel-pug](https://github.com/BKWLD/laravel-pug#use-in-lumen) also works with Lumen
+
 The framework adapters above are based on **Pug-php 3**, that means expressions
 should be written in JS style by default, but you can use PHP native style by
 setting `expressionLanguage` to `php`.
