@@ -5,24 +5,33 @@
 If you use one of the following frameworks, click on the link to see how to install
 phug directly in your application.
 
-- Laravel: https://github.com/BKWLD/laravel-pug
+- Laravel:
+[![Latest Stable Version](https://poser.pugx.org/bkwld/laravel-pug/v/stable.png)](https://packagist.org/packages/bkwld/laravel-pug)
+[bkwld/laravel-pug](https://github.com/BKWLD/laravel-pug)
 
-- Symfony: https://github.com/pug-php/pug-symfony
+- Symfony:
+[![Latest Stable Version](https://poser.pugx.org/pug-php/pug-symfony/v/stable.png)](https://packagist.org/packages/pug-php/pug-symfony)
+[pug-php/pug-symfony](https://github.com/pug-php/pug-symfony)
 
-- Phalcon: https://github.com/pug-php/pug-phalcon
+- Phalcon:
+[![Latest Stable Version](https://poser.pugx.org/pug-php/pug-phalcon/v/stable.png)](https://packagist.org/packages/pug-php/pug-phalcon)
+[pug-php/pug-phalcon](https://github.com/pug-php/pug-phalcon)
 
-- CodeIgniter: https://github.com/pug-php/ci-pug-engine
+- CodeIgniter:
+[![Latest Stable Version](https://poser.pugx.org/ci-pug/ci-pug/v/stable.png)](https://packagist.org/packages/ci-pug/ci-pug)
+[ci-pug/ci-pug](https://github.com/pug-php/ci-pug-engine)
 
-- Yii 2: https://github.com/pug-php/pug-yii2
+- Yii 2:
+[![Latest Stable Version](https://poser.pugx.org/pug/yii2/v/stable.png)](https://packagist.org/packages/pug/yii2)
+[pug/yii2](https://github.com/pug-php/pug-yii2)
+
+- Slim 3:
+[![Latest Stable Version](https://poser.pugx.org/pug/slim/v/stable.png)](https://packagist.org/packages/pug/slim)
+[pug/slim](https://github.com/pug-php/pug-slim)
 
 The framework adapters above are based on **Pug-php 3**, that means expressions
 should be written in JS style by default, but you can use PHP native style by
 setting `expressionLanguage` to `php`.
-
-Slim adapter is also available but based on **Pug-php 2** right now
-and so it is not yet compatible with **Phug**:
-
-- Slim 3: https://github.com/MarcelloDuarte/pug-slim
 
 If you want us to support some other framework, please open an issue here:
 https://github.com/phug-php/phug/issues/new and if your issue get some votes,

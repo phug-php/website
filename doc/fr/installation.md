@@ -6,26 +6,34 @@ Si vous utilisez l'un des frameworks suivant, cliquez sur le lien
 correspondant pour installer phug directement dans votre
 application.
 
-- Laravel: https://github.com/BKWLD/laravel-pug
+- Laravel:
+[![Latest Stable Version](https://poser.pugx.org/bkwld/laravel-pug/v/stable.png)](https://packagist.org/packages/bkwld/laravel-pug)
+[bkwld/laravel-pug](https://github.com/BKWLD/laravel-pug)
 
-- Symfony: https://github.com/pug-php/pug-symfony
+- Symfony:
+[![Latest Stable Version](https://poser.pugx.org/pug-php/pug-symfony/v/stable.png)](https://packagist.org/packages/pug-php/pug-symfony)
+[pug-php/pug-symfony](https://github.com/pug-php/pug-symfony)
 
-- Phalcon: https://github.com/pug-php/pug-phalcon
+- Phalcon:
+[![Latest Stable Version](https://poser.pugx.org/pug-php/pug-phalcon/v/stable.png)](https://packagist.org/packages/pug-php/pug-phalcon)
+[pug-php/pug-phalcon](https://github.com/pug-php/pug-phalcon)
 
-- CodeIgniter: https://github.com/pug-php/ci-pug-engine
+- CodeIgniter:
+[![Latest Stable Version](https://poser.pugx.org/ci-pug/ci-pug/v/stable.png)](https://packagist.org/packages/ci-pug/ci-pug)
+[ci-pug/ci-pug](https://github.com/pug-php/ci-pug-engine)
 
-- Yii 2: https://github.com/pug-php/pug-yii2
+- Yii 2:
+[![Latest Stable Version](https://poser.pugx.org/pug/yii2/v/stable.png)](https://packagist.org/packages/pug/yii2)
+[pug/yii2](https://github.com/pug-php/pug-yii2)
+
+- Slim 3:
+[![Latest Stable Version](https://poser.pugx.org/pug/slim/v/stable.png)](https://packagist.org/packages/pug/slim)
+[pug/slim](https://github.com/pug-php/pug-slim)
 
 Les adapteurs ci-dessus utilisent **pug-php 3**, ce qui signifie que les
 expressions doivent être écrite en JS par défaut, mais vous pouvez
 utiliser le style natif PHP en règlant l'option `expressionLanguage`
 sur `php`.
-
-Un adapteur pour Slim est aussi disponibles mais basé sur
-**pug-php 2** pour le moment et n'est donc pas encore compatible
-avec Phug:
-
-- Slim 3: https://github.com/MarcelloDuarte/pug-slim
 
 Si vous souhaitez que nous supportions d'autres frameworks, veuillez
 ouvrir une issue (un ticket) sur GitHub :
