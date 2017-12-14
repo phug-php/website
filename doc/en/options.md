@@ -78,6 +78,14 @@ tags and remove mirroring of boolean attributes. See
 [doctype documentation](#doctype-option)
 for more information.
 
+Note: the XML doctype can break when open short tags are enabled,
+that's why by default, we replace `<?xml` with `<<?= "?" ?>xml`
+when `short_open_tag` or `hhvm.enable_short_tags` is `On`
+(this is the behavior when `short_open_tag_fix` option is
+set to its default value: `"auto"`) but you can switch this option
+to `true` (to always enable the fix) or `false` (to always
+disable it).
+
 ### pretty `boolean | string`
 
 [Deprecated.] Adds whitespace to the resulting HTML to make it
@@ -454,3 +462,112 @@ We give you some context on error code dump, `7` lines
 above and below the error line by default. But you can
 pass to this option any number to get more or less
 context.
+
+## Events
+
+Events are a very useful way to intercept different process
+steps to get, change or manipulate objects and parameters.
+
+Example:
+```php
+$renderer = new \Phug\Renderer([
+    'on_render' => function (\Phug\Renderer\Event\RenderEvent $event) {
+        // Get new parameters
+        $parameters = $event->getParameters();
+        // If you pass laurel in your parameters
+        if (isset($parameters['laurel'])) {
+            // Then you will need hardy
+            $parameters['hardy'] = '45 Minutes from Hollywood';
+        }
+
+        // Set new parameters
+        $event->setParameters($parameters);
+    },
+]);
+
+$renderer->display('p=$hardy', [
+    'laurel' => true,
+]);
+```
+Will output:
+```html
+<p>45 Minutes from Hollywood</p>
+```
+
+The same works with **pug-php**:
+```php
+$renderer = new Pug([
+    'on_render' => function (\Phug\Renderer\Event\RenderEvent $event) {
+        // Get new parameters
+        $parameters = $event->getParameters();
+        // If you pass laurel in your parameters
+        if (isset($parameters['laurel'])) {
+            // Then you will need hardy
+            $parameters['hardy'] = '45 Minutes from Hollywood';
+        }
+
+        // Set new parameters
+        $event->setParameters($parameters);
+    },
+]);
+
+$renderer->display('p=hardy', [
+    'laurel' => true,
+]);
+```
+
+Note that all **on_&#42;** options are initial options, it means
+you cannot set them after renderer initialization or using the
+facade (`Phug::setOption()` or `Pug\Facade::setOption()`).
+
+However, you can attach/detach events this way (using facade or
+not):
+```php
+function appendHardy(\Phug\Renderer\Event\RenderEvent $event) {
+    // Get new parameters
+    $parameters = $event->getParameters();
+    // If you pass laurel in your parameters
+    if (isset($parameters['laurel'])) {
+        // Then you will need hardy
+        $parameters['hardy'] = '45 Minutes from Hollywood';
+    }
+
+    // Set new parameters
+    $event->setParameters($parameters);
+}
+
+Phug::attach(\Phug\RendererEvent::RENDER, 'appendHardy');
+
+Phug::display('p=$hardy', [
+    'laurel' => true,
+]);
+
+Phug::detach(\Phug\RendererEvent::RENDER, 'appendHardy');
+
+Phug::display('p=$hardy', [
+    'laurel' => true,
+]);
+```
+
+Will output `<p>45 Minutes from Hollywood</p>` then `<p></p>`.
+
+So for all the **on_&#42;** options below, we will give you
+the initial option name, the event constant (to attach/detach)
+and the event class with a link to the API documentation that
+give you all methods available for this event (all values you
+can get and set).
+
+### on_render `callable`
+
+Event name: `\Phug\RendererEvent::RENDER`
+
+Event type: [`\Phug\Renderer\EventRenderEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.RenderEvent.html#method___construct)
+
+Parameters you can get/set:
+- input: input string if `render`/`display` has been called
+- path: input file if `renderFile`/`displayFile` has been called
+- method: the method that have been called `"render"`, `"display"`,
+`"renderFile"` or `"displayFile"`.
+- parameters: local variables passed for the view rendering
+
+Is called when a file or a string is rendered or displayed.

@@ -82,6 +82,15 @@ des attributs booléens. Voir
 [la documentation de doctype](#doctype-option)
 pour plus d'informations.
 
+Note: le doctype XML peut causer des bugs quand les *open short
+tags* sont activés, c'est pourquoi par défaut, nous remplaçons
+`<?xml` par `<<?= "?" ?>xml` quand `short_open_tag` ou
+`hhvm.enable_short_tags` est `On`
+(c'est le comportement lorsque l'option `short_open_tag_fix`
+est réglée sur sa valeur par défaut : `"auto"`) mais vous pouvez
+régler cette option à `true` (pour toujours activer lke correctif)
+ou `false` (pour toujours le désactiver).
+
 ### pretty `boolean | string`
 
 [Déprécié.] Ajoute des espaces blancs  dans le HTML pour le
@@ -479,3 +488,113 @@ lié à une erreur `7` lignes au dessus et en dessous
 de la ligne d'erreur par défaut. Mais vous pouvez
 passez n'importe quel nombre à cette option pour
 avoir plus ou moins de contexte.
+
+## Événements
+
+Les événements sont un moyen très puissant d'intercepter
+différentes étapes du processus pour récupérer, modifier
+ou manipuler des objets et paramètres.
+
+Exemple:
+```php
+$renderer = new \Phug\Renderer([
+    'on_render' => function (\Phug\Renderer\Event\RenderEvent $event) {
+        // Get new parameters
+        $parameters = $event->getParameters();
+        // If you pass laurel in your parameters
+        if (isset($parameters['laurel'])) {
+            // Then you will need hardy
+            $parameters['hardy'] = '45 Minutes from Hollywood';
+        }
+
+        // Set new parameters
+        $event->setParameters($parameters);
+    },
+]);
+
+$renderer->display('p=$hardy', [
+    'laurel' => true,
+]);
+```
+Will output:
+```html
+<p>45 Minutes from Hollywood</p>
+```
+
+The same works with **pug-php**:
+```php
+$renderer = new Pug([
+    'on_render' => function (\Phug\Renderer\Event\RenderEvent $event) {
+        // Get new parameters
+        $parameters = $event->getParameters();
+        // If you pass laurel in your parameters
+        if (isset($parameters['laurel'])) {
+            // Then you will need hardy
+            $parameters['hardy'] = '45 Minutes from Hollywood';
+        }
+
+        // Set new parameters
+        $event->setParameters($parameters);
+    },
+]);
+
+$renderer->display('p=hardy', [
+    'laurel' => true,
+]);
+```
+
+Note that all **on_&#42;** options are initial options, it means
+you cannot set them after renderer initialization or using the
+facade (`Phug::setOption()` or `Pug\Facade::setOption()`).
+
+However, you can attach/detach events this way (using facade or
+not):
+```php
+function appendHardy(\Phug\Renderer\Event\RenderEvent $event) {
+    // Get new parameters
+    $parameters = $event->getParameters();
+    // If you pass laurel in your parameters
+    if (isset($parameters['laurel'])) {
+        // Then you will need hardy
+        $parameters['hardy'] = '45 Minutes from Hollywood';
+    }
+
+    // Set new parameters
+    $event->setParameters($parameters);
+}
+
+Phug::attach(\Phug\RendererEvent::RENDER, 'appendHardy');
+
+Phug::display('p=$hardy', [
+    'laurel' => true,
+]);
+
+Phug::detach(\Phug\RendererEvent::RENDER, 'appendHardy');
+
+Phug::display('p=$hardy', [
+    'laurel' => true,
+]);
+```
+
+Will output `<p>45 Minutes from Hollywood</p>` then `<p></p>`.
+
+So for all the **on_&#42;** options below, we will give you
+the initial option name, the event constant (to attach/detach)
+and the event class with a link to the API documentation that
+give you all methods available for this event (all values you
+can get and set).
+
+### on_render `callable`
+
+Event name: `\Phug\RendererEvent::RENDER`
+
+Event type: [`\Phug\Renderer\EventRenderEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.RenderEvent.html#method___construct)
+
+Parameters you can get/set:
+- input: input string if `render`/`display` has been called
+- path: input file if `renderFile`/`displayFile` has been called
+- method: the method that have been called `"render"`, `"display"`,
+`"renderFile"` or `"displayFile"`.
+- parameters: local variables passed for the view rendering
+
+Is called when a file or a string is rendered or displayed.
