@@ -504,7 +504,7 @@ $renderer = new \Phug\Renderer([
         // If you pass laurel in your parameters
         if (isset($parameters['laurel'])) {
             // Then you will need hardy
-            $parameters['hardy'] = '45 Minutes from Hollywood';
+            $parameters['hardy'] = 'Scandale à Hollywood';
         }
 
         // Set new parameters
@@ -516,25 +516,25 @@ $renderer->display('p=$hardy', [
     'laurel' => true,
 ]);
 ```
-Will output:
+Affichera :
 ```html
-<p>45 Minutes from Hollywood</p>
+<p>Scandale à Hollywood</p>
 ```
 
 The same works with **pug-php**:
 ```php
 $renderer = new Pug([
     'on_render' => function (\Phug\Renderer\Event\RenderEvent $event) {
-        // Get new parameters
-        $parameters = $event->getParameters();
-        // If you pass laurel in your parameters
-        if (isset($parameters['laurel'])) {
-            // Then you will need hardy
-            $parameters['hardy'] = '45 Minutes from Hollywood';
+        // Récupération des paramètres actuels
+        $parametres = $event->getParameters();
+        // Si vous avez passé laurel en paramètre
+        if (isset($parametres['laurel'])) {
+            // Alors vous aurez aussi besoin de hardy
+            $parametres['hardy'] = '45 Minutes from Hollywood';
         }
 
-        // Set new parameters
-        $event->setParameters($parameters);
+        // Applique les nouveaux paramètres
+        $event->setParameters($parametres);
     },
 ]);
 
@@ -543,58 +543,79 @@ $renderer->display('p=hardy', [
 ]);
 ```
 
-Note that all **on_&#42;** options are initial options, it means
-you cannot set them after renderer initialization or using the
-facade (`Phug::setOption()` or `Pug\Facade::setOption()`).
+Notez que toutes les options en **on_&#42;** sont des options
+initiales, ce qui signifie que vous ne pouvez pas les appliquer
+après l'initialisation du *renderer* ou en utilisant les façades
+(`Phug::setOption()` ou `Pug\Facade::setOption()`).
 
-However, you can attach/detach events this way (using facade or
-not):
+Cependant, vous pouvez attacher/détacher des événements de la
+manière suivante (en utilisant ou non les façades) :
 ```php
-function appendHardy(\Phug\Renderer\Event\RenderEvent $event) {
-    // Get new parameters
-    $parameters = $event->getParameters();
-    // If you pass laurel in your parameters
-    if (isset($parameters['laurel'])) {
-        // Then you will need hardy
-        $parameters['hardy'] = '45 Minutes from Hollywood';
+function ajouteHardy(\Phug\Renderer\Event\RenderEvent $event) {
+    // Récupération des paramètres actuels
+    $parametres = $event->getParameters();
+    // Si vous avez passé laurel en paramètre
+    if (isset($parametres['laurel'])) {
+        // Alors vous aurez aussi besoin de hardy
+        $parametres['hardy'] = '45 Minutes from Hollywood';
     }
 
-    // Set new parameters
-    $event->setParameters($parameters);
+    // Applique les nouveaux paramètres
+    $event->setParameters($parametres);
 }
 
-Phug::attach(\Phug\RendererEvent::RENDER, 'appendHardy');
+Phug::attach(\Phug\RendererEvent::RENDER, 'ajouteHardy');
 
 Phug::display('p=$hardy', [
     'laurel' => true,
 ]);
 
-Phug::detach(\Phug\RendererEvent::RENDER, 'appendHardy');
+Phug::detach(\Phug\RendererEvent::RENDER, 'ajouteHardy');
 
 Phug::display('p=$hardy', [
     'laurel' => true,
 ]);
 ```
 
-Will output `<p>45 Minutes from Hollywood</p>` then `<p></p>`.
+Affichera `<p>Scandale à Hollywood</p>` puis `<p></p>`.
 
-So for all the **on_&#42;** options below, we will give you
-the initial option name, the event constant (to attach/detach)
-and the event class with a link to the API documentation that
-give you all methods available for this event (all values you
-can get and set).
+Donc pour toutes les options **on_&#42;** ci-dessous, nous
+vous donnerons le nom de l'option initiale, la constante
+d'événement (pour utiliser avec `attach`/`detach`)
+et la classe de l'événement avec un lien vers la documentation
+API qui vous donne toutes les méthodes disponibles sur cet
+événement (toutes les valeurs que vous pouvez récupérer et
+modifier).
 
 ### on_render `callable`
 
-Event name: `\Phug\RendererEvent::RENDER`
+Est déclenché avant qu'un fichier ou une chaîne soit rendue ou
+affichée.
 
-Event type: [`\Phug\Renderer\EventRenderEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.RenderEvent.html#method___construct)
+Constante d'événement : `\Phug\RendererEvent::RENDER`
 
-Parameters you can get/set:
-- input: input string if `render`/`display` has been called
-- path: input file if `renderFile`/`displayFile` has been called
-- method: the method that have been called `"render"`, `"display"`,
-`"renderFile"` or `"displayFile"`.
-- parameters: local variables passed for the view rendering
+Type d'événement : [`\Phug\Renderer\Event\RenderEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.RenderEvent.html#method___construct)
 
-Is called when a file or a string is rendered or displayed.
+Paramètres utilisables/modifiables :
+- input: code source si `render`/`display` a été appelé
+- path: fichier source si `renderFile`/`displayFile` a été appelé
+- method: la méthode qui a été appelée `"render"`, `"display"`,
+`"renderFile"` ou `"displayFile"`.
+- parameters: variables locales passée pour le rendu de la vue
+
+### on_html `callable`
+
+Est déclenché après qu'un fichier ou une chaîne soit rendue ou
+affichée.
+
+Constante d'événement : `\Phug\RendererEvent::HTML`
+
+Type d'événement : [`\Phug\Renderer\Event\HtmlEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.HtmlEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- renderEvent: lien vers le RenderEvent initial (voir
+ci-dessus)
+- result: résultat retourné (par `render` ou `renderFile`)
+- buffer: tampon de sortie (ce que `display` ou `displayFile`
+est sur le point d'afficher)
+- error: l'exception capturée si une erreur s'est produite

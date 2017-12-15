@@ -472,7 +472,7 @@ Example:
 ```php
 $renderer = new \Phug\Renderer([
     'on_render' => function (\Phug\Renderer\Event\RenderEvent $event) {
-        // Get new parameters
+        // Get current parameters
         $parameters = $event->getParameters();
         // If you pass laurel in your parameters
         if (isset($parameters['laurel'])) {
@@ -559,9 +559,11 @@ can get and set).
 
 ### on_render `callable`
 
-Event name: `\Phug\RendererEvent::RENDER`
+Is triggered before a file or a string being rendered or displayed.
 
-Event type: [`\Phug\Renderer\EventRenderEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.RenderEvent.html#method___construct)
+Event constant: `\Phug\RendererEvent::RENDER`
+
+Event type: [`\Phug\Renderer\Event\RenderEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.RenderEvent.html#method___construct)
 
 Parameters you can get/set:
 - input: input string if `render`/`display` has been called
@@ -570,4 +572,17 @@ Parameters you can get/set:
 `"renderFile"` or `"displayFile"`.
 - parameters: local variables passed for the view rendering
 
-Is called when a file or a string is rendered or displayed.
+### on_html `callable`
+
+Is triggered after a file or a string being rendered or displayed.
+
+Event constant: `\Phug\RendererEvent::HTML`
+
+Event type: [`\Phug\Renderer\Event\HtmlEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.HtmlEvent.html#method___construct)
+
+Parameters you can get/set:
+- renderEvent: link to the initial RenderEvent (see above)
+- result: returned result (by `render` or `renderFile`)
+- buffer: output buffer (what `display` or `displayFile` is
+about to display)
+- error: the exception caught if an error occured
