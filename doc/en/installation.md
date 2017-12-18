@@ -43,7 +43,7 @@ we'll work on it.
 
 ## In your favorite <acronym title="Content Management System">CMS</acronym>
 
-- WordPress: https://github.com/welaika/wordless
+- WordPress: [wordless](https://github.com/welaika/wordless)
 
 ## Installation from scratch
 
