@@ -561,6 +561,10 @@ can get and set).
 
 Is triggered before a file or a string being rendered or displayed.
 
+In some cases you may hesitate between **on_render** and
+**on_compile**, you should maybe check
+[on_compile option](#on-compile-callable).
+
 Event constant: `\Phug\RendererEvent::RENDER`
 
 Event type: [`\Phug\Renderer\Event\RenderEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.RenderEvent.html#method___construct)
@@ -584,5 +588,50 @@ Parameters you can get/set:
 - renderEvent: link to the initial RenderEvent (see above)
 - result: returned result (by `render` or `renderFile`)
 - buffer: output buffer (what `display` or `displayFile` is
-about to display)
+about to display) typically the HTML code, but can be XML
+or any custom format implemented
 - error: the exception caught if an error occured
+
+### on_compile `callable`
+
+Is triggered before a file or a string being compiled.
+
+This option is different from **on_render** in the following
+points:
+- `compile()` and `compileFile()` methods will trigger a compile
+event but not the render event,
+- compile event is triggered after the render event,
+- and render and display methods will always trigger a render
+event but will trigger a compile event only except when
+compiled template is served from cache (cache settings in use
+and template up to date).
+
+The compile process transform pug code into PHP code that
+is always the same for a given template no matter the locals
+values, when render
+process execute that PHP code to get HTML, XML or any final
+output with locals replaced with their values. That's why
+the render event also have **parameters** with locals
+variables values you can get and set.
+
+Event constant: `\Phug\CompilerEvent::COMPILE`
+
+Event type: [`\Phug\Compiler\Event\CompileEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.CompileEvent.html#method___construct)
+
+Parameters you can get/set:
+- input: input string/source file content
+- path: input file if `compileFile`/`renderFile`/`displayFile`
+has been called
+
+### on_output `callable`
+
+Is triggered after a file or a string being compiled.
+
+Event constant: `\Phug\CompilerEvent::OUTPUT`
+
+Event type: [`\Phug\Compiler\Event\OutputEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.OutputEvent.html#method___construct)
+
+Parameters you can get/set:
+- compileEvent: link to the initial CompileEvent (see above)
+- output: output PHP code that can be executed to get the
+final output

@@ -589,8 +589,12 @@ modifier).
 
 ### on_render `callable`
 
-Est déclenché avant qu'un fichier ou une chaîne soit rendue ou
-affichée.
+Est déclenché avant qu'un fichier ou une chaîne soit rendu ou
+affiché.
+
+Dans certains cas vous pourriez hésiter entre **on_render** et
+**on_compile**, vous devriez peut-être consulter
+[l'option on_compile](#on-compile-callable).
 
 Constante d'événement : `\Phug\RendererEvent::RENDER`
 
@@ -605,8 +609,8 @@ Paramètres utilisables/modifiables :
 
 ### on_html `callable`
 
-Est déclenché après qu'un fichier ou une chaîne soit rendue ou
-affichée.
+Est déclenché après qu'un fichier ou une chaîne soit rendu ou
+affiché.
 
 Constante d'événement : `\Phug\RendererEvent::HTML`
 
@@ -617,5 +621,54 @@ Paramètres utilisables/modifiables :
 ci-dessus)
 - result: résultat retourné (par `render` ou `renderFile`)
 - buffer: tampon de sortie (ce que `display` ou `displayFile`
-est sur le point d'afficher)
+est sur le point d'afficher) généralement le code HTML, mais
+ce peut être aussi du XML ou n'importe quel format personnalisé
 - error: l'exception capturée si une erreur s'est produite
+
+### on_compile `callable`
+
+Est déclenché avant qu'un fichier ou une chaîne soit compilé.
+
+Cette option est differente de **on_render** par les aspects
+suivants :
+- les méthodes `compile()` et `compileFile()` déclenchen un
+événement *compile* mais pas d'événement *render*,
+- l'événement *compile* est déclenché avant le *render*,
+- et les méthodes *render(File)* et *display(File)* vont
+toujours déclenché un événement *render* mais ne déclencheront
+pas d'événement *compile* si un template compilé est servi
+depuis le cache (configuration de cache active et template
+à jour).
+
+Le processus de compilation transforme du code pug en code
+PHP qui est toujours le même pour un template donné quelles
+que soientles valeurs des variables locales, alors que le
+processus de rendu exécute ce code PHP pour obtenir du
+HTML, XML ou n'importe quelle chaîne finale où les variables
+locales sont remplacées par leurs valeurs. C'est pour ça
+que l'événement *render* a aussi un paramètres
+**parameters** avec les valeurs des variables locales
+que vous pouvez récupérer et modifier.
+
+Constante d'événement : `\Phug\CompilerEvent::COMPILE`
+
+Type d'événement : [`\Phug\Compiler\Event\CompileEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.CompileEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- input: contenu source de la chaîne/le fichier compilé
+- path: chemin du fichier source si
+`compileFile`/`renderFile`/`displayFile` a été appelé
+
+### on_output `callable`
+
+Is triggered after a file or a string being compiled.
+
+Constante d'événement : `\Phug\CompilerEvent::OUTPUT`
+
+Type d'événement : [`\Phug\Compiler\Event\OutputEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.OutputEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- compileEvent: lien vers l'événement CompileEvent initial
+(voir ci-dessus)
+- output: code PHP généré qui peut être exécuté pour obtenir
+le code final
