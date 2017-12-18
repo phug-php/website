@@ -41,6 +41,10 @@ If you want us to support some other framework, please open an issue here:
 https://github.com/phug-php/phug/issues/new and if your issue get some votes,
 we'll work on it.
 
+## In your favorite <acronym title="Content Management System">CMS</acronym>
+
+- WordPress: https://github.com/welaika/wordless
+
 ## Installation from scratch
 
 First you need *composer* if you have'nt yet: https://getcomposer.org/download/
