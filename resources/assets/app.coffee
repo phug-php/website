@@ -76,10 +76,16 @@ $ ->
         fileName[2]
       else
         ''
+      $next = $pre.next()
+      options = $next.find('i:first').data('options') || {}
+      $next.find('i[data-options]').remove()
+      if ($next.html() || '').trim() is ''
+        $next.remove()
       $pre.replaceWith '<iframe data-src="https://pug-demo.herokuapp.com/' +
         '?embed&theme=xcode&border=silver&options-color=rgba(120,120,120,0.5)' +
         '&engine=' + (if $code.hasClass('language-phug') then 'phug' else 'pug-php') +
         '&input=' + encodeURIComponent(code) +
+        '&options=' + encodeURIComponent(JSON.stringify(options)) +
         '&save_as=' + saveAs +
         (if language
           '&language=' + language +

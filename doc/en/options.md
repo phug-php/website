@@ -635,3 +635,47 @@ Parameters you can get/set:
 - compileEvent: link to the initial CompileEvent (see above)
 - output: output PHP code that can be executed to get the
 final output
+
+### on_node `callable`
+
+Is triggered for each node before its compilation.
+
+To well understand what is a node, you can use the **parse**
+mode of the live editor, here is an example:
+```pug
+doctype
+html
+  head
+    title=$var
+  body
+    h1 Text
+    footer
+      | Text
+      =date('Y')
+```
+<i data-options='{"mode":"parse"}'></i>
+
+You can see the **Phug** parser transform the pug code into
+a tree of nodes. Then the compiler will compile each of these
+nodes into elements recursively. And the formatter will turn
+the tree of elements into the compiled PHP code.
+
+Event constant: `\Phug\CompilerEvent::NODE`
+
+Event type: [`\Phug\Compiler\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.CompileEvent.html#method___construct)
+
+Parameters you can get/set:
+- node: the node instance created by the parser that is
+about to be compiled
+
+### on_element `callable`
+
+Is triggered for each node after its compilation.
+
+Event constant: `\Phug\CompilerEvent::ELEMENT`
+
+Event type: [`\Phug\Compiler\Event\ElementEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.OutputEvent.html#method___construct)
+
+Parameters you can get/set:
+- nodeEvent: link to the initial NodeEvent (see above)
+- element: the compiled element

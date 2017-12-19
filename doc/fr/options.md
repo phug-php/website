@@ -661,7 +661,7 @@ Paramètres utilisables/modifiables :
 
 ### on_output `callable`
 
-Is triggered after a file or a string being compiled.
+Est déclenché après qu'un fichier ou une chaîne soit compilé.
 
 Constante d'événement : `\Phug\CompilerEvent::OUTPUT`
 
@@ -672,3 +672,49 @@ Paramètres utilisables/modifiables :
 (voir ci-dessus)
 - output: code PHP généré qui peut être exécuté pour obtenir
 le code final
+
+### on_node `callable`
+
+Est déclenché pour chaque nœud avant sa compilation.
+
+Pour bien comprendre ce qu'est un nœud, vous pouvez utiliser
+le mode **parse** dans l'éditeur de code, voici un exemple :
+```pug
+doctype
+html
+  head
+    title=$var
+  body
+    h1 Texte
+    footer
+      | Texte
+      =date('Y')
+```
+<i data-options='{"mode":"parse"}'></i>
+
+Vous pouvez voir que le *parser* de **Phug** transforme le
+code pug en arbre de nœuds. Puis le *compiler* va compiler
+chacun de ces nœuds en éléments récursivement. Et le
+*formatter* transformera l'arbre d'éléments en code PHP
+compilé.
+
+Constante d'événement : `\Phug\CompilerEvent::NODE`
+
+Type d'événement : [`\Phug\Compiler\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.CompileEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- node: l'instance de nœud qui est sur le point d'être
+compilée
+
+### on_element `callable`
+
+Est déclenché pour chaque nœud après sa compilation.
+
+Constante d'événement : `\Phug\CompilerEvent::ELEMENT`
+
+Type d'événement : [`\Phug\Compiler\Event\ElementEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.OutputEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- nodeEvent: lien vers l'événement NodeEvent initial
+(voir ci-dessus)
+- element: l'élément compilé
