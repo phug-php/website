@@ -642,7 +642,7 @@ Is triggered for each node before its compilation.
 
 To well understand what is a node, you can use the **parse**
 mode of the live editor, here is an example:
-```pug
+```phug
 doctype
 html
   head
@@ -679,3 +679,79 @@ Event type: [`\Phug\Compiler\Event\ElementEvent`](https://phug-lang.com/api/clas
 Parameters you can get/set:
 - nodeEvent: link to the initial NodeEvent (see above)
 - element: the compiled element
+
+### on_format `callable`
+
+Is triggered for each element before being formatted.
+
+The formatting step is a process that take elements tree
+(output object representation as stored after the compilation,
+not to be confused with the nodes tree that represent the
+input and is given by the parsing before the compilation)
+and convert these elements into a compiled PHP capable
+to render them.
+
+The formatting is recursive, when passing an element, it
+also format its children inside.
+
+#### Before formatting process
+```phug
+p=$var
+```
+<i data-options='{"mode":"compile"}'></i>
+#### After formatting process
+```phug
+p=$var
+```
+<i data-options='{"mode":"format"}'></i>
+
+Event constant: `\Phug\FormatterEvent::FORMAT`
+
+Event type: [`\Phug\Formatter\Event\FormatEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.FormatEvent.html#method___construct)
+
+Parameters you can get/set:
+- element: the compiled element (implements ElementInterface)
+- format: the format in use (implements FormatInterface)
+will be by default BasicFormat or the format set for your
+doctype (for example, if you have set `doctype html`) the
+format here is HtmlFormat (see [format](#format-string)
+and [default_format](#default-format-string) options)
+
+### on_new_format `callable`
+
+Is triggered when the format change (for example when you
+set the doctype).
+
+Event constant: `\Phug\FormatterEvent::NEW_FORMAT`
+
+Event type: [`\Phug\Formatter\Event\NewFormatEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.NewFormatEvent.html#method___construct)
+
+Parameters you can get/set:
+- formatter: the current formatter in use (implements Formatter)
+- format: the new format instance (implements FormatInterface)
+
+### on_dependency_storage `callable`
+
+Is triggered when a dependency is retrieved from the dependency
+storage.
+
+Dependency storage is used to store functions needed at rendering
+time and dump them in the compiled PHP code, it's used for example
+in assignments:
+
+```phug
+p&attributes(['foo' => 'bar'])
+```
+<i data-options='{"mode":"format"}'></i>
+
+Those methods are stored by default in `$pugModule` (see
+[dependencies_storage](#dependencies-storage-string) option
+to change it).
+
+Event constant: `\Phug\FormatterEvent::DEPENDENCY_STORAGE`
+
+Event type: [`\Phug\Formatter\Event\DependencyStorageEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.DependencyStorageEvent.html#method___construct)
+
+Parameters you can get/set:
+- dependencyStorage: storage variable as string (for example:
+`$pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment']`)

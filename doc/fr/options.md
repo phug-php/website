@@ -718,3 +718,84 @@ Paramètres utilisables/modifiables :
 - nodeEvent: lien vers l'événement NodeEvent initial
 (voir ci-dessus)
 - element: l'élément compilé
+
+### on_format `callable`
+
+Est déclenché pour chaque élément avant d'être formatté.
+
+L'étape de formattage est un processus qui prend un arbre
+d'éléments (objet représentant la sortie telle que stockée
+après compilation, à ne pas confondre avec l'arbre de nœuds
+qui représente la source d'entrée et est le résultat du
+*parsing* - analyse - avant la compilation) et
+convertit ces éléments en code PHP compilé capable
+d'effectué le rendu.
+
+Le formattage est récursif, en lui passant un élément,
+il formatte aussi les enfants contenus dans cet élément.
+
+#### Avant le processus de formattage
+```phug
+p=$var
+```
+<i data-options='{"mode":"compile"}'></i>
+#### Après le processus de formattage
+```phug
+p=$var
+```
+<i data-options='{"mode":"format"}'></i>
+
+Constante d'événement : `\Phug\FormatterEvent::FORMAT`
+
+Type d'événement : [`\Phug\Formatter\Event\FormatEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.FormatEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- element: l'élément compilé (implémente ElementInterface)
+- format: le format utilisé (implémente FormatInterface)
+sera par défaut BasicFormat ou le format pour votre
+doctype (par exemple, si vous avez mis `doctype html`) le
+format ici sera HtmlFormat (voir les options
+[format](#format-string) et
+[default_format](#default-format-string))
+
+### on_new_format `callable`
+
+Est déclenché quand le format change (par exemple quand
+vous définissez le doctype).
+
+Constante d'événement : `\Phug\FormatterEvent::NEW_FORMAT`
+
+Type d'événement : [`\Phug\Formatter\Event\NewFormatEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.NewFormatEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- formatter: le *formatter* courant (implémente Formatter)
+- format: l'instance du nouveau format (implémente
+FormatInterface)
+
+### on_dependency_storage `callable`
+
+Est déclenché quand une dépendance est extraire du *dependency
+storage*.
+
+Le registre des dépendances *dependency storage* est utilisé
+pour stocker les fonctions utiles lors du rendu et les intégrer
+aux code PHP compilé, c'est utilisé par exemple dans les
+assignements :
+
+```phug
+p&attributes(['machin' => 'true'])
+```
+<i data-options='{"mode":"format"}'></i>
+
+Ces méthodes sont stockées par défaut dans `$pugModule` (voir
+l'option [dependencies_storage](#dependencies-storage-string)
+pour le changer).
+
+Constante d'événement : `\Phug\FormatterEvent::DEPENDENCY_STORAGE`
+
+Type d'événement : [`\Phug\Formatter\Event\DependencyStorageEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.DependencyStorageEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- dependencyStorage: variable utilisée pour stocker pour stocker
+la méthode (par exemple :
+`$pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment']`)
