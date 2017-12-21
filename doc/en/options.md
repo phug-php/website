@@ -557,6 +557,29 @@ and the event class with a link to the API documentation that
 give you all methods available for this event (all values you
 can get and set).
 
+Before listing all the events, here is a overview of the
+processes timeline:
+![Phug processes timeline](/img/pug-processes.png)
+Plain lines are active process, dotted line are waiting for
+an other process.
+
+So you can see the rendering start event will be triggered
+before other events even if the real active rendering
+process only start after all other processes end.
+
+The same goes for compilation that first wait for the parser
+to give him the complete nodes tree before starting the
+active compilation, then it will wait for the formatting
+process before calling the output event.
+
+Parsing, lexing and reading are parallel processes, the
+reader identify string chunk such as 2 spaces at the beginning
+of the line, the lexer convert this string into a indent
+token, then so parser know it have to enter one level and
+append next nodes as children of the upper node. Then
+this process is repeated token by token until all the
+input string is consumed.
+
 ### on_render `callable`
 
 Is triggered before a file or a string being rendered or displayed.
@@ -755,3 +778,165 @@ Event type: [`\Phug\Formatter\Event\DependencyStorageEvent`](https://phug-lang.c
 Parameters you can get/set:
 - dependencyStorage: storage variable as string (for example:
 `$pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment']`)
+
+### on_parse `callable`
+
+Is triggered before the parsing process.
+
+Event constant: `\Phug\ParserEvent::PARSE`
+
+Event type: [`\Phug\Parser\Event\ParseEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.ParseEvent.html#method___construct)
+
+Parameters you can get/set:
+- input: input string/source file content
+- path: input file if `compileFile`/`renderFile`/`displayFile`
+has been called
+- stateClassName: class name of the state object that is about
+be created for parsing
+- stateOptions: options array that will be passed to the sate
+at its creation
+
+### on_document `callable`
+
+Is triggered when the parser finished to parse a whole document.
+
+Event constant: `\Phug\ParserEvent::DOCUMENT`
+
+Event type: [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+
+Parameters you can get/set:
+- node: the document as parser node instance
+
+### on_state_enter `callable`
+
+Is triggered when the parser enter a node.
+
+Event constant: `\Phug\ParserEvent::STATE_ENTER`
+
+Event type: [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+
+Parameters you can get/set:
+- node: the node the parser entered in
+
+### on_state_leave `callable`
+
+Is triggered when the parser leave a node.
+
+Event constant: `\Phug\ParserEvent::STATE_LEAVE`
+
+Event type: [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+
+Parameters you can get/set:
+- node: the node the parser left out
+
+### on_state_store `callable`
+
+Is triggered when the parser store and append a
+node to the document tree.
+
+Event constant: `\Phug\ParserEvent::STATE_STORE`
+
+Event type: [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+
+Parameters you can get/set:
+- node: the node the parser stored
+
+### on_lex `callable`
+
+Is triggered when the lexer starts to tokenize
+an input string.
+
+Event constant: `\Phug\LexerEvent::LEX`
+
+Event type: [`\Phug\Lexer\Event\LexEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.LexEvent.html#method___construct)
+
+Parameters you can get/set:
+- input: input string/source file content
+- path: input file if `compileFile`/`renderFile`/`displayFile`
+has been called
+- stateClassName: class name of the state object that is about
+be created for lexing
+- stateOptions: options array that will be passed to the sate
+at its creation
+
+### on_lex_end `callable`
+
+Is triggered when the lexer finished to tokenize
+an input string.
+
+Event constant: `\Phug\LexerEvent::LEX_END`
+
+Event type: [`\Phug\Lexer\Event\EndLexEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.EndLexEvent.html#method___construct)
+
+Parameters you can get/set:
+- lexEvent: link to the initial LexEvent
+
+### on_token `callable`
+
+Is triggered each time the lexer is about to yield a token
+and send it to the parser.
+
+Event constant: `\Phug\LexerEvent::TOKEN`
+
+Event type: [`\Phug\Lexer\Event\TokenEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.TokenEvent.html#method___construct)
+
+Parameters you can get/set:
+- token: the token created by the lexer
+- tokenGenerator: is null by default, but if you set
+an iterator for this property, it will replace the token
+
+Some examples:
+```php
+$renderer = new \Phug\Renderer([
+  'on_token' => function (\Phug\Lexer\Event\TokenEvent $event) {
+    $token = $event->getToken();
+    if ($token instanceof \Phug\Lexer\Token\TagToken) {
+      $token->setName('a');
+    }
+  },
+]);
+$renderer->display('div'); // <a></a>
+
+$renderer = new \Phug\Renderer([
+  'on_token' => function (\Phug\Lexer\Event\TokenEvent $event) {
+    if ($event->getToken() instanceof \Phug\Lexer\Token\TagToken) {
+      $text = new \Phug\Lexer\Token\TextToken();
+      $text->setValue('Hello');
+      $event->setToken($text);
+    }
+  },
+]);
+$renderer->display('div'); // Hello
+
+$renderer = new \Phug\Renderer([
+  'on_token' => function (\Phug\Lexer\Event\TokenEvent $event) {
+    if ($event->getToken() instanceof \Phug\Lexer\Token\TextToken) {
+      $event->setTokenGenerator(new \ArrayIterator([
+        (new \Phug\Lexer\Token\TagToken())->setName('div'),
+        (new \Phug\Lexer\Token\ClassToken())->setName('foo'),
+        (new \Phug\Lexer\Token\IdToken())->setName('bar'),
+      ]));
+    }
+  },
+]);
+$renderer->display('| Hello'); // <div id="bar" class="foo"></div>
+
+function replaceTextToken(\Phug\Lexer\Token\TextToken $token) {
+  if (preg_match('/^(\D+)(\d+)$/', $token->getValue(), $match) {
+    list(, $chars, $digit) = $match;
+    for ($i = 0; $i < $digit; $i++) {
+      yield (new \Phug\Lexer\Token\TagToken())->setName($chars);
+    }
+  }
+}
+
+$renderer = new \Phug\Renderer([
+  'on_token' => function (\Phug\Lexer\Event\TokenEvent $event) {
+    $token = $event->getToken();
+    if ($token instanceof \Phug\Lexer\Token\TextToken) {
+      $event->setTokenGenerator(replaceTextToken($token));
+    }
+  },
+]);
+$renderer->display("|i2\n|bk3"); // <i></i><i></i><bk></bk><bk></bk><bk></bk>
+```

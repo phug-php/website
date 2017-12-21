@@ -587,6 +587,31 @@ API qui vous donne toutes les méthodes disponibles sur cet
 événement (toutes les valeurs que vous pouvez récupérer et
 modifier).
 
+Avant de lister tous les événements, voici une vue d'ensemble
+de la chronologie des processus :
+![Chronologie des processus Phug](/img/pug-processes.png)
+Les lignes continues sont les processus actifs, les pointillés
+sont les processus en attente d'un autre processus.
+
+Vous pouvez donc voir que le rendu commence avant les autres
+événements bien que le processus actif du rendu ne démarre
+que lorsque les autres processus sont terminés.
+
+Il en va de même pour la compilation qui attend d'abord
+que le *parser* lui donne l'arbre complet des nœuds avant
+de démarrer la "vraie" compilation (c-à-d. la transformation
+des nœuds en éléments), puis elle va attendre le processus
+de formattage avant d'appeler l'événement *output*.
+
+Les étapes de *parsing*, *lexing* et *reading* sont des
+processus parallèles, le lecteur (*reader*) identifie des
+morceaux de texte, par exemple 2 espaces en début de ligne,
+le *lexer* convertit la chaîne en *token*, puis le *parser*
+sait alors qu'il doit indenter un niveau et ajouter ensuite
+les nœuds suivants en tant qu'enfants du nœud du dessus.
+Cet enchaînement est ensuite répété *token* par *token*
+jusqu'à ce que toute la source soit consommée.
+
 ### on_render `callable`
 
 Est déclenché avant qu'un fichier ou une chaîne soit rendu ou
@@ -799,3 +824,166 @@ Paramètres utilisables/modifiables :
 - dependencyStorage: variable utilisée pour stocker pour stocker
 la méthode (par exemple :
 `$pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment']`)
+
+### on_parse `callable`
+
+Est déclenché avant le processus d'analyse (*parsing*).
+
+Constante d'événement : `\Phug\ParserEvent::PARSE`
+
+Type d'événement : [`\Phug\Parser\Event\ParseEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.ParseEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- input: contenu source de la chaîne/le fichier compilé
+- path: chemin du fichier source si
+`compileFile`/`renderFile`/`displayFile` a été appelé
+- stateClassName: nom de la classe de l'objet d'état qui
+va être créée pour le *parsing*
+- stateOptions: array d'options qui va être passé à la
+création de l'état
+
+### on_document `callable`
+
+Est déclenché quand le *parser* a analysé un document en entier
+(fin du *parsing*).
+
+Constante d'événement : `\Phug\ParserEvent::DOCUMENT`
+
+Type d'événement : [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- node: le document en tant qu'instance de nœud
+
+### on_state_enter `callable`
+
+Est déclenché quand le *parser* entre dans un nœud.
+
+Constante d'événement : `\Phug\ParserEvent::STATE_ENTER`
+
+Type d'événement : [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- node: le nœud dans lequel le *parser* est entré
+
+### on_state_leave `callable`
+
+Est déclenché quand le *parser* resort d'un nœud.
+
+Constante d'événement : `\Phug\ParserEvent::STATE_LEAVE`
+
+Type d'événement : [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- node: le nœud duquel le *parser* est resorti
+
+### on_state_store `callable`
+
+Est déclenché quand le *parser* enregistre et attache
+un nœud à l'arbre du document.
+
+Constante d'événement : `\Phug\ParserEvent::STATE_STORE`
+
+Type d'événement : [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- node: le nœud que le *parser* a enregistré
+
+### on_lex `callable`
+
+Est déclenché quand le *lexer* commence à transformer
+le code source Pug en *tokens*.
+
+Constante d'événement : `\Phug\LexerEvent::LEX`
+
+Type d'événement : [`\Phug\Lexer\Event\LexEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.LexEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- input: contenu source de la chaîne/le fichier compilé
+- path: chemin du fichier source si
+`compileFile`/`renderFile`/`displayFile` a été appelé
+- stateClassName: nom de la classe de l'objet d'état qui
+va être créée pour le *lexing*
+- stateOptions: array d'options qui va être passé à la
+création de l'état
+
+### on_lex_end `callable`
+
+Est déclenché quand le *lexer* à terminé de transformer
+le code source Pug en *tokens*.
+
+Constante d'événement : `\Phug\LexerEvent::LEX_END`
+
+Type d'événement : [`\Phug\Lexer\Event\EndLexEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.EndLexEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- lexEvent: lien vers lévénement LexEvent initial
+
+### on_token `callable`
+
+Est déclenché à chaque fois que le *lexer* est sur le point
+de retourné un token et de l'envoyer au *parser*.
+
+Constante d'événement : `\Phug\LexerEvent::TOKEN`
+
+Type d'événement : [`\Phug\Lexer\Event\TokenEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.TokenEvent.html#method___construct)
+
+Paramètres utilisables/modifiables :
+- token: le jeont créé par le *lexer*
+- tokenGenerator: `null` par défaut, mais si vous passez
+un *iterator* à cette propriété, il remplacera le jeton
+
+Quelques exemples :
+```php
+$renderer = new \Phug\Renderer([
+  'on_token' => function (\Phug\Lexer\Event\TokenEvent $event) {
+    $token = $event->getToken();
+    if ($token instanceof \Phug\Lexer\Token\TagToken) {
+      $token->setName('a');
+    }
+  },
+]);
+$renderer->display('div'); // <a></a>
+
+$renderer = new \Phug\Renderer([
+  'on_token' => function (\Phug\Lexer\Event\TokenEvent $event) {
+    if ($event->getToken() instanceof \Phug\Lexer\Token\TagToken) {
+      $text = new \Phug\Lexer\Token\TextToken();
+      $text->setValue('Salut');
+      $event->setToken($text);
+    }
+  },
+]);
+$renderer->display('div'); // Salut
+
+$renderer = new \Phug\Renderer([
+  'on_token' => function (\Phug\Lexer\Event\TokenEvent $event) {
+    if ($event->getToken() instanceof \Phug\Lexer\Token\TextToken) {
+      $event->setTokenGenerator(new \ArrayIterator([
+        (new \Phug\Lexer\Token\TagToken())->setName('div'),
+        (new \Phug\Lexer\Token\ClassToken())->setName('machin'),
+        (new \Phug\Lexer\Token\IdToken())->setName('truc'),
+      ]));
+    }
+  },
+]);
+$renderer->display('| Salut'); // <div id="truc" class="machin"></div>
+
+function replaceTextToken(\Phug\Lexer\Token\TextToken $token) {
+  if (preg_match('/^(\D+)(\d+)$/', $token->getValue(), $match) {
+    list(, $chars, $digit) = $match;
+    for ($i = 0; $i < $digit; $i++) {
+      yield (new \Phug\Lexer\Token\TagToken())->setName($chars);
+    }
+  }
+}
+
+$renderer = new \Phug\Renderer([
+  'on_token' => function (\Phug\Lexer\Event\TokenEvent $event) {
+    $token = $event->getToken();
+    if ($token instanceof \Phug\Lexer\Token\TextToken) {
+      $event->setTokenGenerator(replaceTextToken($token));
+    }
+  },
+]);
+$renderer->display("|i2\n|bk3"); // <i></i><i></i><bk></bk><bk></bk><bk></bk>
+```
