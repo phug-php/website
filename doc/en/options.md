@@ -940,3 +940,117 @@ $renderer = new \Phug\Renderer([
 ]);
 $renderer->display("|i2\n|bk3"); // <i></i><i></i><bk></bk><bk></bk><bk></bk>
 ```
+
+## Add-ons
+
+Here are a list of entry points to add contents and custom
+behaviors:
+
+### modules `array`
+
+Modules can add anything else by manipulating options and
+events. For example if you use **Pug-php** with default
+options, you already have the
+[js-phpize module for Phug](https://github.com/pug-php/js-phpize-phug)
+enabled. This would be equivalent to require it with
+composer and add it this way to **Phug**:
+
+```php
+$renderer = new \Phug\Renderer([
+    'modules' => [
+        \JsPhpize\JsPhpizePhug::class,
+    ],
+]);
+
+$renderer->display('p=userName.substr(0, 3)', [
+    'userName' => 'Bobby',
+]);
+```
+
+This code output `<p>Bob</p>` but it would failed without
+the module added because JS expressions are not
+natively handled.
+
+You also can create your own module by extending one of
+the following class:
+- [`\Phug\AbstractRendererModule`](https://phug-lang.com/api/classes/Phug.AbstractRendererModule.html)
+- [`\Phug\AbstractCompilerModule`](https://phug-lang.com/api/classes/Phug.AbstractCompilerModule.html)
+- [`\Phug\AbstractFormatterModule`](https://phug-lang.com/api/classes/Phug.AbstractFormatterModule.html)
+- [`\Phug\AbstractParserModule`](https://phug-lang.com/api/classes/Phug.AbstractParserModule.html)
+- [`\Phug\AbstractLexerModule`](https://phug-lang.com/api/classes/Phug.AbstractLexerModule.html)
+
+They all extend the
+[`\Phug\Util\AbstractModule` class](https://phug-lang.com/api/classes/Phug.Util.AbstractModule.html)
+
+Here is an example:
+
+```php
+class MyModule extends \Phug\AbstractCompilerModule
+{
+    public function __construct(\Phug\Util\ModuleContainerInterface $container)
+    {
+        // Here you can change some options
+        $container->setOption('default_tag', 'p');
+
+        parent::__construct($container);
+    }
+
+    public function getEventListeners()
+    {
+        // Here you can attach some events
+        return [
+            \Phug\CompilerEvent::NODE => function (\Phug\Compiler\Event\NodeEvent $event) {
+                // Do something before compiling a node
+                $node = $event->getNode();
+                if ($node instanceof \Phug\Parser\Node\MixinNode) {
+                    $tag = new \Phug\Parser\Node\ElementNode(
+                        $event->getNode()->getToken()
+                    );
+                    $attribute = new \Phug\Parser\Node\AttributeNode();
+                    $attribute->setName('mixin');
+                    $attribute->setValue('"'.$node->getName().'"');
+                    $tag->getAttributes()->attach($attribute);
+                    $event->setNode($tag);
+                }
+            },
+        ];
+    }
+}
+
+$renderer = new \Phug\Renderer([
+    'modules' => [
+        MyModule::class,
+    ],
+]);
+
+$renderer->display('mixin foo()');
+```
+
+This will output:
+```html
+<p mixin="foo"></p>
+```
+
+Modules are dispatched to the
+renderer/compiler/formatter/parser/lexer
+according to the interface implemented (or the abstract
+module class extended).
+
+But you can specify explicitly a target with following
+options:
+
+### compiler_modules `array` 
+
+Modules reserved to the compiler (see [modules](#modules-array)).
+
+### formatter_modules `array` 
+
+Modules reserved to the formatter (see [modules](#modules-array)).
+
+### parser_modules `array` 
+
+Modules reserved to the parser (see [modules](#modules-array)).
+
+### lexer_modules `array` 
+
+Modules reserved to the lexer (see [modules](#modules-array)).
