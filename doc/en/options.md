@@ -1102,3 +1102,90 @@ The resolver is used only if the given filter name does
 not exists and if previous resolver did return nothing.
 If no resolver return anything, then an *Unknown filter*
 error is thrown.
+
+### keywords `array`
+
+Allow you to create your own custom language keywords:
+
+```php
+Phug::setOption('keywords', Phug::getOption('keywords') + [
+    'myKeyword' => function ($value, \Phug\Formatter\Element\KeywordElement $element, $name) {
+        $nodes = isset($element->nodes) ? count($element->nodes) : 0;
+
+        return "This is a $name keyword with $value value and $nodes children.";
+    },
+]);
+
+
+Phug::display('
+div
+  myKeyword myValue
+    span 1
+    span 2
+');
+```
+
+Display:
+``html
+<div>This is a myKeyword keyword with myValue value and 2 children.</div>
+```
+
+When the keyword callback returns a string, it replaces the whole keyword
+with its children.
+
+But you can also return an array with *begin* and *end* that will
+preserves the children nodes:
+
+```php
+Phug::setOption('keywords', Phug::getOption('keywords') + [
+    'foo' => function ($value) {
+        return [
+            'begin' => '<div class="'.$value.'">',
+            'end'   => '</div>',
+        ];
+    },
+]);
+
+
+Phug::display('
+myKeyword myValue
+  span 1
+  span 2
+');
+```
+
+Display:
+``html
+<div class="myValue">
+  <span>1</span>
+  <span>2</span>
+</div>
+```
+
+Or you can specify an array with *beginPhp* and *endPhp* to
+wrap children with a begin string and an end string both
+wrapped themselves in `<?php ?>`.
+
+```php
+Phug::setOption('keywords', Phug::getOption('keywords') + [
+    'repeat' => function ($value) {
+        return [
+            'beginPhp' => 'for ($i = 0; $i < '.$value.'; $i++) {',
+            'endPhp'   => '}',
+        ];
+    },
+]);
+
+
+Phug::display('
+repeat 3
+  section
+');
+```
+
+Display:
+``html
+<section></section>
+<section></section>
+<section></section>
+```

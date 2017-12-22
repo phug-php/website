@@ -1150,3 +1150,90 @@ Le *resolver* est utilisé seulement si le nom de filtre
 donné n'existe pas au que les précédents *resolvers* n'ont
 rien retourné. Si aucun *resolver* ne retourne rien, une
 erreur *Unknown filter* est lancée.
+
+### keywords `array`
+
+Vous permet de créer vos propre mot-clé de language :
+
+```php
+Phug::setOption('keywords', Phug::getOption('keywords') + [
+    'monMotCle' => function ($valeur, \Phug\Formatter\Element\KeywordElement $element, $nom) {
+        $enfants = isset($element->nodes) ? count($element->nodes) : 0;
+
+        return "C'est un mot-clé $nom avec la valeur $valeur et $enfants enfants.";
+    },
+]);
+
+
+Phug::display('
+div
+  monMotCle maValeur
+    span 1
+    span 2
+');
+```
+
+Affiche :
+``html
+<div>C'est un mot-clé monMotCle avec la valeur maValeur et 2 enfants.</div>
+```
+
+Quand le *callback* du mot-clé retourne une *string*, elle remplace le
+mot-clé entier avec ses enfants.
+
+Mais vous pouvez aussi retourner un array avec *begin* et *end* qui va
+préserver les nœuds enfants :
+
+```php
+Phug::setOption('keywords', Phug::getOption('keywords') + [
+    'monMotCle' => function ($valeur) {
+        return [
+            'begin' => '<div class="'.$valeur.'">',
+            'end'   => '</div>',
+        ];
+    },
+]);
+
+
+Phug::display('
+monMotCle maValeur
+  span 1
+  span 2
+');
+```
+
+Affiche :
+``html
+<div class="maValeur">
+  <span>1</span>
+  <span>2</span>
+</div>
+```
+
+Ou vous pouvez spécifier un array avec *beginPhp* et *endPhp*
+pour entourer les enfants d'une chaîne de début et de fin
+toute deux elles-mêmes entourées de `<?php ?>`.
+
+```php
+Phug::setOption('keywords', Phug::getOption('keywords') + [
+    'repete' => function ($compte) {
+        return [
+            'beginPhp' => 'for ($i = 0; $i < '.$compte.'; $i++) {',
+            'endPhp'   => '}',
+        ];
+    },
+]);
+
+
+Phug::display('
+repete 3
+  section
+');
+```
+
+Affiche :
+``html
+<section></section>
+<section></section>
+<section></section>
+```
