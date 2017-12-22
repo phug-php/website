@@ -559,7 +559,9 @@ can get and set).
 
 Before listing all the events, here is a overview of the
 processes timeline:
+
 ![Phug processes timeline](/img/pug-processes.png)
+
 Plain lines are active process, dotted line are waiting for
 an other process.
 
@@ -1054,3 +1056,49 @@ Modules reserved to the parser (see [modules](#modules-array)).
 ### lexer_modules `array` 
 
 Modules reserved to the lexer (see [modules](#modules-array)).
+
+### includes `array`
+
+It simply includes pug files before each compilation:
+
+```pug
+// Add to previous includes to avoid erase existing includes if any
+Phug::setOption('includes', Phug::getOption('includes') + [
+    'mixins.pug',
+]);
+
+Phug::display('+foo()');
+```
+
+If the file `mixins.pug` contains a **foo** mixin declaration,
+this code will properly call it.
+
+It's a good way to make a mixins library available in
+any template.
+
+### filter_resolvers `array`
+
+Set a dynamic way to resolve a filter by name when not found.
+
+```php
+
+Phug::setOption('filter_resolvers', Phug::getOption('filter_resolvers') + [
+    function ($name) {
+        if (mb_substr($name, 0, 3) === 'go-') {
+            return function ($content) use ($name) {
+                return '<a href="'.mb_substr($name, 3).'">'.$content.'</a>';
+            };
+        }
+    },
+]);
+
+Phug::display(':go-page');
+// <a href="page"></a>
+Phug::display(':go-action Action');
+// <a href="action">Action</a>
+```
+
+The resolver is used only if the given filter name does
+not exists and if previous resolver did return nothing.
+If no resolver return anything, then an *Unknown filter*
+error is thrown.

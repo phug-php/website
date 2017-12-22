@@ -589,7 +589,9 @@ modifier).
 
 Avant de lister tous les événements, voici une vue d'ensemble
 de la chronologie des processus :
+
 ![Chronologie des processus Phug](/img/pug-processes.png)
+
 Les lignes continues sont les processus actifs, les pointillés
 sont les processus en attente d'un autre processus.
 
@@ -1101,3 +1103,50 @@ Modules réservés au parser (voir [modules](#modules-array)).
 ### lexer_modules `array` 
 
 Modules réservés au lexer (voir [modules](#modules-array)).
+
+### includes `array`
+
+Inclut simplement des fichiers pug avant toute compilation :
+
+```pug
+// On ajoute aux includes existantes pour ne pas les écraser s'il y en a
+Phug::setOption('includes', Phug::getOption('includes') + [
+    'mixins.pug',
+]);
+
+Phug::display('+truc()');
+```
+
+Si le fichier `mixins.pug` contient une déclaration de mixin
+**truc** ce code va correctement l'appeler.
+
+C'est un bon moyen de rendre une librairie de mixins
+disponible dans n'importe quel template.
+
+### filter_resolvers `array`
+
+Ajoute un moyen dynamique de résoudre un filtre par son nom
+lorsqu'il n'existe pas déjà.
+
+```php
+
+Phug::setOption('filter_resolvers', Phug::getOption('filter_resolvers') + [
+    function ($nom) {
+        if (mb_substr($nom, 0, 3) === 'go-') {
+            return function ($contenu) use ($nom) {
+                return '<a href="'.mb_substr($nom, 3).'">'.$contenu.'</a>';
+            };
+        }
+    },
+]);
+
+Phug::display(':go-page');
+// <a href="page"></a>
+Phug::display(':go-action Action');
+// <a href="action">Action</a>
+```
+
+Le *resolver* est utilisé seulement si le nom de filtre
+donné n'existe pas au que les précédents *resolvers* n'ont
+rien retourné. Si aucun *resolver* ne retourne rien, une
+erreur *Unknown filter* est lancée.
