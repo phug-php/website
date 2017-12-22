@@ -1061,7 +1061,7 @@ Modules reserved to the lexer (see [modules](#modules-array)).
 
 It simply includes pug files before each compilation:
 
-```pug
+```php
 // Add to previous includes to avoid erase existing includes if any
 Phug::setOption('includes', Phug::getOption('includes') + [
     'mixins.pug',
@@ -1081,7 +1081,6 @@ any template.
 Set a dynamic way to resolve a filter by name when not found.
 
 ```php
-
 Phug::setOption('filter_resolvers', Phug::getOption('filter_resolvers') + [
     function ($name) {
         if (mb_substr($name, 0, 3) === 'go-') {

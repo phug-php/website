@@ -1108,7 +1108,7 @@ Modules réservés au lexer (voir [modules](#modules-array)).
 
 Inclut simplement des fichiers pug avant toute compilation :
 
-```pug
+```php
 // On ajoute aux includes existantes pour ne pas les écraser s'il y en a
 Phug::setOption('includes', Phug::getOption('includes') + [
     'mixins.pug',
@@ -1129,7 +1129,6 @@ Ajoute un moyen dynamique de résoudre un filtre par son nom
 lorsqu'il n'existe pas déjà.
 
 ```php
-
 Phug::setOption('filter_resolvers', Phug::getOption('filter_resolvers') + [
     function ($nom) {
         if (mb_substr($nom, 0, 3) === 'go-') {
