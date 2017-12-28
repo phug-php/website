@@ -1329,3 +1329,303 @@ Output:
 ```html
 <p>BAR</p>
 ```
+
+## Mixins
+
+### mixin_merge_mode `string`
+
+Alias of `allowMixinOverride` in **Pug-php**.
+
+It determines if a new mixin declaration with an existing
+name will replace the previous one or be ignored:
+
+```php
+Phug::setOption('mixin_merge_mode', 'replace');
+
+Phug::display('
+mixin foo
+  p A
+
+mixin foo
+  p B
+
++foo
+');
+
+// Output <p>B</p>
+
+Phug::setOption('mixin_merge_mode', 'ignore');
+
+Phug::display('
+mixin foo
+  p A
+
+mixin foo
+  p B
+
++foo
+');
+
+// Output <p>A</p>
+```
+
+This option is set to `"replace"` by default.
+
+## Formatting
+
+### patterns `array`
+
+Defines how to dump specific parts of elements in PHP.
+
+Default value:
+```php
+[
+  'class_attribute'        => '(is_array($_pug_temp = %s) ? implode(" ", $_pug_temp) : strval($_pug_temp))',
+  'string_attribute'       => '
+        (is_array($_pug_temp = %s) || is_object($_pug_temp) && !method_exists($_pug_temp, "__toString")
+            ? json_encode($_pug_temp)
+            : strval($_pug_temp))',
+  'expression_in_text'     => '(is_bool($_pug_temp = %s) ? var_export($_pug_temp, true) : $_pug_temp)',
+  'html_expression_escape' => 'htmlspecialchars(%s)',
+  'html_text_escape'       => 'htmlspecialchars',
+  'pair_tag'               => '%s%s%s',
+  'transform_expression'   => '%s',
+  'transform_code'         => '%s',
+  'transform_raw_code'     => '%s',
+  'php_handle_code'        => '<?php %s ?>',
+  'php_display_code'       => '<?= %s ?>',
+  'php_block_code'         => ' {%s}',
+  'php_nested_html'        => ' ?>%s<?php ',
+  'display_comment'        => '<!-- %s -->',
+  'doctype'                => '<!DOCTYPE %s PUBLIC "%s" "%s">',
+  'custom_doctype'         => '<!DOCTYPE %s>',
+  'debug_comment'          => "\n// PUG_DEBUG:%s\n",
+  'debug'                  => function ($nodeId) {
+    return $this->handleCode($this->getDebugComment($nodeId));
+  },
+]
+```
+
+Formats can add patterns (like
+[XmlFormat](https://phug-lang.com/api/classes/Phug.Formatter.Format.XmlFormat.html)):
+```php
+class XmlFormat extends AbstractFormat
+{
+    //...
+
+    const DOCTYPE = '<?xml version="1.0" encoding="utf-8" ?>';
+    const OPEN_PAIR_TAG = '<%s>';
+    const CLOSE_PAIR_TAG = '</%s>';
+    const SELF_CLOSING_TAG = '<%s />';
+    const ATTRIBUTE_PATTERN = ' %s="%s"';
+    const BOOLEAN_ATTRIBUTE_PATTERN = ' %s="%s"';
+    const BUFFER_VARIABLE = '$__value';
+
+    public function __construct(Formatter $formatter = null)
+    {
+        //...
+
+        $this->addPatterns([
+            'open_pair_tag'             => static::OPEN_PAIR_TAG,
+            'close_pair_tag'            => static::CLOSE_PAIR_TAG,
+            'self_closing_tag'          => static::SELF_CLOSING_TAG,
+            'attribute_pattern'         => static::ATTRIBUTE_PATTERN,
+            'boolean_attribute_pattern' => static::BOOLEAN_ATTRIBUTE_PATTERN,
+            'save_value'                => static::SAVE_VALUE,
+            'buffer_variable'           => static::BUFFER_VARIABLE,
+        ])
+```
+
+For example, you can see `BOOLEAN_ATTRIBUTE_PATTERN = ' %s="%s"'`
+which mean `input(checked)` become `<input checked="checked">`.
+
+And
+[HtmlFormat](https://phug-lang.com/api/classes/Phug.Formatter.Format.HtmlFormat.html)
+override it:
+
+```php
+class HtmlFormat extends XhtmlFormat
+{
+    const DOCTYPE = '<!DOCTYPE html>';
+    const SELF_CLOSING_TAG = '<%s>';
+    const EXPLICIT_CLOSING_TAG = '<%s/>';
+    const BOOLEAN_ATTRIBUTE_PATTERN = ' %s';
+
+    public function __construct(Formatter $formatter = null)
+    {
+        parent::__construct($formatter);
+
+        $this->addPattern('explicit_closing_tag', static::EXPLICIT_CLOSING_TAG);
+    }
+}
+```
+`BOOLEAN_ATTRIBUTE_PATTERN = ' %s'` so `input(checked)`
+become `<input checked>`.
+
+The same way you can extend a format to create your own
+custom format and override it with [formats](#formats-array)
+and [default_format](#default-format-string) options.
+
+Patterns can be strings where `%s` is replaced with the input
+or callback functions receiving the input as argument.
+
+Some patterns have multiple input (like `pair_tag` which takes
+`$open`, `$content` and `$close`).
+
+Usage example: you can intercept and modify expressions:
+```php
+
+Phug::setOption('patterns', [
+  'transform_expression' => 'strtoupper(%s)',
+]);
+
+Phug::display('p="AbcD"'); // Output <p>ABCD</p>
+```
+
+Or you can use a custom escape function:
+```php
+Phug::setOption('patterns', [
+  'html_expression_escape' => 'htmlentities(%s)',
+  'html_text_escape'       => 'htmlentities',
+]);
+```
+
+### pattern `callable`
+
+The `pattern` option is the way patterns are handled.
+
+Default value :
+```php
+function ($pattern) {
+  $args = func_get_args();
+  $function = 'sprintf';
+  if (is_callable($pattern)) {
+    $function = $pattern;
+    $args = array_slice($args, 1);
+  }
+
+  return call_user_func_array($function, $args);
+}
+```
+
+This function will take at least one argument (the pattern)
+and as many values as needed for this pattern will come
+as rest arguments.
+
+You can see in the default behavior that if the pattern
+is callable, we simply call it with input values:
+`$pattern($value1, $value2, ...)`, else
+we call `sprintf($pattern, $value1, $value2, ...)`
+
+By changing the `pattern` option, you can handle patterns
+in the way you want and support any other pattern types.
+
+### formats `array`
+
+Array of format classes by doctype, default value is:
+```php
+[
+  'basic'        => \Phug\Formatter\Format\BasicFormat::class,
+  'frameset'     => \Phug\Formatter\Format\FramesetFormat::class,
+  'html'         => \Phug\Formatter\Format\HtmlFormat::class,
+  'mobile'       => \Phug\Formatter\Format\MobileFormat::class,
+  '1.1'          => \Phug\Formatter\Format\OneDotOneFormat::class,
+  'plist'        => \Phug\Formatter\Format\PlistFormat::class,
+  'strict'       => \Phug\Formatter\Format\StrictFormat::class,
+  'transitional' => \Phug\Formatter\Format\TransitionalFormat::class,
+  'xml'          => \Phug\Formatter\Format\XmlFormat::class,
+]
+```
+
+You can add/modify/remove any format by doctype:
+```php
+class FooFormat extends \Phug\Formatter\Format\HtmlFormat
+{
+    const DOCTYPE = '#FOO';
+    // Here you can change options/methods/patterns
+}
+
+Phug::setOption('formats', [
+    'foo' => FooFormat::class,
+] + Phug::getOption('formats'));
+// Add foo but keep Phug::getOption('formats')
+// So both array will be merged
+
+Phug::display('
+doctype foo
+test
+');
+
+// Output #FOO<test></test>
+```
+
+You can also remove a format this way:
+```php
+$formats = Phug::getOption('formats');
+unset($formats['xml']); // remove custom XML format
+
+Phug::setOption('formats', $formats);
+
+Phug::display('
+doctype xml
+test
+');
+
+// Output <!DOCTYPE xml><test></test>
+// Instead of <?xml version="1.0" encoding="utf-8" ?><test></test>
+```
+
+### default_format `string`
+
+It's the format used when there is no doctype;
+`\Phug\Formatter\Format\BasicFormat::class` by default.
+
+```php
+$renderer = new \Phug\Renderer([
+  'default_format' => \Phug\Formatter\Format\XmlFormat::class,
+]);
+$renderer->display('input'); // <input></input>
+
+$renderer = new \Phug\Renderer([
+  'default_format' => \Phug\Formatter\Format\HtmlFormat::class,
+]);
+$renderer->display('input'); // <input>
+```
+
+### dependencies_storage `string`
+
+Variable name that will contain dependencies in the
+compiled PHP code; `"pugModule"` by default.
+
+### formatter_class_name `string`
+
+Allow you to extend the
+[Formatter class](https://phug-lang.com/api/classes/Phug.Formatter.html)
+```php
+class CustomFormatter extends \Phug\Formatter
+{
+    public function format(\Phug\Formatter\ElementInterface $element, $format = null)
+    {
+        // Add a space everywhere
+        return parent::format($element, $format).' ';
+    }
+}
+
+Phug::display('
+span foo
+span bar
+');
+
+// <span>foo</span><span>bar</span>
+
+$renderer = new Phug\Renderer([
+    'formatter_class_name' => CustomFormatter::class,
+]);
+
+$renderer->display('
+span foo
+span bar
+');
+
+// <span>foo </span> <span>bar </span>
+```
