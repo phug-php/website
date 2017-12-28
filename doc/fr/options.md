@@ -1236,3 +1236,145 @@ Affiche :
 <section></section>
 <section></section>
 ```
+
+### php_token_handlers `array`
+
+Ce paramètre vous permet d'intercepter
+[n'importe quel token PHP](http://php.net/manual/fr/tokens.php)
+et de le remplacer par un autre code PHP.
+Cela fonctionne aussi avec les expressions à
+l'intérieur des boucles `each`, des conditions
+`if`, etc. et même si les expressions proviennent
+d'une transformation. Par exemple si vous
+[utilisez **js-phpize**](#utiliser-des-expressions-javascript)
+et écrivez `a(href=route('profil', {id: 3}))`, alors
+`{id: 3}` est convertit en `array('id' => 3)` et
+le jeton (*token*) `array(` peut être intercepté avec l'identifiant
+PHP `T_ARRAY`.
+
+```php
+Phug::setOption('php_token_handlers', [
+    T_DNUMBER => 'round(%s)',
+]);
+
+Phug::display('
+- $nombreDecimal = 9.54
+- $texte = "9.45"
+strong=$nombreDecimal
+| !=
+strong=$texte
+');
+
+```
+
+Affiche :
+```html
+<strong>10</strong>!=<strong>9.45</strong>
+```
+
+Si vous passez une chaîne de caractères,
+[`sprintf`](http://php.net/manual/fr/function.sprintf.php)
+est utilisé pour la gérée, donc si la chaîne contient
+`%s`, ce sera remplacé par la chaîne d'entrée du *token*.
+
+Vous pouvez aussi utiliser une fonction *callback* :
+```php
+Phug::setOption('php_token_handlers', [
+    '(' => function ($tokenString, $index, $tokens, $checked, $formatInstance) {
+        return '__appelle_quelque_chose('.mt_rand(0, 4).', ';
+    },
+]);
+
+echo Phug::compile('b=($variable)');
+```
+
+Ceci va appeler la fonction de calback pour chaque *token*
+`(` trouvé dans l'expression et le remplacer par le résultat
+retourné par la function (par exemple `__appelle_quelque_chose(2, `).
+
+La fonction de callback reçoit 5 arguments :
+- `$tokenString` le *token* d'entrée en tant que `string`;
+- `$index` la position du *token* dans l'expression;
+- `&$tokens` un array avec tous les *tokens* de l'expression,
+passé par référence, ce qui veut dire que vous pouvez
+modifier/ajouter/supprimer des *tokens* (ne fonctionne que
+pour les *tokens* qui viennent après le *token* actuel);
+- `$checked` vaut `true` si l'expression est vérifiée (`=exp()`
+est vérifiée, `?=exp()` ne l'est pas);
+- `$formatInstance` l'instance qui formatte l'expression
+courante (implémente FormatInterface).
+
+Soyez prudent, nous utilisons `php_token_handlers` pour gérer
+les expressions vérifiées. Ce qui veut dire que si vous remplacez
+la gestion du *token* PHP `T_VARIABLE` par votre propre traitement
+comme dans l'exemple ci-dessous :
+
+```php
+Phug::setOption('php_token_handlers', [
+    T_VARIABLE => function ($variable) {
+        if (mb_substr($variable, 0, 5) === '$env_') {
+            return '$_'.strtoupper(mb_substr($variable, 5));
+        }
+
+        return $variable;
+    },
+]);
+
+Phug::display('
+b=$variableNormale
+i=$env_super["METHODE"]
+', [
+    'variableNormale' => 'machin',
+    '_SUPER' => [
+        'METHODE' => 'truc',
+    ],
+]);
+```
+
+Affiche :
+```html
+<b>machin</b><i>truc</i>
+```
+
+Mais si vous faites ça, vous écrasez la gestion initiale
+des expressions vérifiées :
+
+```php
+Phug::display('p=$manquant'); // affiche <p></p>
+
+Phug::setOption('php_token_handlers', [
+    T_VARIABLE => function ($variable) {
+        return $variable;
+    },
+]);
+
+Phug::display('p=$manquant'); // Exception: Undefined variable: manquant
+```
+
+Mais vous pouvez toujours ré-appeler la méthode native de
+gestion des variables avant ou après vos propres
+traitements :
+
+```php
+Phug::setOption('php_token_handlers', [
+    T_VARIABLE => function ($tokenString, $index, $tokens, $checked, $formatInstance) {
+        // Traitement avant le processus des expressions vérifiées
+        $tokenString .= 'Suffixe';
+        // Processus des expressions vérifiées
+        $tokenString = $formatInstance->handleVariable($tokenString, $index, $tokens, $checked);
+        // Traitement après le processus des expressions vérifiées
+        $tokenString = 'strtoupper('.$tokenString.')';
+
+        return $tokenString;
+    },
+]);
+
+Phug::display('p=$machin', [
+    'machinSuffixe' => 'truc',
+]);
+```
+
+Affiche :
+```html
+<p>TRUC</p>
+```

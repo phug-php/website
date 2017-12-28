@@ -1188,3 +1188,144 @@ Display:
 <section></section>
 <section></section>
 ```
+
+### php_token_handlers `array`
+
+This setting allow you to intercept
+[any PHP token](http://php.net/manual/en/tokens.php)
+and replace it with an other string of PHP code.
+It also works with expressions inside `each` loop,
+`if` statements, etc. and even if the expression come from
+a translation. For example, if you
+[use **js-phpize**](#use-javascript-expressions)
+](#utiliser-des-expressions-javascript)
+and write `a(href=route('profile', {id: 3}))`, then
+`{id: 3}` is converted to `array('id' => 3)` and
+the `array(` token can be intercepted with its
+PHP identifier `T_ARRAY`.
+
+```php
+Phug::setOption('php_token_handlers', [
+    T_DNUMBER => 'round(%s)',
+]);
+
+Phug::display('
+- $floatingNumber = 9.54
+- $text = "9.45"
+strong=$floatingNumber
+| !=
+strong=$text
+');
+
+```
+
+Output:
+```html
+<strong>10</strong>!=<strong>9.45</strong>
+```
+
+If you pass a string,
+[`sprintf`](http://php.net/manual/en/function.sprintf.php)
+is used to handle it, so if it contains `%s`, it will be
+replaced with the input token string.
+
+You can also use a callback function:
+```php
+Phug::setOption('php_token_handlers', [
+    '(' => function ($tokenString, $index, $tokens, $checked, $formatInstance) {
+        return '__call_something('.mt_rand(0, 4).', ';
+    },
+]);
+
+echo Phug::compile('b=($variable)');
+```
+
+This will call the callback function for each `(` token found in
+an expression and replace it with the result returned by the
+function (for example `__call_something(2, `).
+
+This callback function receives 5 arguments:
+- `$tokenString` is the input token as string;
+- `$index` is the position of the token in the expression;
+- `&$tokens` is an array with all tokens of the expression, it
+is passed by reference, it means you can modify/add/remove
+tokens from it (will works only for tokens come after the
+current token handled);
+- `$checked` is the check flag of the expression (`=exp()` is
+checked, `?=exp()` is not checked);
+- `$formatInstance` the format instance that format
+the current expression (implements FormatInterface).
+
+Be careful, we use `php_token_handlers` to handle checked
+expressions. It means you can replace the `T_VARIABLE` PHP
+token handler with your own like in the example below:
+
+```php
+Phug::setOption('php_token_handlers', [
+    T_VARIABLE => function ($variable) {
+        if (mb_substr($variable, 0, 5) === '$env_') {
+            return '$_'.strtoupper(mb_substr($variable, 5));
+        }
+
+        return $variable;
+    },
+]);
+
+Phug::display('
+b=$normalVariable
+i=$env_super["METHOD"]
+', [
+    'normalVariable' => 'foo',
+    '_SUPER' => [
+        'METHOD' => 'bar',
+    ],
+]);
+```
+
+Output:
+
+```html
+<b>foo</b><i>bar</i>
+```
+
+But if you do, it erase the initial checked expressions
+handling:
+
+```php
+Phug::display('p=$missing'); // output <p></p>
+
+Phug::setOption('php_token_handlers', [
+    T_VARIABLE => function ($variable) {
+        return $variable;
+    },
+]);
+
+Phug::display('p=$missing'); // Throw: Undefined variable: missing
+```
+
+But you still can recall the native variable handler before
+or after your own treatments:
+
+```php
+Phug::setOption('php_token_handlers', [
+    T_VARIABLE => function ($tokenString, $index, $tokens, $checked, $formatInstance) {
+        // Do something before the check process
+        $tokenString .= 'Suffix';
+        // Do the check process:
+        $tokenString = $formatInstance->handleVariable($tokenString, $index, $tokens, $checked);
+        // Do something after the check process
+        $tokenString = 'strtoupper('.$tokenString.')';
+
+        return $tokenString;
+    },
+]);
+
+Phug::display('p=$foo', [
+    'fooSuffix' => 'bar',
+]);
+```
+
+Output:
+```html
+<p>BAR</p>
+```
