@@ -302,7 +302,7 @@ pour mettre en cache un dossier complet.
 Nous vous conseillons d'utiliser cette commande au
 déploiement de vos applications en production, vous
 pouvez alors optimiser les performances du cache en
-passant l'option [up_to_date_check](#up_to_date_check-boolean)
+passant l'option [up_to_date_check](#up-to-date-check-boolean)
 à `false`.
 
 ## Langage
@@ -1689,6 +1689,8 @@ span truc
 // <span>machin </span> <span>truc </span>
 ```
 
+## Rendu
+
 ### adapter_class_name `string`
 
 Cette option requiert une réinitialisation de l'*adapter*
@@ -1713,7 +1715,10 @@ Le rôle de l'*adapter* est de prendre le code compilé
 formatté et de le transformer en code final rendu.
 Donc le plus souvent, il s'agit d'exécuter du code
 PHP pour obtenir du code HTML.
-- [FileAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.FileAdapter.html)
+
+#### FileAdapter
+
+[FileAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.FileAdapter.html)
 est le seul *adapter* à implémenter l'interface
 [CacheInterface](https://phug-lang.com/api/classes/Phug.Renderer.CacheInterface.html)
 donc lorsque vous activez ou utiliser n'importe
@@ -1725,7 +1730,10 @@ courant n'implémente pas `CacheInterface`.
 file_put_contents('fichier.php', $codePhp);
 include 'fichier.php';
 ```
-- [EvalAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
+
+#### EvalAdapter
+
+[EvalAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
 est l'*adapter* par défaut et utilise
 [eval](http://php.net/manual/fr/function.eval.php).
 Vous pouvez avoir entendu que `eval` est dangereux. Et
@@ -1766,7 +1774,10 @@ est équivalent à :
 ```php
 eval('?>'.$codePhp);
 ```
-- [StreamAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.StreamAdapter.html)
+
+#### StreamAdapter
+
+[StreamAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.StreamAdapter.html)
 Le flux (*stream*) est une alternative entre les deux.
 Dans ce mode `->display()` est équivalent à :
 ```php
@@ -1788,3 +1799,42 @@ quand vous utilisez l'*adapter* StreamAdapter
 Par défaut `".stream"`. Détermine le suffixe du flux
 quand vous utilisez l'*adapter* StreamAdapter
 (voir ci-dessus).
+
+## Système de fichiers
+
+### tmp_dir `string`
+
+Le dossier à utiliser pour stocker des fichiers
+temporaires.
+`sys_get_temp_dir()` par défaut.
+
+### tempnam `callable`
+
+La fonction à utiliser pour créer un fichier
+temporaire.
+`"tempnam"` par défaut.
+
+### get_file_contents `callable`
+
+La fonction à utiliser pour récupérer le contenu
+d'un fichier.
+`"file_get_contents"` par défaut.
+
+```php
+$storage = new Memcached();
+$storage->addServer('localhost', 11211);
+Phug::setOption('get_file_contents', function ($path) use ($storage) {
+  return $storage->get($path);
+});
+```
+
+Dans cet exemple, au lieu de chercher les templates
+(qu'ils soient rendus, inclus ou étendus) dans le fichier
+correspondant au chemin, on le cherche dans un stockage
+Memcached.
+
+### up_to_date_check `boolean`
+
+`true` par défaut, si réglé sur `false`, les fichiers
+de cache n'expirent jamais jusqu'à ce que le cache
+soit manuellement vidé.

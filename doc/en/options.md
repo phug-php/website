@@ -1630,6 +1630,8 @@ span bar
 // <span>foo </span> <span>bar </span>
 ```
 
+## Rendering
+
 ### adapter_class_name `string`
 
 This option need the adapter to be reinitialized to be
@@ -1652,7 +1654,10 @@ by extending one of them or the
 The adapter role is to take formatted compiled code and
 turn it into the final rendered code. So most often it
 means execute PHP code to get HTML code.
-- [FileAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.FileAdapter.html)
+
+#### FileAdapter
+
+[FileAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.FileAdapter.html)
 is the only adapter to implement
 [CacheInterface](https://phug-lang.com/api/classes/Phug.Renderer.CacheInterface.html)
 so when you enable or use any cache feature, this adapter
@@ -1663,7 +1668,10 @@ FileAdapter is equivalent to:
 file_put_contents('file.php', $phpCode);
 include 'file.php';
 ```
-- [EvalAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
+
+#### EvalAdapter
+
+[EvalAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
 is the default adapter and uses
 [eval](http://php.net/manual/en/function.eval.php).
 You may have heard that `eval` is dangerous. And yes,
@@ -1700,7 +1708,10 @@ equivalent to:
 ```php
 eval('?>'.$phpCode);
 ```
-- [StreamAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.StreamAdapter.html)
+
+#### StreamAdapter
+
+[StreamAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.StreamAdapter.html)
 Stream is an alternative between both. In this
 mode `->display()` is equivalent to:
 ```php
@@ -1719,3 +1730,38 @@ when you use the stream adapter (see above).
 
 Default to `".stream"`. It determines the stream suffix
 when you use the stream adapter (see above).
+
+## File system
+
+### tmp_dir `string`
+
+The directory to use to store temporary files.
+`sys_get_temp_dir()` by default.
+
+### tempnam `callable`
+
+The function to use to create a temporary file.
+`"tempnam"` by default.
+
+### get_file_contents `callable`
+
+The function to use to get file contents.
+`"file_get_contents"` by default.
+
+```php
+$storage = new Memcached();
+$storage->addServer('localhost', 11211);
+Phug::setOption('get_file_contents', function ($path) use ($storage) {
+  return $storage->get($path);
+});
+```
+
+In this example, instead of searching templates
+(rendered, included or extended) in the file
+matching the path, we search it in a Memcached
+storage.
+
+### up_to_date_check `boolean`
+
+`true` by default, when set to `false`, cache files
+never expire until a manual cache clear.
