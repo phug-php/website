@@ -1154,7 +1154,7 @@ myKeyword myValue
 ```
 
 Display:
-``html
+```html
 <div class="myValue">
   <span>1</span>
   <span>2</span>
@@ -1183,7 +1183,7 @@ repeat 3
 ```
 
 Display:
-``html
+```html
 <section></section>
 <section></section>
 <section></section>
@@ -1629,3 +1629,93 @@ span bar
 
 // <span>foo </span> <span>bar </span>
 ```
+
+### adapter_class_name `string`
+
+This option need the adapter to be reinitialized to be
+taken into account. So you can use it as an initial option
+(passed as options array when you construct a new
+Renderer instance or a new Pug instance if you use **Pug-php**)
+else you can simply use the
+[`->setAdapterClassName()` method](https://phug-lang.com/api/classes/Phug.Renderer.Partial.AdapterTrait.html#method_setAdapterClassName)
+to change this option and reinitialize the adapter.
+
+```php
+Phug::getRenderer()->setAdapterClassName(\Phug\Renderer\Adapter\StreamAdapter::class);
+// Phug::getRenderer()->getAdapter() instanceof \Phug\Renderer\Adapter\StreamAdapter
+```
+
+There are 3 adapters available and you can create your own
+by extending one of them or the
+[AbstractAdapter class](https://phug-lang.com/api/classes/Phug.Renderer.AbstractAdapter.html).
+
+The adapter role is to take formatted compiled code and
+turn it into the final rendered code. So most often it
+means execute PHP code to get HTML code.
+- [FileAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.FileAdapter.html)
+is the only adapter to implement
+[CacheInterface](https://phug-lang.com/api/classes/Phug.Renderer.CacheInterface.html)
+so when you enable or use any cache feature, this adapter
+is automatically selected if the current adapter does not
+implement `CacheInterface`. `->display()` with the
+FileAdapter is equivalent to:
+```php
+file_put_contents('file.php', $phpCode);
+include 'file.php';
+```
+- [EvalAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
+is the default adapter and uses
+[eval](http://php.net/manual/en/function.eval.php).
+You may have heard that `eval` is dangerous. And yes,
+if you don't filter user/external input the string you
+pass to `eval` may contain, this is unsafe. But this
+does not happen when you render a template.
+Your local/global variables are never executed, only
+the Pug code converted in PHP code is, so if you
+do not write dangerous code in your Pug code, there
+is nothing dangerous in the final PHP code.
+This is perfectly as safe as the 2 other adapters,
+you will always get the exact same executions and
+results no matter which adapter is used.
+
+Take a look at the following:
+```pug
+p?!=$dangerousContent
+```
+```vars
+[
+  'dangerousContent' => 'file_get_contents("index.php")',
+]
+```
+As you see, variables can contain anything and be display
+in any way, it will not be evaluated by PHP, only displayed.
+Danger only appears if you write it down directly in
+your Pug template, so it's the same danger than in
+any template engine or if you would have written it
+directly in your PHP files.
+
+EvalAdapter is the faster and easier to setup way
+as well. In this mode `->display()` is
+equivalent to:
+```php
+eval('?>'.$phpCode);
+```
+- [StreamAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.StreamAdapter.html)
+Stream is an alternative between both. In this
+mode `->display()` is equivalent to:
+```php
+include 'pug.stream://data;'.$phpCode;
+```
+Stream have some constraints. The stream size
+is limited by the RAM memory. And server config
+(like php.ini) can disallow stream inclusion.
+
+### stream_name `string`
+
+Default to `"pug"`. It determines the stream name
+when you use the stream adapter (see above).
+
+### stream_suffix `string`
+
+Default to `".stream"`. It determines the stream suffix
+when you use the stream adapter (see above).

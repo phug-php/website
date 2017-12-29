@@ -1202,7 +1202,7 @@ monMotCle maValeur
 ```
 
 Affiche :
-``html
+```html
 <div class="maValeur">
   <span>1</span>
   <span>2</span>
@@ -1231,7 +1231,7 @@ repete 3
 ```
 
 Affiche :
-``html
+```html
 <section></section>
 <section></section>
 <section></section>
@@ -1688,3 +1688,103 @@ span truc
 
 // <span>machin </span> <span>truc </span>
 ```
+
+### adapter_class_name `string`
+
+Cette option requiert une réinitialisation de l'*adapter*
+pour être prise en compte. Donc soit vous pouvez l'utiliser
+en option initiale (passée dans l'array des options lors
+de l'instanciation d'un nouveau *Renderer* ou un nouveau
+*Pug* si vous utilisez **Pug-php**)
+sinon vous pouvez simplement utiliser la
+[méthode `->setAdapterClassName()`](https://phug-lang.com/api/classes/Phug.Renderer.Partial.AdapterTrait.html#method_setAdapterClassName)
+pour changer cette option puis réinitialiser l'*adapter*.
+
+```php
+Phug::getRenderer()->setAdapterClassName(\Phug\Renderer\Adapter\StreamAdapter::class);
+// Phug::getRenderer()->getAdapter() instanceof \Phug\Renderer\Adapter\StreamAdapter
+```
+
+Il y a 3 *adapters* dispnibles et vous pouvez en créer
+d'autres en étendant l'un d'eux ou la
+[classe AbstractAdapter](https://phug-lang.com/api/classes/Phug.Renderer.AbstractAdapter.html).
+
+Le rôle de l'*adapter* est de prendre le code compilé
+formatté et de le transformer en code final rendu.
+Donc le plus souvent, il s'agit d'exécuter du code
+PHP pour obtenir du code HTML.
+- [FileAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.FileAdapter.html)
+est le seul *adapter* à implémenter l'interface
+[CacheInterface](https://phug-lang.com/api/classes/Phug.Renderer.CacheInterface.html)
+donc lorsque vous activez ou utiliser n'importe
+quelle fonctionnalité de cache, cet *adapter*
+est automatiquement sélectionné si l'*adapter*
+courant n'implémente pas `CacheInterface`.
+`->display()` avec le FileAdapter est équivalent à :
+```php
+file_put_contents('fichier.php', $codePhp);
+include 'fichier.php';
+```
+- [EvalAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
+est l'*adapter* par défaut et utilise
+[eval](http://php.net/manual/fr/function.eval.php).
+Vous pouvez avoir entendu que `eval` est dangereux. Et
+oui, si vous ne filtrez pas les entrées utilisateur/externes
+que la chaîne que vous passez à `eval` peut contenir, c'est
+risqué. Mais ça n'arrive pas lors d'un rendu de template.
+Vos variables locales ou globales ne sont jamais exécutées,
+seul le code Pug converti en code PHP l'est, donc
+si vous n'écrivez pas de code dangereux dans votre
+code Pug, il n'y a rien de dangereux dans le code
+PHP final.
+C'est parfaitement aussi sûr que les 2 autres *adapters*,
+vous obtiendrez exactement les mêmes exécutions et
+résultats quelque soit l'*adapter* utilisé.
+
+Regardez l'exemple suivant :
+```pug
+p?!=$contenuDangereux
+```
+```vars
+[
+  'contenuDangereux' => 'file_get_contents("index.php")',
+]
+```
+Comme vous le voyez, les variables peuvent contenir
+n'importe quoi et être affichées n'importe comment,
+elles ne seront jamais évaluée en PHP, seulement
+affichées.
+Le danger n'apparaît que si vous l'écrivez directement
+dans vos templates Pug, c'est donc le même danger
+qu'avec n'importe quel moteur de templates, ou que
+si vous l'écriviez directement dans vos fichiers
+PHP.
+
+EvalAdapter est aussi l'*adapter* le plus rapide et
+le plus facile à utiliser. Dans ce mode `->display()`
+est équivalent à :
+```php
+eval('?>'.$codePhp);
+```
+- [StreamAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.StreamAdapter.html)
+Le flux (*stream*) est une alternative entre les deux.
+Dans ce mode `->display()` est équivalent à :
+```php
+include 'pug.stream://data;'.$codePhp;
+```
+Le *stream* a des contraintes. La taille du flux
+est limitée par la mémoire RAM. Et la configuration
+server (comme php.ini) peut interdire les
+inclusions de flux.
+
+### stream_name `string`
+
+Par défaut `"pug"`. Détermine le nom du flux
+quand vous utilisez l'*adapter* StreamAdapter
+(voir ci-dessus).
+
+### stream_suffix `string`
+
+Par défaut `".stream"`. Détermine le suffixe du flux
+quand vous utilisez l'*adapter* StreamAdapter
+(voir ci-dessus).
