@@ -727,7 +727,7 @@ compilé.
 
 Constante d'événement : `\Phug\CompilerEvent::NODE`
 
-Type d'événement : [`\Phug\Compiler\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.CompileEvent.html#method___construct)
+Type d'événement : [`\Phug\Compiler\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.NodeEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - node: l'instance de nœud qui est sur le point d'être
@@ -739,7 +739,7 @@ Est déclenché pour chaque nœud après sa compilation.
 
 Constante d'événement : `\Phug\CompilerEvent::ELEMENT`
 
-Type d'événement : [`\Phug\Compiler\Event\ElementEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.OutputEvent.html#method___construct)
+Type d'événement : [`\Phug\Compiler\Event\ElementEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.ElementEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - nodeEvent: lien vers l'événement NodeEvent initial
@@ -1173,7 +1173,7 @@ div
 ```
 
 Affiche :
-``html
+```html
 <div>C'est un mot-clé monMotCle avec la valeur maValeur et 2 enfants.</div>
 ```
 

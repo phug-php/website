@@ -687,7 +687,7 @@ the tree of elements into the compiled PHP code.
 
 Event constant: `\Phug\CompilerEvent::NODE`
 
-Event type: [`\Phug\Compiler\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.CompileEvent.html#method___construct)
+Event type: [`\Phug\Compiler\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.NodeEvent.html#method___construct)
 
 Parameters you can get/set:
 - node: the node instance created by the parser that is
@@ -699,7 +699,7 @@ Is triggered for each node after its compilation.
 
 Event constant: `\Phug\CompilerEvent::ELEMENT`
 
-Event type: [`\Phug\Compiler\Event\ElementEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.OutputEvent.html#method___construct)
+Event type: [`\Phug\Compiler\Event\ElementEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.ElementEvent.html#method___construct)
 
 Parameters you can get/set:
 - nodeEvent: link to the initial NodeEvent (see above)
@@ -1125,7 +1125,7 @@ div
 ```
 
 Display:
-``html
+```html
 <div>This is a myKeyword keyword with myValue value and 2 children.</div>
 ```
 
