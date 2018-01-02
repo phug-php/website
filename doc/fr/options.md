@@ -461,6 +461,16 @@ est disponible, voici leurs valeurs par défaut :
 ],
 ```
 
+### detailed_dump `boolean`
+
+Le *lexer*, le *parser* et le *compiler* ont tous une
+méthode `->dump()` qui permet de voir l'état de chaque
+processus.
+
+En réglant detailed_dump sur `true` vous pouvez
+afficher plus de détails (pour l'instant, cette option
+est uniquement disponible pour le *parser*).
+
 ## Erreurs
 
 ### error_handler `callable`
@@ -625,7 +635,7 @@ Dans certains cas vous pourriez hésiter entre **on_render** et
 
 Constante d'événement : `\Phug\RendererEvent::RENDER`
 
-Type d'événement : [`\Phug\Renderer\Event\RenderEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.RenderEvent.html#method___construct)
+Type d'événement : [`\Phug\Renderer\Event\RenderEvent`](/api/classes/Phug.Renderer.Event.RenderEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - input: code source si `render`/`display` a été appelé
@@ -641,7 +651,7 @@ affiché.
 
 Constante d'événement : `\Phug\RendererEvent::HTML`
 
-Type d'événement : [`\Phug\Renderer\Event\HtmlEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.HtmlEvent.html#method___construct)
+Type d'événement : [`\Phug\Renderer\Event\HtmlEvent`](/api/classes/Phug.Renderer.Event.HtmlEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - renderEvent: lien vers le RenderEvent initial (voir
@@ -679,7 +689,7 @@ que vous pouvez récupérer et modifier.
 
 Constante d'événement : `\Phug\CompilerEvent::COMPILE`
 
-Type d'événement : [`\Phug\Compiler\Event\CompileEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.CompileEvent.html#method___construct)
+Type d'événement : [`\Phug\Compiler\Event\CompileEvent`](/api/classes/Phug.Compiler.Event.CompileEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - input: contenu source de la chaîne/le fichier compilé
@@ -692,7 +702,7 @@ Est déclenché après qu'un fichier ou une chaîne soit compilé.
 
 Constante d'événement : `\Phug\CompilerEvent::OUTPUT`
 
-Type d'événement : [`\Phug\Compiler\Event\OutputEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.OutputEvent.html#method___construct)
+Type d'événement : [`\Phug\Compiler\Event\OutputEvent`](/api/classes/Phug.Compiler.Event.OutputEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - compileEvent: lien vers l'événement CompileEvent initial
@@ -727,7 +737,7 @@ compilé.
 
 Constante d'événement : `\Phug\CompilerEvent::NODE`
 
-Type d'événement : [`\Phug\Compiler\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.NodeEvent.html#method___construct)
+Type d'événement : [`\Phug\Compiler\Event\NodeEvent`](/api/classes/Phug.Compiler.Event.NodeEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - node: l'instance de nœud qui est sur le point d'être
@@ -739,7 +749,7 @@ Est déclenché pour chaque nœud après sa compilation.
 
 Constante d'événement : `\Phug\CompilerEvent::ELEMENT`
 
-Type d'événement : [`\Phug\Compiler\Event\ElementEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.ElementEvent.html#method___construct)
+Type d'événement : [`\Phug\Compiler\Event\ElementEvent`](/api/classes/Phug.Compiler.Event.ElementEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - nodeEvent: lien vers l'événement NodeEvent initial
@@ -774,7 +784,7 @@ p=$var
 
 Constante d'événement : `\Phug\FormatterEvent::FORMAT`
 
-Type d'événement : [`\Phug\Formatter\Event\FormatEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.FormatEvent.html#method___construct)
+Type d'événement : [`\Phug\Formatter\Event\FormatEvent`](/api/classes/Phug.Formatter.Event.FormatEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - element: l'élément compilé (implémente ElementInterface)
@@ -792,7 +802,7 @@ vous définissez le doctype).
 
 Constante d'événement : `\Phug\FormatterEvent::NEW_FORMAT`
 
-Type d'événement : [`\Phug\Formatter\Event\NewFormatEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.NewFormatEvent.html#method___construct)
+Type d'événement : [`\Phug\Formatter\Event\NewFormatEvent`](/api/classes/Phug.Formatter.Event.NewFormatEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - formatter: le *formatter* courant (implémente Formatter)
@@ -820,7 +830,7 @@ pour le changer).
 
 Constante d'événement : `\Phug\FormatterEvent::DEPENDENCY_STORAGE`
 
-Type d'événement : [`\Phug\Formatter\Event\DependencyStorageEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.DependencyStorageEvent.html#method___construct)
+Type d'événement : [`\Phug\Formatter\Event\DependencyStorageEvent`](/api/classes/Phug.Formatter.Event.DependencyStorageEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - dependencyStorage: variable utilisée pour stocker pour stocker
@@ -833,7 +843,7 @@ Est déclenché avant le processus d'analyse (*parsing*).
 
 Constante d'événement : `\Phug\ParserEvent::PARSE`
 
-Type d'événement : [`\Phug\Parser\Event\ParseEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.ParseEvent.html#method___construct)
+Type d'événement : [`\Phug\Parser\Event\ParseEvent`](/api/classes/Phug.Parser.Event.ParseEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - input: contenu source de la chaîne/le fichier compilé
@@ -851,7 +861,7 @@ Est déclenché quand le *parser* a analysé un document en entier
 
 Constante d'événement : `\Phug\ParserEvent::DOCUMENT`
 
-Type d'événement : [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+Type d'événement : [`\Phug\Parser\Event\NodeEvent`](/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - node: le document en tant qu'instance de nœud
@@ -862,7 +872,7 @@ Est déclenché quand le *parser* entre dans un nœud.
 
 Constante d'événement : `\Phug\ParserEvent::STATE_ENTER`
 
-Type d'événement : [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+Type d'événement : [`\Phug\Parser\Event\NodeEvent`](/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - node: le nœud dans lequel le *parser* est entré
@@ -873,7 +883,7 @@ Est déclenché quand le *parser* resort d'un nœud.
 
 Constante d'événement : `\Phug\ParserEvent::STATE_LEAVE`
 
-Type d'événement : [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+Type d'événement : [`\Phug\Parser\Event\NodeEvent`](/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - node: le nœud duquel le *parser* est resorti
@@ -885,7 +895,7 @@ un nœud à l'arbre du document.
 
 Constante d'événement : `\Phug\ParserEvent::STATE_STORE`
 
-Type d'événement : [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+Type d'événement : [`\Phug\Parser\Event\NodeEvent`](/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - node: le nœud que le *parser* a enregistré
@@ -897,7 +907,7 @@ le code source Pug en *tokens*.
 
 Constante d'événement : `\Phug\LexerEvent::LEX`
 
-Type d'événement : [`\Phug\Lexer\Event\LexEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.LexEvent.html#method___construct)
+Type d'événement : [`\Phug\Lexer\Event\LexEvent`](/api/classes/Phug.Lexer.Event.LexEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - input: contenu source de la chaîne/le fichier compilé
@@ -915,7 +925,7 @@ le code source Pug en *tokens*.
 
 Constante d'événement : `\Phug\LexerEvent::LEX_END`
 
-Type d'événement : [`\Phug\Lexer\Event\EndLexEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.EndLexEvent.html#method___construct)
+Type d'événement : [`\Phug\Lexer\Event\EndLexEvent`](/api/classes/Phug.Lexer.Event.EndLexEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - lexEvent: lien vers lévénement LexEvent initial
@@ -927,7 +937,7 @@ de retourné un token et de l'envoyer au *parser*.
 
 Constante d'événement : `\Phug\LexerEvent::TOKEN`
 
-Type d'événement : [`\Phug\Lexer\Event\TokenEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.TokenEvent.html#method___construct)
+Type d'événement : [`\Phug\Lexer\Event\TokenEvent`](/api/classes/Phug.Lexer.Event.TokenEvent.html#method___construct)
 
 Paramètres utilisables/modifiables :
 - token: le jeont créé par le *lexer*
@@ -1022,14 +1032,14 @@ ne sont pas gérées nativement.
 
 Vous pouvez aussi créer vos propres modules en héritant
 (*extend*) l'une des classes suivantes :
-- [`\Phug\AbstractRendererModule`](https://phug-lang.com/api/classes/Phug.AbstractRendererModule.html)
-- [`\Phug\AbstractCompilerModule`](https://phug-lang.com/api/classes/Phug.AbstractCompilerModule.html)
-- [`\Phug\AbstractFormatterModule`](https://phug-lang.com/api/classes/Phug.AbstractFormatterModule.html)
-- [`\Phug\AbstractParserModule`](https://phug-lang.com/api/classes/Phug.AbstractParserModule.html)
-- [`\Phug\AbstractLexerModule`](https://phug-lang.com/api/classes/Phug.AbstractLexerModule.html)
+- [`\Phug\AbstractRendererModule`](/api/classes/Phug.AbstractRendererModule.html)
+- [`\Phug\AbstractCompilerModule`](/api/classes/Phug.AbstractCompilerModule.html)
+- [`\Phug\AbstractFormatterModule`](/api/classes/Phug.AbstractFormatterModule.html)
+- [`\Phug\AbstractParserModule`](/api/classes/Phug.AbstractParserModule.html)
+- [`\Phug\AbstractLexerModule`](/api/classes/Phug.AbstractLexerModule.html)
 
 Elles étendent toutes
-[la classe `\Phug\Util\AbstractModule`](https://phug-lang.com/api/classes/Phug.Util.AbstractModule.html)
+[la classe `\Phug\Util\AbstractModule`](/api/classes/Phug.Util.AbstractModule.html)
 
 Voici un exemple :
 
@@ -1457,7 +1467,7 @@ Valeur par défaut :
 ```
 
 Les formats peuvent ajouter des *patterns* (comme le fait
-[XmlFormat](https://phug-lang.com/api/classes/Phug.Formatter.Format.XmlFormat.html)) :
+[XmlFormat](/api/classes/Phug.Formatter.Format.XmlFormat.html)) :
 ```php
 class XmlFormat extends AbstractFormat
 {
@@ -1490,7 +1500,7 @@ Vous pouvez voir par exemple `BOOLEAN_ATTRIBUTE_PATTERN = ' %s="%s"'`
 qui implique que `input(checked)` devient `<input checked="checked">`.
 
 Et
-[HtmlFormat](https://phug-lang.com/api/classes/Phug.Formatter.Format.HtmlFormat.html)
+[HtmlFormat](/api/classes/Phug.Formatter.Format.HtmlFormat.html)
 le réécrit à son tour :
 
 ```php
@@ -1659,7 +1669,7 @@ code PHP compilé ; `"pugModule"` par défaut.
 ### formatter_class_name `string`
 
 Vous permet d'étendre la
-[classe Formatter](https://phug-lang.com/api/classes/Phug.Formatter.html)
+[classe Formatter](/api/classes/Phug.Formatter.html)
 ```php
 class CustomFormatter extends \Phug\Formatter
 {
@@ -1699,7 +1709,7 @@ en option initiale (passée dans l'array des options lors
 de l'instanciation d'un nouveau *Renderer* ou un nouveau
 *Pug* si vous utilisez **Pug-php**)
 sinon vous pouvez simplement utiliser la
-[méthode `->setAdapterClassName()`](https://phug-lang.com/api/classes/Phug.Renderer.Partial.AdapterTrait.html#method_setAdapterClassName)
+[méthode `->setAdapterClassName()`](/api/classes/Phug.Renderer.Partial.AdapterTrait.html#method_setAdapterClassName)
 pour changer cette option puis réinitialiser l'*adapter*.
 
 ```php
@@ -1709,7 +1719,7 @@ Phug::getRenderer()->setAdapterClassName(\Phug\Renderer\Adapter\StreamAdapter::c
 
 Il y a 3 *adapters* dispnibles et vous pouvez en créer
 d'autres en étendant l'un d'eux ou la
-[classe AbstractAdapter](https://phug-lang.com/api/classes/Phug.Renderer.AbstractAdapter.html).
+[classe AbstractAdapter](/api/classes/Phug.Renderer.AbstractAdapter.html).
 
 Le rôle de l'*adapter* est de prendre le code compilé
 formatté et de le transformer en code final rendu.
@@ -1718,9 +1728,9 @@ PHP pour obtenir du code HTML.
 
 #### FileAdapter
 
-[FileAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.FileAdapter.html)
+[FileAdapter](/api/classes/Phug.Renderer.Adapter.FileAdapter.html)
 est le seul *adapter* à implémenter l'interface
-[CacheInterface](https://phug-lang.com/api/classes/Phug.Renderer.CacheInterface.html)
+[CacheInterface](/api/classes/Phug.Renderer.CacheInterface.html)
 donc lorsque vous activez ou utiliser n'importe
 quelle fonctionnalité de cache, cet *adapter*
 est automatiquement sélectionné si l'*adapter*
@@ -1733,7 +1743,7 @@ include 'fichier.php';
 
 #### EvalAdapter
 
-[EvalAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
+[EvalAdapter](/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
 est l'*adapter* par défaut et utilise
 [eval](http://php.net/manual/fr/function.eval.php).
 Vous pouvez avoir entendu que `eval` est dangereux. Et
@@ -1777,7 +1787,7 @@ eval('?>'.$codePhp);
 
 #### StreamAdapter
 
-[StreamAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.StreamAdapter.html)
+[StreamAdapter](/api/classes/Phug.Renderer.Adapter.StreamAdapter.html)
 Le flux (*stream*) est une alternative entre les deux.
 Dans ce mode `->display()` est équivalent à :
 ```php
@@ -1838,3 +1848,74 @@ Memcached.
 `true` par défaut, si réglé sur `false`, les fichiers
 de cache n'expirent jamais jusqu'à ce que le cache
 soit manuellement vidé.
+
+### keep_base_name `boolean`
+
+Si `true`, le nom du template sera appliqué en préfixe
+au nom du fichier de cache. Cela peut être utile pour
+déboguer si vous avez besoin de voir rapidement de
+quel template provient un fichier de cache.
+
+### locator_class_name `string`
+
+Le *locator* est utilisé par le *compiler*
+pour localiser les fichiers à compiler,
+inclure ou étendre.
+
+Par défaut, nous utilisons
+[FileLocator](/api/classes/Phug.Compiler.Locator.FileLocator.html).
+
+Mais vous pouvez le changer par n'importe quelle classe
+qui implémente 
+[LocatorInterface](/api/classes/Phug.Compiler.LocatorInterface.html).
+
+## Lexing
+
+Les options de *lexing* sont gérées et altérées par
+le *lexer* à un niveau très bas du processus. Il n'y
+a pas d'intérêt particulier à les changer (à
+l'exception de l'encodage) mais les
+récupérer lors de certains événements peut être
+intéressant :
+
+```php
+$lexer = Phug::getRenderer()->getCompiler()->getParser()->getLexer();
+$lexer->attach(\Phug\LexerEvent::TOKEN, function (\Phug\Lexer\Event\TokenEvent $event) use ($lexer, &$output) {
+    $state = $lexer->getState();
+    $state->getLevel(); // level
+    $state->getIndentStyle(); // indent_style
+    $state->getIndentWidth(); // indent_width
+    $state->getReader()->getEncoding(); // encoding
+});
+```
+
+**Attention**: ne confondez pas les options
+ci-dessous avec des options de formattage,
+les options ci-dessous n'ont aucun effet sur
+la sortie, elle n'influe que sur la manière
+d'interpréter l'entrée.
+
+### level `integer`
+
+Nombre de crans d'indentation (espaces ou
+tabulations).
+
+### indent_style `string`
+
+Chaîne d'indentation (espaces, tabulations
+ou n'importe quelle chaîne personalisée).
+
+### indent_width `indent_width`
+
+Nombre d'occurences de la chaînes pour
+passer un niveau d'indentation.
+
+### allow_mixed_indent `integer`
+
+`true` par défaut. Si réglé à `false`, mélanger
+des tabulations et des espaces lancera une
+exception.
+
+### encoding `string`
+
+Encodage du code d'entrée (`"UTF-8"` par défaut).

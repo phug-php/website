@@ -439,6 +439,15 @@ also edit, these are the default values:
 ],
 ```
 
+### detailed_dump `boolean`
+
+The lexer, the parser and the compiler all have a `->dump()`
+method that allow you to see the state of each process.
+
+By setting detailed_dump to `true` you can dump more
+details (right now this option is only available for
+the parser).
+
 ## Errors
 
 ### error_handler `callable`
@@ -592,7 +601,7 @@ In some cases you may hesitate between **on_render** and
 
 Event constant: `\Phug\RendererEvent::RENDER`
 
-Event type: [`\Phug\Renderer\Event\RenderEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.RenderEvent.html#method___construct)
+Event type: [`\Phug\Renderer\Event\RenderEvent`](/api/classes/Phug.Renderer.Event.RenderEvent.html#method___construct)
 
 Parameters you can get/set:
 - input: input string if `render`/`display` has been called
@@ -607,7 +616,7 @@ Is triggered after a file or a string being rendered or displayed.
 
 Event constant: `\Phug\RendererEvent::HTML`
 
-Event type: [`\Phug\Renderer\Event\HtmlEvent`](https://phug-lang.com/api/classes/Phug.Renderer.Event.HtmlEvent.html#method___construct)
+Event type: [`\Phug\Renderer\Event\HtmlEvent`](/api/classes/Phug.Renderer.Event.HtmlEvent.html#method___construct)
 
 Parameters you can get/set:
 - renderEvent: link to the initial RenderEvent (see above)
@@ -641,7 +650,7 @@ variables values you can get and set.
 
 Event constant: `\Phug\CompilerEvent::COMPILE`
 
-Event type: [`\Phug\Compiler\Event\CompileEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.CompileEvent.html#method___construct)
+Event type: [`\Phug\Compiler\Event\CompileEvent`](/api/classes/Phug.Compiler.Event.CompileEvent.html#method___construct)
 
 Parameters you can get/set:
 - input: input string/source file content
@@ -654,7 +663,7 @@ Is triggered after a file or a string being compiled.
 
 Event constant: `\Phug\CompilerEvent::OUTPUT`
 
-Event type: [`\Phug\Compiler\Event\OutputEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.OutputEvent.html#method___construct)
+Event type: [`\Phug\Compiler\Event\OutputEvent`](/api/classes/Phug.Compiler.Event.OutputEvent.html#method___construct)
 
 Parameters you can get/set:
 - compileEvent: link to the initial CompileEvent (see above)
@@ -687,7 +696,7 @@ the tree of elements into the compiled PHP code.
 
 Event constant: `\Phug\CompilerEvent::NODE`
 
-Event type: [`\Phug\Compiler\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.NodeEvent.html#method___construct)
+Event type: [`\Phug\Compiler\Event\NodeEvent`](/api/classes/Phug.Compiler.Event.NodeEvent.html#method___construct)
 
 Parameters you can get/set:
 - node: the node instance created by the parser that is
@@ -699,7 +708,7 @@ Is triggered for each node after its compilation.
 
 Event constant: `\Phug\CompilerEvent::ELEMENT`
 
-Event type: [`\Phug\Compiler\Event\ElementEvent`](https://phug-lang.com/api/classes/Phug.Compiler.Event.ElementEvent.html#method___construct)
+Event type: [`\Phug\Compiler\Event\ElementEvent`](/api/classes/Phug.Compiler.Event.ElementEvent.html#method___construct)
 
 Parameters you can get/set:
 - nodeEvent: link to the initial NodeEvent (see above)
@@ -732,7 +741,7 @@ p=$var
 
 Event constant: `\Phug\FormatterEvent::FORMAT`
 
-Event type: [`\Phug\Formatter\Event\FormatEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.FormatEvent.html#method___construct)
+Event type: [`\Phug\Formatter\Event\FormatEvent`](/api/classes/Phug.Formatter.Event.FormatEvent.html#method___construct)
 
 Parameters you can get/set:
 - element: the compiled element (implements ElementInterface)
@@ -749,7 +758,7 @@ set the doctype).
 
 Event constant: `\Phug\FormatterEvent::NEW_FORMAT`
 
-Event type: [`\Phug\Formatter\Event\NewFormatEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.NewFormatEvent.html#method___construct)
+Event type: [`\Phug\Formatter\Event\NewFormatEvent`](/api/classes/Phug.Formatter.Event.NewFormatEvent.html#method___construct)
 
 Parameters you can get/set:
 - formatter: the current formatter in use (implements Formatter)
@@ -775,7 +784,7 @@ to change it).
 
 Event constant: `\Phug\FormatterEvent::DEPENDENCY_STORAGE`
 
-Event type: [`\Phug\Formatter\Event\DependencyStorageEvent`](https://phug-lang.com/api/classes/Phug.Formatter.Event.DependencyStorageEvent.html#method___construct)
+Event type: [`\Phug\Formatter\Event\DependencyStorageEvent`](/api/classes/Phug.Formatter.Event.DependencyStorageEvent.html#method___construct)
 
 Parameters you can get/set:
 - dependencyStorage: storage variable as string (for example:
@@ -787,7 +796,7 @@ Is triggered before the parsing process.
 
 Event constant: `\Phug\ParserEvent::PARSE`
 
-Event type: [`\Phug\Parser\Event\ParseEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.ParseEvent.html#method___construct)
+Event type: [`\Phug\Parser\Event\ParseEvent`](/api/classes/Phug.Parser.Event.ParseEvent.html#method___construct)
 
 Parameters you can get/set:
 - input: input string/source file content
@@ -804,7 +813,7 @@ Is triggered when the parser finished to parse a whole document.
 
 Event constant: `\Phug\ParserEvent::DOCUMENT`
 
-Event type: [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+Event type: [`\Phug\Parser\Event\NodeEvent`](/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
 
 Parameters you can get/set:
 - node: the document as parser node instance
@@ -815,7 +824,7 @@ Is triggered when the parser enter a node.
 
 Event constant: `\Phug\ParserEvent::STATE_ENTER`
 
-Event type: [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+Event type: [`\Phug\Parser\Event\NodeEvent`](/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
 
 Parameters you can get/set:
 - node: the node the parser entered in
@@ -826,7 +835,7 @@ Is triggered when the parser leave a node.
 
 Event constant: `\Phug\ParserEvent::STATE_LEAVE`
 
-Event type: [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+Event type: [`\Phug\Parser\Event\NodeEvent`](/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
 
 Parameters you can get/set:
 - node: the node the parser left out
@@ -838,7 +847,7 @@ node to the document tree.
 
 Event constant: `\Phug\ParserEvent::STATE_STORE`
 
-Event type: [`\Phug\Parser\Event\NodeEvent`](https://phug-lang.com/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
+Event type: [`\Phug\Parser\Event\NodeEvent`](/api/classes/Phug.Parser.Event.NodeEvent.html#method___construct)
 
 Parameters you can get/set:
 - node: the node the parser stored
@@ -850,7 +859,7 @@ an input string.
 
 Event constant: `\Phug\LexerEvent::LEX`
 
-Event type: [`\Phug\Lexer\Event\LexEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.LexEvent.html#method___construct)
+Event type: [`\Phug\Lexer\Event\LexEvent`](/api/classes/Phug.Lexer.Event.LexEvent.html#method___construct)
 
 Parameters you can get/set:
 - input: input string/source file content
@@ -868,7 +877,7 @@ an input string.
 
 Event constant: `\Phug\LexerEvent::LEX_END`
 
-Event type: [`\Phug\Lexer\Event\EndLexEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.EndLexEvent.html#method___construct)
+Event type: [`\Phug\Lexer\Event\EndLexEvent`](/api/classes/Phug.Lexer.Event.EndLexEvent.html#method___construct)
 
 Parameters you can get/set:
 - lexEvent: link to the initial LexEvent
@@ -880,7 +889,7 @@ and send it to the parser.
 
 Event constant: `\Phug\LexerEvent::TOKEN`
 
-Event type: [`\Phug\Lexer\Event\TokenEvent`](https://phug-lang.com/api/classes/Phug.Lexer.Event.TokenEvent.html#method___construct)
+Event type: [`\Phug\Lexer\Event\TokenEvent`](/api/classes/Phug.Lexer.Event.TokenEvent.html#method___construct)
 
 Parameters you can get/set:
 - token: the token created by the lexer
@@ -975,14 +984,14 @@ natively handled.
 
 You also can create your own module by extending one of
 the following class:
-- [`\Phug\AbstractRendererModule`](https://phug-lang.com/api/classes/Phug.AbstractRendererModule.html)
-- [`\Phug\AbstractCompilerModule`](https://phug-lang.com/api/classes/Phug.AbstractCompilerModule.html)
-- [`\Phug\AbstractFormatterModule`](https://phug-lang.com/api/classes/Phug.AbstractFormatterModule.html)
-- [`\Phug\AbstractParserModule`](https://phug-lang.com/api/classes/Phug.AbstractParserModule.html)
-- [`\Phug\AbstractLexerModule`](https://phug-lang.com/api/classes/Phug.AbstractLexerModule.html)
+- [`\Phug\AbstractRendererModule`](/api/classes/Phug.AbstractRendererModule.html)
+- [`\Phug\AbstractCompilerModule`](/api/classes/Phug.AbstractCompilerModule.html)
+- [`\Phug\AbstractFormatterModule`](/api/classes/Phug.AbstractFormatterModule.html)
+- [`\Phug\AbstractParserModule`](/api/classes/Phug.AbstractParserModule.html)
+- [`\Phug\AbstractLexerModule`](/api/classes/Phug.AbstractLexerModule.html)
 
 They all extend the
-[`\Phug\Util\AbstractModule` class](https://phug-lang.com/api/classes/Phug.Util.AbstractModule.html)
+[`\Phug\Util\AbstractModule` class](/api/classes/Phug.Util.AbstractModule.html)
 
 Here is an example:
 
@@ -1407,7 +1416,7 @@ Default value:
 ```
 
 Formats can add patterns (like
-[XmlFormat](https://phug-lang.com/api/classes/Phug.Formatter.Format.XmlFormat.html)):
+[XmlFormat](/api/classes/Phug.Formatter.Format.XmlFormat.html)):
 ```php
 class XmlFormat extends AbstractFormat
 {
@@ -1440,7 +1449,7 @@ For example, you can see `BOOLEAN_ATTRIBUTE_PATTERN = ' %s="%s"'`
 which mean `input(checked)` become `<input checked="checked">`.
 
 And
-[HtmlFormat](https://phug-lang.com/api/classes/Phug.Formatter.Format.HtmlFormat.html)
+[HtmlFormat](/api/classes/Phug.Formatter.Format.HtmlFormat.html)
 override it:
 
 ```php
@@ -1600,7 +1609,7 @@ compiled PHP code; `"pugModule"` by default.
 ### formatter_class_name `string`
 
 Allow you to extend the
-[Formatter class](https://phug-lang.com/api/classes/Phug.Formatter.html)
+[Formatter class](/api/classes/Phug.Formatter.html)
 ```php
 class CustomFormatter extends \Phug\Formatter
 {
@@ -1639,7 +1648,7 @@ taken into account. So you can use it as an initial option
 (passed as options array when you construct a new
 Renderer instance or a new Pug instance if you use **Pug-php**)
 else you can simply use the
-[`->setAdapterClassName()` method](https://phug-lang.com/api/classes/Phug.Renderer.Partial.AdapterTrait.html#method_setAdapterClassName)
+[`->setAdapterClassName()` method](/api/classes/Phug.Renderer.Partial.AdapterTrait.html#method_setAdapterClassName)
 to change this option and reinitialize the adapter.
 
 ```php
@@ -1649,7 +1658,7 @@ Phug::getRenderer()->setAdapterClassName(\Phug\Renderer\Adapter\StreamAdapter::c
 
 There are 3 adapters available and you can create your own
 by extending one of them or the
-[AbstractAdapter class](https://phug-lang.com/api/classes/Phug.Renderer.AbstractAdapter.html).
+[AbstractAdapter class](/api/classes/Phug.Renderer.AbstractAdapter.html).
 
 The adapter role is to take formatted compiled code and
 turn it into the final rendered code. So most often it
@@ -1657,9 +1666,9 @@ means execute PHP code to get HTML code.
 
 #### FileAdapter
 
-[FileAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.FileAdapter.html)
+[FileAdapter](/api/classes/Phug.Renderer.Adapter.FileAdapter.html)
 is the only adapter to implement
-[CacheInterface](https://phug-lang.com/api/classes/Phug.Renderer.CacheInterface.html)
+[CacheInterface](/api/classes/Phug.Renderer.CacheInterface.html)
 so when you enable or use any cache feature, this adapter
 is automatically selected if the current adapter does not
 implement `CacheInterface`. `->display()` with the
@@ -1671,7 +1680,7 @@ include 'file.php';
 
 #### EvalAdapter
 
-[EvalAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
+[EvalAdapter](/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
 is the default adapter and uses
 [eval](http://php.net/manual/en/function.eval.php).
 You may have heard that `eval` is dangerous. And yes,
@@ -1711,7 +1720,7 @@ eval('?>'.$phpCode);
 
 #### StreamAdapter
 
-[StreamAdapter](https://phug-lang.com/api/classes/Phug.Renderer.Adapter.StreamAdapter.html)
+[StreamAdapter](/api/classes/Phug.Renderer.Adapter.StreamAdapter.html)
 Stream is an alternative between both. In this
 mode `->display()` is equivalent to:
 ```php
@@ -1765,3 +1774,65 @@ storage.
 
 `true` by default, when set to `false`, cache files
 never expire until a manual cache clear.
+
+### keep_base_name `boolean`
+
+If `true`, it will prepend template name to cache
+file name. It can be useful to debug if you need
+to see quickly which template a cache file come
+from.
+
+### locator_class_name `string`
+
+The locator is used by the compiler to locate
+files to compile/include/extend.
+
+By default we use
+[FileLocator](/api/classes/Phug.Compiler.Locator.FileLocator.html).
+
+But you can change it for any class that implement
+[LocatorInterface](/api/classes/Phug.Compiler.LocatorInterface.html).
+
+## Lexing
+
+Lexing options are handled and altered by the lexer
+at very low process level. There are no particular
+interest to change (except encoding) them but getting
+them at some events can be interesting:
+
+```php
+$lexer = Phug::getRenderer()->getCompiler()->getParser()->getLexer();
+$lexer->attach(\Phug\LexerEvent::TOKEN, function (\Phug\Lexer\Event\TokenEvent $event) use ($lexer, &$output) {
+    $state = $lexer->getState();
+    $state->getLevel(); // level
+    $state->getIndentStyle(); // indent_style
+    $state->getIndentWidth(); // indent_width
+    $state->getReader()->getEncoding(); // encoding
+});
+```
+
+**Warning**: do not confuse options below with
+formatting options, the options below have no
+effect on the output, they are how the lexer
+get the input.
+
+### level `integer`
+
+Count of indentation spaces/tabs.
+
+### indent_style `string`
+
+Indentation string (spaces, tabs or any custom string).
+
+### indent_width `indent_width`
+
+Number strings occurrences to step an indentation.
+
+### allow_mixed_indent `integer`
+
+`true` by default. If set to `false`, mixin tabs
+and spaces throw an exception.
+
+### encoding `string`
+
+Encoding of the input (`"UTF-8"` by default).
