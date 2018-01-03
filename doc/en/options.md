@@ -1836,3 +1836,230 @@ and spaces throw an exception.
 ### encoding `string`
 
 Encoding of the input (`"UTF-8"` by default).
+
+## Extending core classes
+
+Core classes can be replaced thanks to options.
+This allow you to extend **Phug** classes and
+methods. These options are initial, so you
+have to reset/recreate the renderer if you
+want to change them after a render.
+
+### compiler_class_name `string`
+
+Allow to replace [Compiler](/api/classes/Phug.Compiler.html)
+
+### parser_class_name `string`
+
+Allow to replace [Parser](/api/classes/Phug.Parser.html)
+
+### lexer_class_name `string`
+
+Allow to replace [Lexer](/api/classes/Phug.Lexer.html)
+
+### lexer_class_name `string`
+
+Allow to replace [Lexer](/api/classes/Phug.Lexer.html)
+
+### lexer_state_class_name `string`
+
+Allow to replace the [lexer state class](/api/classes/Phug.Lexer.State.html)
+
+### parser_state_class_name `string`
+
+Allow to replace the [parser state class](/api/classes/Phug.Parser.State.html)
+
+### node_compilers `array`
+
+Allow to change compilers for each kind of node,
+the default map is:
+
+```php
+[
+    \Phug\Parser\Node\AssignmentListNode::class => \Phug\Compiler\NodeCompiler\AssignmentListNodeCompiler::class,
+    \Phug\Parser\Node\AssignmentNode::class     => \Phug\Compiler\NodeCompiler\AssignmentNodeCompiler::class,
+    \Phug\Parser\Node\AttributeListNode::class  => \Phug\Compiler\NodeCompiler\AttributeListNodeCompiler::class,
+    \Phug\Parser\Node\AttributeListNode::class  => \Phug\Compiler\NodeCompiler\AttributeNodeCompiler::class,
+    \Phug\Parser\Node\BlockNode::class          => \Phug\Compiler\NodeCompiler\BlockNodeCompiler::class,
+    \Phug\Parser\Node\YieldNode::class          => \Phug\Compiler\NodeCompiler\YieldNodeCompiler::class,
+    \Phug\Parser\Node\CaseNode::class           => \Phug\Compiler\NodeCompiler\CaseNodeCompiler::class,
+    \Phug\Parser\Node\CodeNode::class           => \Phug\Compiler\NodeCompiler\CodeNodeCompiler::class,
+    \Phug\Parser\Node\CommentNode::class        => \Phug\Compiler\NodeCompiler\CommentNodeCompiler::class,
+    \Phug\Parser\Node\ConditionalNode::class    => \Phug\Compiler\NodeCompiler\ConditionalNodeCompiler::class,
+    \Phug\Parser\Node\DoctypeNode::class        => \Phug\Compiler\NodeCompiler\DoctypeNodeCompiler::class,
+    \Phug\Parser\Node\DocumentNode::class       => \Phug\Compiler\NodeCompiler\DocumentNodeCompiler::class,
+    \Phug\Parser\Node\DoNode::class             => \Phug\Compiler\NodeCompiler\DoNodeCompiler::class,
+    \Phug\Parser\Node\EachNode::class           => \Phug\Compiler\NodeCompiler\EachNodeCompiler::class,
+    \Phug\Parser\Node\KeywordNode::class        => \Phug\Compiler\NodeCompiler\KeywordNodeCompiler::class,
+    \Phug\Parser\Node\ElementNode::class        => \Phug\Compiler\NodeCompiler\ElementNodeCompiler::class,
+    \Phug\Parser\Node\ExpressionNode::class     => \Phug\Compiler\NodeCompiler\ExpressionNodeCompiler::class,
+    \Phug\Parser\Node\FilterNode::class         => \Phug\Compiler\NodeCompiler\FilterNodeCompiler::class,
+    \Phug\Parser\Node\ForNode::class            => \Phug\Compiler\NodeCompiler\ForNodeCompiler::class,
+    \Phug\Parser\Node\ImportNode::class         => \Phug\Compiler\NodeCompiler\ImportNodeCompiler::class,
+    \Phug\Parser\Node\MixinCallNode::class      => \Phug\Compiler\NodeCompiler\MixinCallNodeCompiler::class,
+    \Phug\Parser\Node\MixinNode::class          => \Phug\Compiler\NodeCompiler\MixinNodeCompiler::class,
+    \Phug\Parser\Node\TextNode::class           => \Phug\Compiler\NodeCompiler\TextNodeCompiler::class,
+    \Phug\Parser\Node\VariableNode::class       => \Phug\Compiler\NodeCompiler\VariableNodeCompiler::class,
+    \Phug\Parser\Node\WhenNode::class           => \Phug\Compiler\NodeCompiler\WhenNodeCompiler::class,
+    \Phug\Parser\Node\WhileNode::class          => \Phug\Compiler\NodeCompiler\WhileNodeCompiler::class,
+]
+```
+
+### element_handlers `array`
+
+Allow to change how to format each kind of element,
+the default map is:
+```php
+[
+    \Phug\Formatter\Element\AssignmentElement::class => [$this, 'formatAssignmentElement'],
+    \Phug\Formatter\Element\AttributeElement::class  => [$this, 'formatAttributeElement'],
+    \Phug\Formatter\Element\CodeElement::class       => [$this, 'formatCodeElement'],
+    \Phug\Formatter\Element\CommentElement::class    => [$this, 'formatCommentElement'],
+    \Phug\Formatter\Element\ExpressionElement::class => [$this, 'formatExpressionElement'],
+    \Phug\Formatter\Element\DoctypeElement::class    => [$this, 'formatDoctypeElement'],
+    \Phug\Formatter\Element\DocumentElement::class   => [$this, 'formatDocumentElement'],
+    \Phug\Formatter\Element\KeywordElement::class    => [$this, 'formatKeywordElement'],
+    \Phug\Formatter\Element\MarkupElement::class     => [$this, 'formatMarkupElement'],
+    \Phug\Formatter\Element\MixinCallElement::class  => [$this, 'formatMixinCallElement'],
+    \Phug\Formatter\Element\MixinElement::class      => [$this, 'formatMixinElement'],
+    \Phug\Formatter\Element\TextElement::class       => [$this, 'formatTextElement'],
+    \Phug\Formatter\Element\VariableElement::class   => [$this, 'formatVariableElement'],
+]
+```
+
+Where `$this` is the current format instance.
+
+### token_handlers `array`
+
+Allow to change how lexer token are parsed,
+the default map is:
+```php
+[
+    \Phug\Lexer\Token\AssignmentToken::class             => \Phug\Parser\TokenHandler\AssignmentTokenHandler::class,
+    \Phug\Lexer\Token\AttributeEndToken::class           => \Phug\Parser\TokenHandler\AttributeEndTokenHandler::class,
+    \Phug\Lexer\Token\AttributeStartToken::class         => \Phug\Parser\TokenHandler\AttributeStartTokenHandler::class,
+    \Phug\Lexer\Token\AttributeToken::class              => \Phug\Parser\TokenHandler\AttributeTokenHandler::class,
+    \Phug\Lexer\Token\AutoCloseToken::class              => \Phug\Parser\TokenHandler\AutoCloseTokenHandler::class,
+    \Phug\Lexer\Token\BlockToken::class                  => \Phug\Parser\TokenHandler\BlockTokenHandler::class,
+    \Phug\Lexer\Token\YieldToken::class                  => \Phug\Parser\TokenHandler\YieldTokenHandler::class,
+    \Phug\Lexer\Token\CaseToken::class                   => \Phug\Parser\TokenHandler\CaseTokenHandler::class,
+    \Phug\Lexer\Token\ClassToken::class                  => \Phug\Parser\TokenHandler\ClassTokenHandler::class,
+    \Phug\Lexer\Token\CodeToken::class                   => \Phug\Parser\TokenHandler\CodeTokenHandler::class,
+    \Phug\Lexer\Token\CommentToken::class                => \Phug\Parser\TokenHandler\CommentTokenHandler::class,
+    \Phug\Lexer\Token\ConditionalToken::class            => \Phug\Parser\TokenHandler\ConditionalTokenHandler::class,
+    \Phug\Lexer\Token\DoToken::class                     => \Phug\Parser\TokenHandler\DoTokenHandler::class,
+    \Phug\Lexer\Token\DoctypeToken::class                => \Phug\Parser\TokenHandler\DoctypeTokenHandler::class,
+    \Phug\Lexer\Token\EachToken::class                   => \Phug\Parser\TokenHandler\EachTokenHandler::class,
+    \Phug\Lexer\Token\ExpansionToken::class              => \Phug\Parser\TokenHandler\ExpansionTokenHandler::class,
+    \Phug\Lexer\Token\ExpressionToken::class             => \Phug\Parser\TokenHandler\ExpressionTokenHandler::class,
+    \Phug\Lexer\Token\FilterToken::class                 => \Phug\Parser\TokenHandler\FilterTokenHandler::class,
+    \Phug\Lexer\Token\ForToken::class                    => \Phug\Parser\TokenHandler\ForTokenHandler::class,
+    \Phug\Lexer\Token\IdToken::class                     => \Phug\Parser\TokenHandler\IdTokenHandler::class,
+    \Phug\Lexer\Token\InterpolationStartToken::class     => \Phug\Parser\TokenHandler\InterpolationStartTokenHandler::class,
+    \Phug\Lexer\Token\InterpolationEndToken::class       => \Phug\Parser\TokenHandler\InterpolationEndTokenHandler::class,
+    \Phug\Lexer\Token\ImportToken::class                 => \Phug\Parser\TokenHandler\ImportTokenHandler::class,
+    \Phug\Lexer\Token\IndentToken::class                 => \Phug\Parser\TokenHandler\IndentTokenHandler::class,
+    \Phug\Lexer\Token\MixinCallToken::class              => \Phug\Parser\TokenHandler\MixinCallTokenHandler::class,
+    \Phug\Lexer\Token\MixinToken::class                  => \Phug\Parser\TokenHandler\MixinTokenHandler::class,
+    \Phug\Lexer\Token\NewLineToken::class                => \Phug\Parser\TokenHandler\NewLineTokenHandler::class,
+    \Phug\Lexer\Token\OutdentToken::class                => \Phug\Parser\TokenHandler\OutdentTokenHandler::class,
+    \Phug\Lexer\Token\TagInterpolationStartToken::class  => \Phug\Parser\TokenHandler\TagInterpolationStartTokenHandler::class,
+    \Phug\Lexer\Token\TagInterpolationEndToken::class    => \Phug\Parser\TokenHandler\TagInterpolationEndTokenHandler::class,
+    \Phug\Lexer\Token\KeywordToken::class                => \Phug\Parser\TokenHandler\KeywordTokenHandler::class,
+    \Phug\Lexer\Token\TagToken::class                    => \Phug\Parser\TokenHandler\TagTokenHandler::class,
+    \Phug\Lexer\Token\TextToken::class                   => \Phug\Parser\TokenHandler\TextTokenHandler::class,
+    \Phug\Lexer\Token\VariableToken::class               => \Phug\Parser\TokenHandler\VariableTokenHandler::class,
+    \Phug\Lexer\Token\WhenToken::class                   => \Phug\Parser\TokenHandler\WhenTokenHandler::class,
+    \Phug\Lexer\Token\WhileToken::class                  => \Phug\Parser\TokenHandler\WhileTokenHandler::class,
+]
+```
+
+### scanners `array`
+
+Allow to change how to scan and detect each string
+sequence to get the given token,
+the default map is:
+```php
+[
+    'new_line'    => \Phug\Lexer\Scanner\NewLineScanner::class,
+    'indent'      => \Phug\Lexer\Scanner\IndentationScanner::class,
+    'import'      => \Phug\Lexer\Scanner\ImportScanner::class,
+    'block'       => \Phug\Lexer\Scanner\BlockScanner::class,
+    'yield'       => \Phug\Lexer\Scanner\YieldScanner::class,
+    'conditional' => \Phug\Lexer\Scanner\ConditionalScanner::class,
+    'each'        => \Phug\Lexer\Scanner\EachScanner::class,
+    'case'        => \Phug\Lexer\Scanner\CaseScanner::class,
+    'when'        => \Phug\Lexer\Scanner\WhenScanner::class,
+    'do'          => \Phug\Lexer\Scanner\DoScanner::class,
+    'while'       => \Phug\Lexer\Scanner\WhileScanner::class,
+    'for'         => \Phug\Lexer\Scanner\ForScanner::class,
+    'mixin'       => \Phug\Lexer\Scanner\MixinScanner::class,
+    'mixin_call'  => \Phug\Lexer\Scanner\MixinCallScanner::class,
+    'doctype'     => \Phug\Lexer\Scanner\DoctypeScanner::class,
+    'keyword'     => \Phug\Lexer\Scanner\KeywordScanner::class,
+    'tag'         => \Phug\Lexer\Scanner\TagScanner::class,
+    'class'       => \Phug\Lexer\Scanner\ClassScanner::class,
+    'id'          => \Phug\Lexer\Scanner\IdScanner::class,
+    'attribute'   => \Phug\Lexer\Scanner\AttributeScanner::class,
+    'assignment'  => \Phug\Lexer\Scanner\AssignmentScanner::class,
+    'variable'    => \Phug\Lexer\Scanner\VariableScanner::class,
+    'comment'     => \Phug\Lexer\Scanner\CommentScanner::class,
+    'filter'      => \Phug\Lexer\Scanner\FilterScanner::class,
+    'expression'  => \Phug\Lexer\Scanner\ExpressionScanner::class,
+    'code'        => \Phug\Lexer\Scanner\CodeScanner::class,
+    'markup'      => \Phug\Lexer\Scanner\MarkupScanner::class,
+    'expansion'   => \Phug\Lexer\Scanner\ExpansionScanner::class,
+    'dynamic_tag' => \Phug\Lexer\Scanner\DynamicTagScanner::class,
+    'text_block'  => \Phug\Lexer\Scanner\TextBlockScanner::class,
+    'text_line'   => \Phug\Lexer\Scanner\TextLineScanner::class,
+]
+```
+
+### assignment_handlers `array`
+
+Allow to change how to handle assignments and allow
+to create your owns, example:
+
+```php
+Phug::display(implode("\n", [
+    'img&foo()',
+]), [], [
+    'assignment_handlers' => [
+        function (AssignmentElement $assignment) {
+            if ($assignment->getName() === 'foo') {
+                $assignment->detach();
+
+                yield new AttributeElement('data-foo', '123');
+            }
+        },
+    ],
+]);
+```
+
+Output:
+```html
+<img data-foo="123" />
+```
+
+### attribute_assignments `array`
+
+Allow to change how to handle attributes, example:
+
+```php
+
+Phug::display(implode("\n", [
+    'img&attributes(["foo" => "bar", "biz" => true])',
+]), [], [
+    'attribute_assignments' => [
+        'foo' => function () {
+            return 'not-bar';
+        },
+    ],
+]);
+
+```
+
+Output:
+```html
+<img foo="not-bar" biz="biz" />
+```

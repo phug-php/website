@@ -133,8 +133,8 @@ echo Phug::compile('p=$utilisateur');
 Ceci va afficher le fichier compilé sans code de débogage.
 
 Consultez toutes les méthodes disponibles dans la référence de l'API :
-- [Phug\Phug](https://phug.selfbuild.fr/api/classes/Phug.Phug.html)
-- [Phug\Renderer](https://phug.selfbuild.fr/api/classes/Phug.Renderer.html)
+- [Phug\Phug](/api/classes/Phug.Phug.html)
+- [Phug\Renderer](/api/classes/Phug.Renderer.html)
 
 ## Utiliser des expressions JavaScript
 

@@ -120,8 +120,8 @@ echo Phug::compile('p=$userName');
 This will display the PHP compiled code with no debug code.
 
 See all available methods in the API reference:
-- [Phug\Phug](https://phug.selfbuild.fr/api/classes/Phug.Phug.html)
-- [Phug\Renderer](https://phug.selfbuild.fr/api/classes/Phug.Renderer.html)
+- [Phug\Phug](/api/classes/Phug.Phug.html)
+- [Phug\Renderer](/api/classes/Phug.Renderer.html)
 
 ## Use JavaScript expressions
 
