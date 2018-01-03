@@ -2105,9 +2105,7 @@ Permet de changer la manière de gérer les assignements
 et permet d'en rajouter de nouveaux, exemple :
 
 ```php
-Phug::display(implode("\n", [
-    'img&foo()',
-]), [], [
+Phug::display('img&foo()', [], [
     'assignment_handlers' => [
         function (AssignmentElement $assignment) {
             if ($assignment->getName() === 'foo') {
@@ -2132,9 +2130,7 @@ exemple :
 
 ```php
 
-Phug::display(implode("\n", [
-    'img&attributes(["foo" => "bar", "biz" => true])',
-]), [], [
+Phug::display('img&attributes(["foo" => "bar", "biz" => true])', [], [
     'attribute_assignments' => [
         'foo' => function () {
             return 'not-bar';
