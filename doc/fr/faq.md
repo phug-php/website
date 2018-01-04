@@ -149,3 +149,29 @@ $pug->share('afficheDate', function ($date) {
     return $v8->executeString('appelleUneFonctionJs(valeurs.date)');
 });
 ```
+
+## Comment utiliser des fonctions *helper* avec l'option pugjs ?
+
+Quand vous utiliser **Pug-php** avec l'option `pugjs` à `true`
+toutes les données passées à la view sont encodées en JSON.
+Donc vous perdez vos typage de classe et vous perdez les fonctions
+de closure.
+
+Néanmoins, vous pouvez écrire des fonctions JS à l'intérieur
+de vos templates et utiliser n'importe quelle locale ou
+variable partagée dedans :
+```pug
+-
+  function asset(file) {
+    return assetDirectory + '/' + file + '?v' + version;
+  }
+
+script(href=asset('app'))
+```
+```vars
+[
+  'assetDirectory' => 'assets',
+  'version' => '2.3.4',
+]
+```
+<i data-options='{"pugjs":true}'></i>

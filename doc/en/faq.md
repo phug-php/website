@@ -137,3 +137,27 @@ $pug->share('dateDisplay', function ($date) {
     return $v8->executeString('callJsFunction(values.date)');
 });
 ```
+
+## How to use helper functions with pugjs engine?
+
+When you use **Pug-php** with `pugjs` option to `true` all
+the data you pass to the view is encoded as JSON. So you loose
+your class typing and you loose closures functions.
+
+Nevertheless, you can write JS functions inside you templates
+and use any local or shared variable in it :
+```pug
+-
+  function asset(file) {
+    return assetDirectory + '/' + file + '?v' + version;
+  }
+
+script(href=asset('app'))
+```
+```vars
+[
+  'assetDirectory' => 'assets',
+  'version' => '2.3.4',
+]
+```
+<i data-options='{"pugjs":true}'></i>
