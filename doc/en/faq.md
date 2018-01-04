@@ -86,3 +86,54 @@ p=\call_from_root_namespace()
 - $a = new SomeClass()
 ```
 <i data-options='{"mode":"format"}'></i>
+
+## How to run JS scripts inside templates?
+
+There are different possible approaches:
+
+- First of all, avoid mixing PHP and JS in your back-end
+so if you already have a PHP app and find some node.js
+package you would use, check there is no equivalent in PHP.
+
+- If you don't need to call PHP functions/methods/objects
+in your templates, then you can use the native npm pugjs
+package. **Pug-php** have a wrapper for that:
+```php
+<?php
+
+use Pug\Pug;
+
+include 'vendor/autoload.php';
+
+$pug = new Pug([
+    'pugjs' => true,
+]);
+
+// Phug engine skipped, pugjs used instead
+$pug->display('p=9..toString()');
+
+// So this way, you can `require` any JS file or npm package:
+$pug->display('
+- moment = require("moment")
+p=moment("20111031", "YYYYMMDD").fromNow()
+');
+```
+
+- You can pass a helper function as any other variable via
+`share` or `render` that can call a CLI program (so node or
+anything else):
+```php
+$pug->share('dateDisplay', function ($date) {
+    return shell_exec('node your-js-script.js ' . escapeshellarg($date));
+});
+```
+
+- You can use the V8Js engine
+(http://php.net/manual/en/book.v8js.php):
+```php
+$pug->share('dateDisplay', function ($date) {
+    $v8 = new V8Js('values', array('date' => '2016-05-09'));
+
+    return $v8->executeString('callJsFunction(values.date)');
+});
+```
