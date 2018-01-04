@@ -161,3 +161,16 @@ script(href=asset('app'))
 ]
 ```
 <i data-options='{"pugjs":true}'></i>
+
+## How to disable errors on production?
+
+In production, you should set the `debug` option to `false`.
+Then you should have a global exception handler for your PHP
+application to hide errors from the user.
+
+Best practice would be to log them (in a file for example)
+using exception handler
+(see [set_exception_handler](http://php.net/manual/en/function.set-exception-handler.php)).
+
+A more radical way is to hide them completely with
+`error_reporting(0);` or the same setting in **php.ini**.
