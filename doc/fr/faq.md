@@ -290,3 +290,23 @@ de votre fichier pug.
 Enfin, soyez sûr que l'extension nécessaire (comme
 gettext) est bien installée sur l'instance PHP qui
 rend vos templates pug.
+
+## Comment vider le cache ?
+
+Si vous utilisez [laravel-pug](https://github.com/BKWLD/laravel-pug)
+le cache est géré par Laravel et donc vous pouvez vous référer
+à la documentation du framework pour les opérations sur le
+cache. Le vide se fait par exemple avec `php artisan cache:clear`
+
+Sinon en production, vous devriez utiliser
+[la commande cache-directory](/#compile-directory-ou-cache-directory)
+et désactiver l'option `up_to_date_check`.
+
+En environement de développement, si vous avez le
+moindre problème avec le cache, vous pouvez juste
+désactiver sans risque le cache avec un code comme
+celui-là :
+
+```php
+Phug::setOption('cache', $prod ? 'dossier/de/cache' : false);
+```

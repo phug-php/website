@@ -270,3 +270,22 @@ your first file line.
 Last, be sure all needed extension (such as gettext)
 is well installed on the PHP instance that render your
 pug files.
+
+## How to clear the cache?
+
+If you use [laravel-pug](https://github.com/BKWLD/laravel-pug)
+the cache is handled by Laralve and so you can refer to the
+framework documentation for cache operations. Empty it
+for example can be done with `php artisan cache:clear`
+
+Else in production, you should use the
+[cache-directory command](/#compile-directory-or-cache-directory)
+and disable `up_to_date_check` option.
+
+In development environment, if you have any trouble
+with the cache, you can just safely disable cache
+with some code like this:
+
+```php
+Phug::setOption('cache', $prod ? 'cache/directory' : false);
+```

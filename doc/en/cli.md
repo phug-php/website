@@ -59,7 +59,7 @@ them on the `Phug` facade (that use `Phug\Renderer` with no
 particular extensions and settings) and
 **pug** call them on the `Pug\Facade` facade (that use
 `Pug\Pug` that comes with `js-phpize` and the **pug-php**
-default settings). For both, you can use `--bottstrap`
+default settings). For both, you can use `--bootstrap`
 to set more options, add extensions, share variables, etc.
 
 ### render (or display)
@@ -152,7 +152,7 @@ Compile each file in a directory and its subdirectories.
 It's the perfect way to cache all your pug files when you deploy
 an new version of your application in a server in production.
 
-If you call such command each time you put something new in
+If you call this command each time you put something new in
 production, you can disable the up-to-date check with the
 option `'up_to_date_check' => false` to optimize performance.
 

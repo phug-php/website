@@ -63,114 +63,123 @@ elles vont appeler les mêmes méthodes. La seule différence
 est que **phug** va les appeler sur la façade `Phug`
 (qui utilise `Phug\Renderer` sans extension ni réglages
 particuliers) et **pug** va les appeler sur la façade
-`Pug\Facade` (qui utilise `Pug\Pug` that comes with `js-phpize` and the **pug-php**
-default settings). For both, you can use `--bottstrap`
-to set more options, add extensions, share variables, etc.
+`Pug\Facade` (qui utilise `Pug\Pug` et embarque `js-phpize`
+et les réglages par défaut de **pug-php**). Pour les deux,
+vous pouvez utiliser `--bootstrap` pour régler plus
+d'options, ajouter des extension, partager des variables,
+etc.
 
-### render (or display)
+### render (ou display)
 
-Call `::render()` and take 1 required argument pug code input
-(as string), and 2 optional arguments: local variables (as
-JSON string) and options (as JSON string)
+Appelle `::render()` et prend 1 argument requis : le code
+pug d'entrée (en tant que chaîne de caractères), et 2
+arguments optionnels : les variables locales (au format JSON)
+et les options (au format JSON)
 
 ```shell
 ./vendor/bin/phug render 'p(foo="a")' '{}' '{"attributes_mapping":{"foo":"bar"}}'
 ```
 
-Will output:
+Va afficher :
 ```html
 <p bar="a"></p>
 ```
 
-### render-file (or display-file)
+### render-file (ou display-file)
 
-Call `::renderFile()`, it's exactly like `render` expect it
-take a file path as first argument:
+Appelle `::renderFile()`, c'est exactement la même chose que
+`render` sauf qu'il prend un chemin defichier en premier
+argument :
 
 ```shell
-./vendor/bin/phug render-file /directory/file.pug '{"myVar":"value"}' '{"self":true}'
+./vendor/bin/phug render-file /dossier/fichier.pug '{"maVariable":"valeur"}' '{"self":true}'
 ```
 
-### render-directory (or display-directory)
+### render-directory (ou display-directory)
 
-Call `::renderDirectory()`, render each file in a directory and its subdirectories.
-It take 1 required argument: the input directory, and 3
-optional arguments:
- - the output directory (if not specified, input directory
- is used instead, so rendered file are generated side-by-side
- with input files)
- - output files extension (`.html` by default)
- - local variables (as JSON string)
+Appelle `::renderDirectory()`, effectue le rendu de chacun des
+fichiers contenus dans un dossier et dans ses sous-dossiers.
+Cette commande prend 1 argument requis : le dossier d'entrée,
+et 3 arguments optionnels :
+ - le dossier de sortie (si non spécifié, le dossier d'entrée
+ est utilisé, donc les fichiers rendus sont générés à côté
+ des fichiers d'entrée)
+ - extension des fichiers de sortie (`.html` par défaut)
+ - variables locales (au format JSON)
  
 ```shell
 ./vendor/bin/phug render-directory ./templates ./pages '.xml' '{"foo":"bar"}' 
 ``` 
  
-Supposing you have the following `./templates` directory:
+En supposant que vous avez le dossier `./templates` suivant :
 ```
 templates
-  some-view.pug
-  some-subdirectory
-    another-view.pug
+  une-vue.pug
+  sous-dossier
+    autre-vue.pug
 ``` 
-You will get the following `.pages`:
+Vous allez obtenir le dossier `.pages` suivant :
 ```
 pages
-  some-view.xml
-  some-subdirectory
-    another-view.xml
+  une-vue.xml
+  sous-dossier
+    autre-vue.xml
 ``` 
 
-And in this example, all rendered files will get `$foo = "bar"` as
-available local.
+Et dans cet exemple, tous les fichiers rendus auront
+`$foo = "bar"` comme variables locales disponibles.
 
 ### compile
 
-Call `::compile()`. Compile a pug string without render it. It
-take 1 required argument: the pug code and 1 optional: the
-filename (can also be provided via options), it will be used
-to resolve relative imports.
+Appelle `::compile()`. Compile du code pug sans le rendre
+(l'exécuter). Elle prend 1 argument requis : le code pug
+et 1 optionnel : un nom de fichier (peut aussi être fourni
+via les options), il sera utiliser pour résoudre les
+imports relatifs.
 
 ```shell
-./vendor/bin/phug compile 'a(href=$link) Go' 'filename.pug' -o file.php
+./vendor/bin/phug compile 'a(href=$lien) Aller' 'fichier.pug' -o fichier.php
 ```
 
-This will write something like this in **file.php**:
+Ceci va écrire dans **file.php** un contenu semblable à :
 ```php
-<a href="<?= htmlspecialchars($link) ?>">Go</a>
+<a href="<?= htmlspecialchars($lien) ?>">Aller</a>
 ```
 
 ### compile-file
 
-Call `::compileFile()`. Compile a pug input file without
-render it.
+Appelle `::compileFile()`. Compile un fichier pug sans le
+rendre.
 
 ```shell
-./vendor/bin/phug compile-file views/index.pug -o public/index.php
+./vendor/bin/phug compile-file vues/index.pug -o public/index.php
 ```
 
-### compile-directory (or cache-directory)
+### compile-directory (ou cache-directory)
 
-Call `::cacheDirectory()` (via `::textualCacheDirectory()`).
-Compile each file in a directory and its subdirectories.
+Appelle `::cacheDirectory()` (via `::textualCacheDirectory()`).
+Compile chaque fichier d'un dossier et de ses sous-dossiers.
 
-It's the perfect way to cache all your pug files when you deploy
-an new version of your application in a server in production.
+C'est le moyen parfait de mettre en cache tous vos fichiers pug
+lorsque vous déployer une nouvelle version de votre application
+sur un serveur de production.
 
-If you call such command each time you put something new in
-production, you can disable the up-to-date check with the
-option `'up_to_date_check' => false` to optimize performance.
+Si vous appeler cette commande à chaque fois que vous mettez
+quelque chose de nouveau en production, vous pouvez alors
+désactiver la vérification de cache en utilisant l'option
+`'up_to_date_check' => false` pour optimiser les performances.
 
 ```shell
-./vendor/bin/phug compile-directory views cache '{"option":"value"}'
+./vendor/bin/phug compile-directory vues cache '{"option":"valeur"}'
 ```
 
-Only the first argument is required (input directory where are
-stored your pug files).
+Seul le premier argument est requis (le dossier d'entrée où
+sont stockés vos fichiers pug).
 
-As a second optional argument, you can specify the cache directory,
-else `cache_dir` specified in options will be used, if not
-specified, system temporary directory will be used.
+En deuxième argument optionnel, vous pouvez spécifier le
+chemin du dossier de cache, sinon le chemin spécifié via
+l'option `cache_dir` sera utilisé, si non spécifié,
+le dossier temporaire du système sera utilisé.
 
-The third argument (optional too) allows you to pass options
-as a JSON string if needed.
+Le troisième argument (aussi optionnel) permet de passer
+des options au format JSON si besoin.
