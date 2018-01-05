@@ -310,3 +310,50 @@ celui-là :
 ```php
 Phug::setOption('cache', $prod ? 'dossier/de/cache' : false);
 ```
+
+## Quel est l'équivalent des filtres Twig ?
+
+Si vous connaissez Twig, vous connaissez peut-être
+cette syntaxe :
+```html
+<div>{{ param1 | filtre(param2, param3) }}</div>
+```
+
+Ou si vous connaissez AngularJS, ces filtres :
+```html
+<div>{{ param1 | filtre : param2 : param3 }}</div>
+```
+
+Les filtres de Pugsont un peu différents puisqu'ils
+ne sont autorisés que en dehors des expressions :
+```html
+div
+  :filter(param2=param2 param3=param3)
+    param1
+```
+À l'intérieur du contenu d'une balise, c'est techniquement
+utilisable même si cette syntaxe ne serait sûrement
+pas pertinente dans ce cas.
+
+Pour les valeurs des attributs ou à l'intérieur
+des arguments de mixin, il n'y a rien de
+disponible semblable aux filtres parce que
+des simples fonctions marchent déjà très bien :
+
+```html
+<div>{{ filter(param1, param2, param3) }}</div>
+```
+
+Les filtres de Twig/AngularJS ne sont rien de plus
+qu'une inversion du premier argument et du nom
+de la fonction. La plupart des filtres Twig sont
+disponible en tant que fonctions natives de PHP
+(split : explode, replace :
+strtr, nl2br : nl2br, etc.).
+
+De plus, vous pouvez passer des fonctions comme
+closures à l'intérieur de vos variables
+locales ou des variables partagées.
+
+Et souvenez-vous que le symbole `|` existe déjà en
+PHP, c'est l'opérateur binaire *OR*.

@@ -289,3 +289,45 @@ with some code like this:
 ```php
 Phug::setOption('cache', $prod ? 'cache/directory' : false);
 ```
+
+## What is the equivalent of Twig filter?
+
+If you know Twig, you may know this syntax:
+```html
+<div>{{ param1 | filter(param2, param3) }}</div>
+```
+
+Or if you know AngularJS, those filters:
+```html
+<div>{{ param1 | filter : param2 : param3 }}</div>
+```
+
+Pug filters are a bit different since there are
+allowed only outside expressions:
+```html
+div
+  :filter(param2=param2 param3=param3)
+    param1
+```
+Inside tag content, it's technically usable even
+if this syntax would not be so relevant in this case.
+
+For attributes values or inside mixin arguments,
+there is no such thing like filters available
+because simple functions works just fine:
+
+```html
+<div>{{ filter(param1, param2, param3) }}</div>
+```
+
+Twig/AngularJS filters are nothing more than
+a first argument-function name swap. Most of Twig
+filters are available as native PHP functions
+(split: explode, replace:
+strtr, nl2br: nl2br, etc.).
+
+Moreover, you can pass functions as closures
+inside your locals or the shared variables.
+
+And remember the `|` yet exists in PHP, it's the
+*OR* bitwise operator.
