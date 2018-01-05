@@ -271,3 +271,22 @@ puginclude $path
 
 Cela inclut `../dossier/template.pug` comme l'extension
 est concaténée dans le callback du mot-clé.
+
+## Comment gérer l'internationalisation ?
+
+Les fonctions de traduction telles que `__()` pour Laravel
+ou `_()` pour gettext peuvent être appelées comme n'importe
+quelle autre fonction dans un expression ou un bloc de code.
+
+Le *parser* gettext ne supporte pas les fichiers pug mais
+le mode python donne de bons résultats avec les fichiers
+pug.
+
+Les méthodes d'initialisation comme `textdomain` peuvent
+être appelée dans des blocs de code. Par exemple
+`- textdomain("domain")` peut être la première ligne
+de votre fichier pug.
+
+Enfin, soyez sûr que l'extension nécessaire (comme
+gettext) est bien installée sur l'instance PHP qui
+rend vos templates pug.
