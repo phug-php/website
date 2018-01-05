@@ -49,3 +49,14 @@ Si vous utilisez cette option, soyez conscient que nous ne
 sommes plus responsables de ce qu'il se passe à l'intérieur
 des templates, ce n'est plus PHP qui est utilisé et la
 documentation de référence est alors https://pugjs.org
+
+Optionnellement, vous pouvez spécifier le chemin vers les
+programmes node et pug-cli avec les outils suivants :
+
+```php
+$pug = new Pug([
+  'pugjs' => true,
+  'nodePath' => __DIR__ . '/../bin/node',
+]);
+NodejsPhpFallback::setModulePath('pug-cli', __DIR__ . '/../node_modules/pug-cli');
+```

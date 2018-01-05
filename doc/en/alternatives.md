@@ -44,3 +44,14 @@ that's why you can use any JS syntax.
 If you do this, be aware we are not responsible of what happens
 inside templates, it's no longer PHP used and the documentation
 to refer to is https://pugjs.org
+
+Optionally, you can specify the path to the node and pug-cli
+programs with following tools:
+
+```php
+$pug = new Pug([
+  'pugjs' => true,
+  'nodePath' => __DIR__ . '/../bin/node',
+]);
+NodejsPhpFallback::setModulePath('pug-cli', __DIR__ . '/../node_modules/pug-cli');
+```
