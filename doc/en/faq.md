@@ -174,3 +174,82 @@ using exception handler
 
 A more radical way is to hide them completely with
 `error_reporting(0);` or the same setting in **php.ini**.
+
+## How to includes files dynamically?
+
+The include and extend statements only allow static paths:
+`include myFile` but disallow dynamic imports such as:
+`include $myVariable`.
+
+But custom keyword come to the rescue:
+```php
+Phug::addKeyword('dyninclude', function ($args) {
+    return array(
+        'beginPhp' => 'echo file_get_contents(' . $args . ');',
+    );
+});
+```
+
+This allow to include files as raw text:
+
+```pug
+- $styleFile = 'foo.css'
+- $scriptFile = 'foo.js'
+
+style
+  // Include foo.css as inline content
+  dyninclude $styleFile
+  
+script
+  // Include foo.js as inline content
+  dyninclude $scriptFile
+```
+<i data-options='{"static": true}'></i>
+
+Warning: you must be sure of the variables content. If
+`$styleFile` contains `"../../config.php"` and if `config.php`
+contains some DB passwords, session secret, etc. it will
+disclose those private information.
+
+You must be even more prudent if you allow to include PHP
+files:
+```php
+Phug::addKeyword('phpinclude', function ($args) {
+    return array(
+        'beginPhp' => 'include ' . $args . ';',
+    );
+});
+```
+
+It can be helpful and safe, for example if you do:
+```pug
+each $module in $userModules
+  - $module = 'modules/'.preg_replace('/[^a-zA-Z0-9_-]/', '', $module).'.php'
+  phpinclude $module
+```
+<i data-options='{"static": true}'></i>
+
+In this example, by removing all characters except letters,
+digits and dashes, no matter what contains `$userModules`
+and where it come from, you're sure it can only include
+an existing file from the directory *modules*. So you
+just have to check what you put in this directory.
+
+Finally you can also include files dynamically and render
+them with **Phug** (or any transformer):
+```php
+Phug::addKeyword('puginclude', function ($args) {
+    return array(
+        'beginPhp' => 'Phug::display((' . $args . ') . ".pug");',
+    );
+});
+```
+
+```pug
+- $path = '../dossier/template'
+puginclude $path
+```
+<i data-options='{"static": true}'></i>
+
+It includes `../directory/template.pug` as we concat
+the extension in the keyword callback.

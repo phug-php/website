@@ -78,6 +78,8 @@ $ ->
         ''
       $next = $pre.next()
       options = $next.find('i:first').data('options') || {}
+      if options.static
+        return
       $next.find('i[data-options]').remove()
       if ($next.html() || '').trim() is ''
         $next.remove()

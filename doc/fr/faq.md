@@ -188,3 +188,86 @@ en utilisant la gestion d'exception
 
 Un moyen plus radical est de les cacher complètement avec
 `error_reporting(0);` ou la même configuration dans **php.ini**.
+
+## Comment inclure dynamiquement des fichiers ?
+
+Les mot-clés `include` et `extend` n'accepte que des chemins
+statiques : `include monFichier` mais pas des variables :
+`include $maVariable`.
+
+Mais les mots-clés personnalisés arrivent à la rescousse :
+```php
+Phug::addKeyword('dyninclude', function ($args) {
+    return array(
+        'beginPhp' => 'echo file_get_contents(' . $args . ');',
+    );
+});
+```
+
+Cela permet d'include des fichiers en tant que texte brut :
+
+```pug
+- $fichierDeStyle = 'machin.css'
+- $fichierDeScript = 'machin.js'
+
+style
+  // Inclut machin.css en contenu inline
+  dyninclude $fichierDeStyle
+  
+script
+  // Inclut machin.js en contenu inline
+  dyninclude $fichierDeScript
+```
+<i data-options='{"static": true}'></i>
+
+Attention : vous devez vérifier le contenu des variables
+avant leur inclusion. Si `$fichierDeStyle` contient
+`"../../config.php"` et que `config.php` contient des
+mots de passes de BDD, des secrets de session, etc.
+ces informations privées vont s'afficher.
+
+Vous devez être encore plus prudent si vous autorisez
+l'inclusion de fichiers PHP :
+```php
+Phug::addKeyword('phpinclude', function ($args) {
+    return array(
+        'beginPhp' => 'include ' . $args . ';',
+    );
+});
+```
+
+Cela peut être utilie et sécurisé si par exemple vous
+faites ceci :
+```pug
+each $module in $modulesUtilisateur
+  - $module = 'modules/'.preg_replace('/[^a-zA-Z0-9_-]/', '', $module).'.php'
+  phpinclude $module
+```
+<i data-options='{"static": true}'></i>
+
+Dans cet exemple, en supprimant tous les caractères exceptés
+les lettres, chiffres et tirets, peu importe ce que contient
+`$modulesUtilisateur` et d'où ça vient, vous ête sûr
+d'inclure un fichier qui existe dans le dossier *modules*.
+Donc vous avez juste à vérifier ce que vous mettez dans ce
+dossier.
+
+Finalement vous pouvez aussi inclure des fichiers
+dynamiquement et les rendre avec **Phug** (ou n'importe
+quel *transformer*) :
+```php
+Phug::addKeyword('puginclude', function ($args) {
+    return array(
+        'beginPhp' => 'Phug::display(' . $args . ');',
+    );
+});
+```
+
+```pug
+- $path = '../dossier/template'
+puginclude $path
+```
+<i data-options='{"static": true}'></i>
+
+Cela inclut `../dossier/template.pug` comme l'extension
+est concaténée dans le callback du mot-clé.
