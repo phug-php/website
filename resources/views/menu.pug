@@ -2,12 +2,26 @@ a.home(href="/")
     img(src="img/pug.png" alt="Phug" width="50" height="50")
     h1 Phug
 
+-
+    anchorLink = function (key) {
+        return '#' + preg_replace('/[^a-zA-Z0-9]+/', '-', strtolower(strtr(__('index.' + key), {
+            'Š': 'S', 'š': 's', 'Đ': 'Dj', 'đ': 'dj', 'Ž': 'Z', 'ž': 'z', 'Č': 'C', 'č': 'c', 'Ć': 'C', 'ć': 'c',
+            'À': 'A', 'Á': 'A', 'Â': 'A', 'Ã': 'A', 'Ä': 'A', 'Å': 'A', 'Æ': 'A', 'Ç': 'C', 'È': 'E', 'É': 'E',
+            'Ê': 'E', 'Ë': 'E', 'Ì': 'I', 'Í': 'I', 'Î': 'I', 'Ï': 'I', 'Ñ': 'N', 'Ò': 'O', 'Ó': 'O', 'Ô': 'O',
+            'Õ': 'O', 'Ö': 'O', 'Ø': 'O', 'Ù': 'U', 'Ú': 'U', 'Û': 'U', 'Ü': 'U', 'Ý': 'Y', 'Þ': 'B', 'ß': 'Ss',
+            'à': 'a', 'á': 'a', 'â': 'a', 'ã': 'a', 'ä': 'a', 'å': 'a', 'æ': 'a', 'ç': 'c', 'è': 'e', 'é': 'e',
+            'ê': 'e', 'ë': 'e', 'ì': 'i', 'í': 'i', 'î': 'i', 'ï': 'i', 'ð': 'o', 'ñ': 'n', 'ò': 'o', 'ó': 'o',
+            'ô': 'o', 'õ': 'o', 'ö': 'o', 'ø': 'o', 'ù': 'u', 'ú': 'u', 'û': 'u', 'ý': 'y', 'þ': 'b', 'ÿ': 'y',
+            'Ŕ': 'R', 'ŕ': 'r',
+        })));
+    }
+
 nav.collapse.navbar-collapse
     .navbar-nav.mr-auto.d-none.d-lg-flex
-        a.nav-item.nav-link#try-link(href="#try" data-toggle="try") Try Phug
-        a.nav-item.nav-link(href="#language-reference") Language Reference
-        a.nav-item.nav-link(href="/api/namespaces/Phug.html") API Reference
-        a.nav-item.nav-link(href="#resources" data-close="try") Resources
+        a.nav-item.nav-link#try-link(href="#try" data-toggle="try")=__('index.try_phug')
+        a.nav-item.nav-link(href=anchorLink('language_reference'))=__('index.language_reference')
+        a.nav-item.nav-link(href="/api/namespaces/Phug.html")=__('index.api_reference')
+        a.nav-item.nav-link(href=anchorLink('resources') data-close="try")=__('index.resources')
         a.nav-item.nav-link(href="https://github.com/phug-php/phug/" data-close="try") GitHub
 
 .languages
@@ -17,5 +31,5 @@ nav.collapse.navbar-collapse
                 img(src="img/flag-" + _locale + ".png" width="24" height="24")
     a(href="https://github.com/phug-php/website#to-edittranslate-this-documentation"):span.add-language +
 
-button.navbar-toggler(type="button" data-toggle="offcanvas" data-close="try" aria-label="Toggle sidebar")
+button.navbar-toggler(type="button" data-toggle="offcanvas" data-close="try" aria-label=__('index.toggle_sidebar'))
     span.navbar-toggler-icon

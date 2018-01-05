@@ -9,4 +9,5 @@ return [
     'language_reference' => 'Référence du language',
     'resources'          => 'Ressources',
     'api_reference'      => "Référence de l'API",
+    'toggle_sidebar'     => 'Afficher/masquer le menu',
 ];

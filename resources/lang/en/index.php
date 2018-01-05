@@ -9,4 +9,5 @@ return [
     'language_reference' => 'Language reference',
     'resources'          => 'Resources',
     'api_reference'      => 'API reference',
+    'toggle_sidebar'     => 'Toggle sidebar',
 ];

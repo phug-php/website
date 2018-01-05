@@ -177,6 +177,9 @@ $ ->
       return
   if /^#[a-z0-9-]+$/i.test location.hash
     hash = location.hash
+    if hash is '#try'
+      $('#try-link').click()
+      return
     i = 0
     goToAnchor = ->
       if location.hash is hash
