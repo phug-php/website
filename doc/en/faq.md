@@ -348,3 +348,25 @@ have this problem:
 ```php
 Phug::setOption('adapter_class_name', FileAdapter::class);
 ```
+
+## How to solve `Maximum function nesting level of 'X' reached`?
+
+This error means you overhead the `xdebug.max_nesting_level`
+php.ini setting. The default value is 100 and it might
+be not enough. With many includes and nested mixins
+call in your pug template, you could reach 500 nesting
+level. So first, try to increase this setting.
+
+If you still get this error, then you probably
+have an infinite recursion. It can happen in pug when
+a template `a.pug` include `b.pug` then `b.pug`
+include `a.pug` or directly `a.pug` including
+`a.pug` (obviously the same goes for PHP
+files). If you do not have conditions to avoid the
+recursion to be infinite, you will get a *nesting level*
+error, or a timeout exceeded. It can also happen
+when a mixin calls it self (or indirectly via
+other mixins) or the same with PHP functions.
+
+Note: xdebug is a debug extension, so don't forget to
+disable it in production.

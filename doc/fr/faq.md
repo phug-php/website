@@ -375,3 +375,29 @@ problème :
 ```php
 Phug::setOption('adapter_class_name', FileAdapter::class);
 ```
+
+## Comment résoudre `Maximum function nesting level of 'X' reached` ?
+
+Cette erreur signifie que vous avez dépassé le réglage
+`xdebug.max_nesting_level` du php.ini. La valeur
+par défaut est 100 et peut s'avérer insuffisante.
+Avec beaucoup d'*includes* et de mixins imbriqués
+dans vos templates, vous pourriez atteindre
+les 500 *nesting levels* (niveaux d'imbrication).
+Donc tout d'abord, essayez d'augmenter ce réglage.
+
+Si vous avez toujours l'erreur, alors vous avez
+probablement une récursion infinie. Cela peut arriver
+avec pug quand un template `a.pug` inclut `b.pug`
+et que ce dernier inclut lui-même `a.pug`
+(bien sûr il en va de même pour les fichiers
+PHP). Si vous n'avez pas de conditions pour
+éviter que la récursion soit infinie, vous allez
+avoir une erreur *nesting level* ou *timeout exceeded*.
+Cela peut aussi arriver quand un mixin s'appelle
+lui-même (ou indirectement via d'autres mixins)
+et la même chose est possible avec les fonctions
+PHP.
+
+Note : xdebug est une extension de débogage, donc
+n'oubliez pas de la d'asctiver en production.
