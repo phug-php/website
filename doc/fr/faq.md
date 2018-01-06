@@ -1,7 +1,6 @@
 # Questions fréquentes
 
-## Pourquoi ai-je une erreur avec les variables
-en CASSE_MAJUSCULE ?
+## Pourquoi ai-je une erreur avec les variables en CASSE_MAJUSCULE ?
 
 Cela peut arriver lorsque vous
 This can happen when you use
@@ -51,8 +50,7 @@ $pug->display('p=FOO', [
 ]);
 ```
 
-## Comment utiliser les namespaces dans un
-template pug ?
+## Comment utiliser les namespaces dans un template pug ?
 
 Par défaut, les templates sont exécutés sans
 namespace et vous aurez besoin d'écrire les
@@ -95,8 +93,7 @@ p=\appelle_depuis_le_namespace_racine()
 ```
 <i data-options='{"mode":"format"}'></i>
 
-## Comment exécuter des scripts JS à l'intérieur des
-templates?
+## Comment exécuter des scripts JS à l'intérieur des templates?
 
 Il y a différentes approches possibles :
 
@@ -357,3 +354,24 @@ locales ou des variables partagées.
 
 Et souvenez-vous que le symbole `|` existe déjà en
 PHP, c'est l'opérateur binaire *OR*.
+
+## Comment résoudre `Warning: include() read X bytes more data than requested (Y read, Z max)` ?
+
+Ceci arrive probablement parce que vous avez
+dans votre php.ini le réglage `mbstring.func_overload`
+avec le flag `2` activé.
+
+Comme c'est un réglage obsolète, la meilleure
+chose à faire est de le régler à `0` et de
+remplacer manuellement les fonctions dans
+votre application plutôt que d'utiliser
+l'*overload*.
+
+Si vous avez vraiment besoin de garder ce
+réglage, vous pouvez toujours utiliser le
+*FileAdapter* qui n'est pas sensible à ce
+problème :
+
+```php
+Phug::setOption('adapter_class_name', FileAdapter::class);
+```

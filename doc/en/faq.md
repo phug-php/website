@@ -1,7 +1,6 @@
 # Frequently asked questions
 
-## Why do I get error with UPPER_CASE
-variables?
+## Why do I get error with UPPER_CASE variables?
 
 This can happen when you use
 [use JS-style](#use-javascript-expressions)
@@ -331,3 +330,21 @@ inside your locals or the shared variables.
 
 And remember the `|` yet exists in PHP, it's the
 *OR* bitwise operator.
+
+## How to solve `Warning: include() read X bytes more data than requested (Y read, Z max)`?
+
+This happens probably because you have the
+php.ini `mbstring.func_overload` settings
+with the `2` flag on.
+
+As it's an obsolete setting, the best thing
+to do is to set it to `0` and replace manually
+functions in your app rather than overload them.
+
+If you really need to keep this setting, you
+can still use the *FileAdapter* that will not
+have this problem:
+
+```php
+Phug::setOption('adapter_class_name', FileAdapter::class);
+```
