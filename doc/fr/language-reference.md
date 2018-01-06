@@ -722,6 +722,23 @@ div
 ');
 ```
 
+Le *compiler* courant est passé en troisième
+argument, vous pouvez donc en tirer n'importe
+quelle information :
+```php
+Phug::setFilter('chemin', function ($texte, $options, CompilerInterface $compiler) {
+  return $compiler->getPath();
+});
+
+Phug::displayFile('un-template.pug');
+```
+Dans cet exemple, si **un-template.pug** contient
+des appels au filtre `:chemin`, le chemin complet
+du fichier en cours de compilation va s'afficher
+(exemple : **/dossier/un-template.pug** ou quelque
+autre fichier si appelé à l'intérieur d'un fichier
+étendu ou inclut).
+
 **Phug** inclut le filtre `cdata` :
 ```phug
 data

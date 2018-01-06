@@ -711,6 +711,21 @@ div
 ');
 ```
 
+The current compiler is passed as third argument
+so you can get any information from it:
+```php
+Phug::setFilter('path', function ($inputString, $options, CompilerInterface $compiler) {
+  return $compiler->getPath();
+});
+
+Phug::displayFile('some-template.pug');
+```
+In this example, if **some-template.pug** contains
+`:path` filter calls, it will display the full
+path of the current file compiling (example:
+**/directory/some-template.pug** or some other
+file if called inside an extended/included file).
+
 **Phug** comes with `cdata` filter pre-installed:
 ```phug
 data
