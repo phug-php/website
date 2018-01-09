@@ -1251,7 +1251,7 @@ de mêmes noms :
 ```phug
 - $index = 'machin'
 - $value = 'truc'
-each $value, $index in ['key' => 'value']
+each $value, $index in ['clé' => 'valeur']
 | $index = #{$index}
 | $value = #{$value}
 ```
@@ -1714,3 +1714,133 @@ de balises, donc vous avez le contrôle sur le fait
 que les élémenents HTML doivent se toucher ou non.
 Le contrôle est généralement géré via le
 [texte brut](#texte-brut).
+
+<i id="js-style-expressions"></i>
+## Expressions en style JS
+
+En [utilisant le style JS](#utiliser-des-expressions-javascript)
+vous n'avez plus besoin des `$` devant vos noms de
+variables mais ce n'est que le début des stupéfiantes
+transformations fournies par **js-phpize**. Voici
+une liste de fonctionnalités plus avancées :
+
+### Chaînage
+```pug
+- machin = {truc: [{chose: [42]}]}
+
+p=machin.truc[0].chose[0]
+```
+
+### Accès aux arrays/objets
+```pug
+:php
+  $obj = (object) ['machin' => 'truc'];
+  $arr = ['machin' => 'truc'];
+
+p=obj.machin
+p=arr.machin
+p=obj['machin']
+p=arr['machin']
+```
+
+### Appel de getter
+```pug
+:php
+  class Machin
+  {
+    public function __isset($nom)
+    {
+      return $nom === 'abc';
+    }
+
+    public function __get($nom)
+    {
+      return "getter magique pour $nom";
+    }
+
+    public function getTruc()
+    {
+      return 42;
+    }
+  }
+
+  $machin = new Machin;
+
+p=machin.truc
+p=machin['truc']
+p=machin.abc
+p=machin['abc']
+p=machin.nongere
+p=machin['nongere']
+```
+```pug
+:php
+  class Machin implements ArrayAccess
+  {
+    public function offsetExists($nom)
+    {
+      return $nom === 'abc';
+    }
+
+    public function offsetGet($nom)
+    {
+      return "getter magique pour $nom";
+    }
+
+    public function offsetSet($nom, $valeur) {}
+
+    public function offsetUnset($nom) {}
+
+    public function getTruc()
+    {
+      return 42;
+    }
+  }
+
+  $machin = new Machin;
+
+p=machin.truc
+p=machin['truc']
+p=machin.abc
+p=machin['abc']
+p=machin.nongere
+p=machin['nongere']
+```
+
+### Closure
+```pug
+p=implode(', ', array_filter([1, 2, 3], function (nombre) {
+  return nombre % 2 === 1;
+}))
+```
+
+### Émulation de Array.prototype
+```pug
+- arr = [1, 2, 3]
+p=arr.filter(nombre => nombre & 1).join(', ')
+p=arr.indexOf(2)
+p=arr.slice(1).join('/')
+p=arr.reverse().join(', ')
+p=arr.splice(1, 2).join(', ')
+p=arr.reduce((i, n) => i + n)
+p=arr.map(n => n * 2).join(', ')
+- arr.forEach(function (num) {
+  div=num
+- })
+//- Oui tout ça est convertit en PHP
+```
+
+### Émulation de String.prototype
+```pug
+- text = "abcdef"
+p=text[1]
+p=text[-1]
+p=text.substr(2, 3)
+p=text.charAt(3)
+p=text.indexOf('c')
+p=text.toUpperCase()
+p=text.toUpperCase().toLowerCase()
+p=text.match('d')
+p=text.split(/[ce]/).join(', ')
+p=text.replace(/(a|e)/, '.')
+```

@@ -1643,3 +1643,150 @@ of tags, so that you have control over whether
 the rendered HTML elements touch or not. Whitespace
 control is generally handled via
 [plain text](#plain-text).
+
+## JS-style expressions
+
+By [using JS-style](#use-javascript-expressions)
+You no longer need `$` in front of your variables
+but this is just the beginning of the amazing
+transformations provided by **js-phpize**. Here is a
+list of more advanced features:
+
+### Chaining
+```pug
+- foo = {bar: [{biz: [42]}]}
+
+p=foo.bar[0].biz[0]
+```
+
+### Array/object access
+```pug
+:php
+  $obj = (object) ['foo' => 'bar'];
+  $arr = ['foo' => 'bar'];
+
+p=obj.foo
+p=arr.foo
+p=obj['foo']
+p=arr['foo']
+```
+
+### Method post-pone call
+```pug
+:php
+  class Foo
+  {
+    public function bar()
+    {
+      return 42;
+    }
+  }
+
+  $foo = new Foo;
+
+- method = foo.bar
+
+p=method()
+```
+
+### Getter call
+```pug
+:php
+  class Foo
+  {
+    public function __isset($name)
+    {
+      return $name === 'abc';
+    }
+
+    public function __get($name)
+    {
+      return "magic getter for $name";
+    }
+
+    public function getBar()
+    {
+      return 42;
+    }
+  }
+
+  $foo = new Foo;
+
+p=foo.bar
+p=foo['bar']
+p=foo.abc
+p=foo['abc']
+p=foo.nothandled
+p=foo['nothandled']
+```
+```pug
+:php
+  class Machin implements ArrayAccess
+  {
+    public function offsetExists($name)
+    {
+      return $name === 'abc';
+    }
+
+    public function offsetGet($name)
+    {
+      return "magic getter for $name";
+    }
+
+    public function offsetSet($name, $value) {}
+
+    public function offsetUnset($name) {}
+
+    public function getTruc()
+    {
+      return 42;
+    }
+  }
+
+  $machin = new Machin;
+
+p=machin.truc
+p=machin['truc']
+p=machin.abc
+p=machin['abc']
+p=machin.nongere
+p=machin['nongere']
+```
+
+### Closure
+```pug
+p=implode(', ', array_filter([1, 2, 3], function (number) {
+  return number % 2 === 1;
+}))
+```
+
+### Array.prototype emulation
+```pug
+- arr = [1, 2, 3]
+p=arr.filter(nombre => nombre & 1).join(', ')
+p=arr.indexOf(2)
+p=arr.slice(1).join('/')
+p=arr.reverse().join(', ')
+p=arr.splice(1, 2).join(', ')
+p=arr.reduce((i, n) => i + n)
+p=arr.map(n => n * 2).join(', ')
+- arr.forEach(function (num) {
+  div=num
+- })
+//- Yes all that is converted into PHP
+```
+
+### String.prototype emulation
+```pug
+- text = "abcdef"
+p=text[1]
+p=text[-1]
+p=text.substr(2, 3)
+p=text.charAt(3)
+p=text.indexOf('c')
+p=text.toUpperCase()
+p=text.toUpperCase().toLowerCase()
+p=text.match('d')
+p=text.split(/[ce]/).join(', ')
+p=text.replace(/(a|e)/, '.')
+```
