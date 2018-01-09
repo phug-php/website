@@ -401,3 +401,85 @@ PHP.
 
 Note : xdebug est une extension de débogage, donc
 n'oubliez pas de la d'asctiver en production.
+
+## Devrais-je utiliser `render` ou `renderFile` ?
+
+Dans les anciennes versions de **Pug-php**, il n'y avait que la
+méthode `render` qui convertissait un fichier si l'argument
+donné correspondait au chemin d'un fichier existant, sinon
+elle convertissait l'argument en tant que chaîne pug.
+Alors que **Tale-pug** convertissait toujours un fichier.
+
+Aucun de ces comportement n'était aligné avec **Pugjs** donc
+on a choisit de le changer dans **Phug**. Avec **Phug**,
+`render` ne prend que des chaîne, pas de fichier, et
+`renderFile` a été ajotué pour convertir des fichiers.
+
+**Pug-php** garde l'ancien comportement pour le moment pour
+faciliter la mise à niveau mais il est fortement recommandé
+d'utiliser l'option `strict` pour obtenir le nouveau
+comportement :
+```php
+$pug = new Pug([
+  'strict' => true,
+]);
+```
+De cette manière `$pug->render()` va toujours prender une chaîne
+pug en premier argument peu importe que l'argument corresponde
+our non a un chemin de fichier. Cela peut éviter des
+comportements inattendus.
+
+Si pour des raisons de compatibilité, vous ne pouvez pas
+utiliser cette option, alors vous devriez éviter d'utiliser
+`render` et utiliser `renderString` pour une chaîne pug
+et `renderFile` pour un fichier.
+
+## Comment déboguer un code venant de la documentation qui ne fonctionne pas dans mon application ?
+
+D'abord, nous supposons que vous utiliser la dernière
+version de **Phug** (ou **Pug-php** >= 3).
+
+Vous pouvez vérifier votre version de **Phug** avec
+`composer show phug/phug`
+et la mettre à jour avec :
+`composer update`
+
+La dernière version stable de **Phug** est
+[![Latest Stable Version](https://camo.githubusercontent.com/9ff236cbfba46cf8c9a6be7502a500f1bb09bd52/68747470733a2f2f706f7365722e707567782e6f72672f706875672f706875672f762f737461626c652e706e67)](https://packagist.org/packages/phug/phug)
+
+Si vous utiliser une version de **Pug-php** < 3.0
+(vérifiez avec `composer show phug/phug`)
+cette documentation n'est pas exacte pour vous
+et nous vous recommandons vivement de mettre
+à jour **Pug-php** à la version
+[![Latest Stable Version](https://camo.githubusercontent.com/8d24c2c0b2fd374bda61453ce6c4293af68f7f88/68747470733a2f2f706f7365722e707567782e6f72672f7075672d7068702f7075672f762f737461626c652e706e67)](https://packagist.org/packages/pug-php/pug)
+
+Si vous utilisez **Tale-jade** ou **Tale-pug**,
+nous vous conseillons de migrer à **Phug**.
+
+Ensuite, les exemples dans cette documentation sont
+pour **Phug** si ce n'est pas précisé autrement.
+Si vous utilisez **Pug-php** vous devez l'adapter.
+Par exemple :
+```php
+Phug::setOption('cache_dir', 'dossier');
+Phug::display('template.pug', $vars);
+```
+
+Devrait être écrit avec l'une des 2 syntaxes suivantes
+pour que les fonctionnalités de **Pug-php** fonctionnent :
+```php
+\Pug\Facade::setOption('cache_dir', 'dossier');
+\Pug\Facade::display('template.pug', $vars);
+```
+
+`\Pug\Facade` permet de remplacer facilement `Phug`
+en gardant la syntaxe. Mais vous pourriez préférer
+le style instancié :
+
+```php
+$pug = new Pug([
+  'cache_dir' => 'dossier',
+]);
+$pug->display('template.pug', $vars);
+```
