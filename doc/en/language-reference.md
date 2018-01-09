@@ -1215,6 +1215,17 @@ ul
     li= $n
 ```
 
+Last note about the iterations variables scope:
+be aware they erase previous variables with the
+same names:
+```phug
+- $index = 'foo'
+- $value = 'bar'
+each $value, $index in ['key' => 'value']
+| $index = #{$index}
+| $value = #{$value}
+```
+
 ### while
 
 You can also use `while` to create a loop:

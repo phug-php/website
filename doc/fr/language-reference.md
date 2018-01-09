@@ -1245,6 +1245,17 @@ ul
     li= $n
 ```
 
+Dernière not au sujet du scope des variables d'itération :
+soyez conscient qu'elles écrasent les précédentes variables
+de mêmes noms :
+```phug
+- $index = 'machin'
+- $value = 'truc'
+each $value, $index in ['key' => 'value']
+| $index = #{$index}
+| $value = #{$value}
+```
+
 ### while
 
 Vous pouvez aussi créer des boucles avec `while` :
