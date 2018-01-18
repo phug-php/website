@@ -493,6 +493,7 @@ $renderer = new Renderer([
         throw new \ErrorException($message, 0, $number, $file, $line);
     },
 ]);
+```
 
 ### error_handler `callable`
 

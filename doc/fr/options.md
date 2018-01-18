@@ -518,16 +518,6 @@ $renderer = new Renderer([
         throw new \ErrorException($message, 0, $number, $file, $line);
     },
 ]);
-
-$renderer->render('p=$foo["bar"]', ['foo' => []]);
-// Affiche <p></p> car E_NOTICE est ignoré
-
-$renderer = new Renderer([
-    'error_reporting' => E_ALL,
-]);
-
-$renderer->render('p=$foo["bar"]', ['foo' => []]);
-// Jète une erreur E_NOTICE encapsulée dans une exception Phug
 ```
 
 ### error_handler `callable`
