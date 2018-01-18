@@ -450,6 +450,50 @@ the parser).
 
 ## Errors
 
+### error_reporting `callable | int`
+
+Allow to handle PHP errors display that comes up during the
+template execution. By default, errors raised by current
+PHP setting (see
+[error_reporting](php.net/manual/en/function.error-reporting))
+are turned into exception Phug is able to trace the origine
+in the template pug code. Other errors are hidden.
+
+You can pass an custom error level that will override
+the PHP setting.
+```php
+$renderer = new Renderer([
+    'error_reporting' => E_ALL ^ E_NOTICE,
+]);
+
+$renderer->render('p=$foo["bar"]', ['foo' => []]);
+// Outputs <p></p> since E_NOTICE are ignored
+
+$renderer = new Renderer([
+    'error_reporting' => E_ALL,
+]);
+
+$renderer->render('p=$foo["bar"]', ['foo' => []]);
+// Throws an E_NOTICE error wrapped in Phug exception
+```
+
+You also can pass a callback for a finest handling:
+```php
+$renderer = new Renderer([
+    'error_reporting' => function ($number, $message, $file, $line) {
+        if (strpos($message, 'hidden') !== false) {
+            return null; // No errors displayed
+        }
+
+        if ($number === E_NOTICE) {
+            return false; // Display the error in the template
+        }
+
+        // Stop the execution and throws an exception for any other error
+        throw new \ErrorException($message, 0, $number, $file, $line);
+    },
+]);
+
 ### error_handler `callable`
 
 Set a callback method to handle Phug exceptions.

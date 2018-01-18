@@ -473,6 +473,63 @@ est uniquement disponible pour le *parser*).
 
 ## Erreurs
 
+### error_reporting `callable | int`
+
+Permet de gérer l'affichage des erreurs PHP qui surviennent
+lors de l'exécution d'un template. Par défaut, les erreurs
+levées par la configuration PHP courante (voir
+[error_reporting](php.net/manual/fr/function.error-reporting))
+sont transformées en exceptions que Phug peut alors retracer
+l'origine dans le code du template pug. Les autres erreurs
+sont masquées.
+
+Vous pouvez passer un niveau d'erreur personnalisé qui
+prendra le pas sur la configuration PHP.
+```php
+$renderer = new Renderer([
+    'error_reporting' => E_ALL ^ E_NOTICE,
+]);
+
+$renderer->render('p=$foo["bar"]', ['foo' => []]);
+// Affiche <p></p> car E_NOTICE est ignoré
+
+$renderer = new Renderer([
+    'error_reporting' => E_ALL,
+]);
+
+$renderer->render('p=$foo["bar"]', ['foo' => []]);
+// Jète une erreur E_NOTICE encapsulée dans une exception Phug
+```
+
+Vous pouvez également passer un callback pour une
+gestion fine :
+```php
+$renderer = new Renderer([
+    'error_reporting' => function ($number, $message, $file, $line) {
+        if (strpos($message, 'hidden') !== false) {
+            return null; // Aucune erreur affichée
+        }
+
+        if ($number === E_NOTICE) {
+            return false; // Affiche l'erreur dans le template
+        }
+
+        // Arrête l'exécution et jète une exception pour toute autre erreur
+        throw new \ErrorException($message, 0, $number, $file, $line);
+    },
+]);
+
+$renderer->render('p=$foo["bar"]', ['foo' => []]);
+// Affiche <p></p> car E_NOTICE est ignoré
+
+$renderer = new Renderer([
+    'error_reporting' => E_ALL,
+]);
+
+$renderer->render('p=$foo["bar"]', ['foo' => []]);
+// Jète une erreur E_NOTICE encapsulée dans une exception Phug
+```
+
 ### error_handler `callable`
 
 Règle un callback to gérer les exceptions Phug.
