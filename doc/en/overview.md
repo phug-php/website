@@ -94,34 +94,34 @@ below:
 
 ## Why Phug?
 
-HTML is born in 1989 in the CERN, and it seem to suit, or at least to
-be sufficient for its purpose: write pages with titles and links.
-It's a wonderful invention but nowadays, we build user interfaces for
-various devices and it's not because HTML is what we must send to
-the browsers that we, human developers, must use to code our pages. 
+HTML is born in 1989 in the CERN, and was sufficient for its purpose:
+write pages with titles and links. Nowadays, we build user interfaces for
+various devices and the final HTML to send to the browser can be very
+verbose. And even if we must send HTML to the browser, we can use an
+other cleaner language and compile it.
+ 
 A lot a template engines just allow to insert dynamic elements inside
-HTML, with an engine like Phug, you will no longer write HTML at all. 
-You have choices, so why not choosing a clean and suitable language
-that also embed many tools dedicated to templates (layouts, mixins,
-conditions, iterations, etc.)
+HTML, with an engine like Phug, you will no longer write HTML at all
+and will benefit many features: layouts, mixins, conditions, iterations,
+etc.
 
-Note that Phug support several versions and doctypes  of HTML but
+Note that Phug support several versions and doctypes of HTML but
 also XML, and you van easily create any format you would need; as
 you can customize expressions handling, etc. Phug has much options
 and extension possibilities, *very* much.
 
 ### Why a template engine?
 
-Most PHP frameworks have a templates system. It's a efficient way to
-separate the view layer. Delegate view responsability to template
-engine is a best practice since it avoids mixing logic (calcul, retrieving
-and parsing data) with presentation (display, formatting) and it will
-help you to respect the PSR (principal of single responsability, that
-aims to not giving an entity multiple responsibilities), so you will
-be able to organize your views into pages and visual components with
-no constraint from your PHP code.
+Most PHP frameworks have a templates system. It's an efficient way to
+separate the view layer. Delegate view responsibility to template
+engine is a best practice since it avoids mixing logic (calculation,
+retrieving and parsing data) with presentation (display, formatting)
+and it will help you to respect the PSR (principal of single
+responsibility, that aims to not giving an entity multiple
+responsibilities), so you will be able to organize your views into
+pages and visual components with no constraint from your PHP code.
 
-Finally, if you respect this principle (by avoiding inserting, among
+Finally, if you respect this principle (by avoiding, among
 others, inserting treatments in your templates), then your templates
 will not contain complex code but only variable inserts. This make this
 code easy to modify for someone who don't know your application back-end

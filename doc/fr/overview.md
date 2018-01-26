@@ -98,19 +98,19 @@ la section **Pourquoi** ci-dessous :
 
 ## Pourquoi Phug ?
 
-Le HTML est né en 1989 au CERN, et il paraît tout à fait adapté ou tout
-du moins suffisant pour remplir son office alors : écrire des pages de
-texte avec des titres et des liens. C'est une merveilleuse invention
-mais de nos jours, nous construisons des interfaces utilisateurs
-pour des supports très variés et ce n'est pas parce que le HTML est
-ce que nous devons envoyer aux navigateurs que c'est nécessairement
-ce language que nous, développeurs humains, devons utiliser pour coder
-nos pages. Beaucoup de moteur de template se contentent de permettre
+Le HTML est né en 1989 au CERN, et il remplissait très bien son
+office : écrire des pages de texte avec des titres et des liens.
+De nos jours, nous construisons des interfaces utilisateurs
+pour des supports très variés et le HTML final que nous envoyons
+au navigateur peut vite être verbeux. Et même si nous devons
+envoyer du HTML, nous pouvons utiliser un langage plus propre
+et le compiler.
+
+Beaucoup de moteur de template se contentent de permettre
 l'insertion d'éléments dynamiques dans du HTML, avec un moteur comme
-Phug, vous n'écrivez plus du tout de HTML. Vous avez le choix, alors
-autant choisir un language propre et adapté qui embarque également
-une floppée d'outils dédiés aux templates (layouts, mixins, conditions,
-itérations, etc.)
+Phug, vous n'écrivez plus du tout de HTML et bénéficiez d'une
+floppée d'outils dédiés aux templates: layouts, mixins, conditions,
+itérations, etc.
 
 Notez que Phug supporte plusieurs versions et doctypes différents de
 HTML mais également XML, et que vous pouvez aisément créer n'importe
