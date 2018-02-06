@@ -81,6 +81,10 @@ if a file is available in the cache. In counterpart, it
 does not allow to change the adapter or user post-render
 events.
 
+If you use **Pug-php**, just replace in the code above
+`\Phug\Optimizer` with `\Pug\Optimizer` and
+`Phug::displayFile` with `\Pug\Facade::displayFile`.
+
 The cache can be used in development too to save time.
 This may cause some tracking issue when errors occurs in
 yet rendered templates but this bug should be fixed soon.

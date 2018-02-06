@@ -81,6 +81,10 @@ L'*Optimizer* est un outil qui permet de ne pas charger le moteur
 de Phug si le fichier est en cache. En contre-partie, il ne permet
 pas de changer l'adapter ou d'utiliser les événements post-rendu.
 
+Si vous utilisez **Pug-php**, remplacez juste dans le code ci-dessus
+`\Phug\Optimizer` par `\Pug\Optimizer` et
+`Phug::displayFile` par `\Pug\Facade::displayFile`.
+
 Le cache peut être utilisé en développement également pour gagner
 du temps. Cela peut causer des problèmes pour tracer les erreurs
 dans le cas où une erreur survient dans un fichier déjà rendu mais
