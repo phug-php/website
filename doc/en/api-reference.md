@@ -39,6 +39,12 @@ $renderer->displayFile($template, $localVariables);
 This output the renderer template file given to the standard
 output. This is the recommended way to use **Phug**.
 
+Check the [usage section](#usage) to see how to optimize it
+in production.
+
+Check the [options section](#options) to see the complete list
+of available options.
+
 ## Advanced methods
 
 See the [complete API documentation](/api/namespaces/Phug.html).

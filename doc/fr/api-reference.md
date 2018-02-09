@@ -39,6 +39,12 @@ $renderer->displayFile($template, $variablesLocales);
 Ceci va afficher le fichier de template rendu dans la sortie
 standard. C'est la manière recommandée d'utiliser **Phug**. 
 
+Consultez la [section utilisation](#usage) pour voir comment
+optimiser le rendu en production.
+
+Consultez la [section des options](#options) pour voir la liste
+complète des options disponibles.
+
 ## Méthodes avancées
 
 Voir la [documentation complète de l'API](/api/namespaces/Phug.html).
