@@ -86,9 +86,7 @@ Si vous utilisez **Pug-php**, remplacez juste dans le code ci-dessus
 `Phug::displayFile` par `\Pug\Facade::displayFile`.
 
 Le cache peut être utilisé en développement également pour gagner
-du temps. Cela peut causer des problèmes pour tracer les erreurs
-dans le cas où une erreur survient dans un fichier déjà rendu mais
-ce problème devrait être corrigé prochainement.
+du temps.
 
 Enfin en production, vous devriez utiliser l'option
 `--optimize-autoloader` de composer pour optimier l'autoloader

@@ -86,8 +86,6 @@ If you use **Pug-php**, just replace in the code above
 `Phug::displayFile` with `\Pug\Facade::displayFile`.
 
 The cache can be used in development too to save time.
-This may cause some tracking issue when errors occurs in
-yet rendered templates but this bug should be fixed soon.
 
 In production, you should use the `--optimize-autoloader`
 option of composer to optimize the autoloader when installing
