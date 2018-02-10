@@ -1052,6 +1052,44 @@ $renderer->display("|i2\n|bk3"); // <i></i><i></i><bk></bk><bk></bk><bk></bk>
 Voici une liste de points d'entrée pour ajouter des contenus
 et des comportements personnalisés :
 
+### macros `array`
+
+L'option *macros* ou la méthode `macro` permettent d'ajouter
+des méthodes à la fois à la façade `Phug` et au instances de
+`Phug\Renderer` ( et si vous utilisez **Pug-php**, elles
+seront aussi ajoutées à la açade `Pug\Facade` et aux instances
+de `Pug`).
+```php
+Phug::macro('displayMessage', function ($message) {
+  static::display('p=$message', [
+    'message' => $message,
+  ]);
+});
+
+Phug::displayMessage('Salut');
+```
+
+Ce qui va afficher :
+```html
+<p>Salut</p>
+```
+
+Ou un exemple en utilisant l'option :
+```php
+Phug::setOption('macros', [
+  'un' => function () {
+    return 1;
+  },
+  'deux' => function () {
+    return 2;
+  },
+]);
+
+echo Phug::un() + Phug::deux();
+```
+
+Affiche : `3`.
+
 ### modules `array`
 
 Les modules peuvent ajouter n'importe quoi en manipulant

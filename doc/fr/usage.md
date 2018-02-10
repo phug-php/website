@@ -103,5 +103,9 @@ En faisant ça à chaque déploiement, vous pouvez alors
 régler l'option `up_to_date_check` à `true` pour charger
 directement le cache sans vérification des fichiers.
 
-Voyez la section [CLI](#cli) pour plus d'informations sur
-la ligne de commande.
+En environnement de développement, vous pouvez mettre à
+jour automatiquement le cache et recharger automatiquement
+la page en utilisant le [*watcher*](#watch).
+
+Voyez aussi la section [CLI](#cli) pour plus d'informations
+sur la ligne de commande.

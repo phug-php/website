@@ -41,6 +41,9 @@ inside (example `<p>17:47</p>`).
 The bootstrap file can run any PHP code and have all classes
 available thanks to composer autoload.
 
+If a file is named `phugBootstrap.php` in the current directory,
+then it will be used as default bootstrap file.
+
 Both options above can be set using space delimiter or equal operator,
 so all the following are equivalent:
 
@@ -169,3 +172,171 @@ specified, system temporary directory will be used.
 
 The third argument (optional too) allows you to pass options
 as a JSON string if needed.
+
+### custom commands
+
+You can create your own commands thanks to the *commands*
+option:
+
+For example if you write this in a **phugBootstrap.php**
+file (in the directory you enter your commands, typically
+at the project root) or in any other file that you load
+with the CLI option `--bootstrap`:
+```php
+<?php
+
+Phug::setOption('commands', [
+  'renderDate' => function () {
+    return Phug::render('p=date("d/m/Y")');
+  },
+]);
+```
+
+Then you will be able to execute the following command:
+```shell
+./vendor/bin/phug render-date
+```
+
+And it will display the date in a paragraph:
+```html
+<p>09/02/2018</p>
+```
+
+The  *commands* option must be an array listing custom
+commands, each command can be described with one of
+the 3 ways below:
+```php
+<?php
+
+Phug::setOption('commands', [
+  'cacheFile',
+    // Make the Phug::cacheFile() method
+    // available as its kebab case name:
+    // ./vendor/bin/phug cache-file
+
+  'storeFile' => 'cacheFile',
+    // Make the Phug::cacheFile() method
+    // with an other name:
+    // ./vendor/bin/phug store-file
+
+  'myFunction' => function () {
+    return 'Hello';
+  },
+    // Execute the function with the given
+    // name:
+    // ./vendor/bin/phug my-function
+]);
+```
+
+The command can also call a [macro](#macros-array).
+
+## <i id="watch"></i>Watch changes and autocompile
+
+To use the **watch** command, you will need to
+install `phug/watcher`:
+```shell
+composer require phug/watcher
+```
+
+And you can use the `--init` command to create a
+**phugBoostrap.php** file used as default bootstrap
+file by the phug CLI.
+```shell
+./vendor/bin/watcher --init
+```
+
+In this file, you can change the list of the directories
+to watch (*./views* and *./templates* by default) and
+you can change the cache path (by default, it creates
+a *phug-cache* in your system temporary storage
+directory).
+
+Then this file enable the watcher extension and set
+Phug options.
+
+To properly work, you need to use here the same options
+as in you application. To keep them synchronized
+you can use a common config file.
+
+For example, let say you have the following structure
+for you app:
+```
+- vendor
+- config
+  - phug.php
+- bootstrap
+  - cli.php
+  - web.php
+- views
+  - home.pug
+- cache
+  - views
+composer.json
+index.php
+```
+
+Then you can have the following contents:
+
+**phug.php**
+```php
+<?php return [
+  'cache_dir' => __DIR__.'/../cache/views',
+  'paths'     => [
+    __DIR__.'/../views',
+  ],
+  // Any other option you use in you app:
+  'debug'     => true,
+];
+```
+
+**cli.php**
+```php
+<?php
+
+$options = include __DIR__.'/../config/phug.php';
+
+if (!file_exists($options['cache_dir']) && !@mkdir($options['cache_dir'], 0777, true)) {
+    throw new \RuntimeException(
+        $options['cache_dir'].' cache directory could not be created.'
+    );
+}
+
+Phug::addExtension(\Phug\WatcherExtension::class);
+
+Phug::setOptions($options);
+```
+
+**web.php**
+```php
+<?php
+
+include_once __DIR__.'/../vendor/autolod.php';
+
+$options = include __DIR__.'/../config/phug.php';
+
+Phug::setOptions($options);
+```
+
+**index.php**
+```php
+<?php
+
+include_once __DIR__.'/bootstrap/web.php';
+
+Phug::displayFile('home');
+```
+
+And you can run the watcher with:
+```shell
+./vendor/bin/phug watch -b bootstrap/cli.php
+```
+
+When you will edit any file in the *views* directory
+and save it, it will automatically refresh the cache
+(as long as the command is running).
+
+If you CLI bootstrap has the default location
+(phugBoostrap.php), you can simply do:
+```shell
+./vendor/bin/phug watch
+```

@@ -102,5 +102,9 @@ By doing this for each deployment on your server,
 you will be able to set `up_to_date_check` option to `true`
 to directly load cache file with no file check.
 
-See [CLI](#cli) for more informations about the
+In development environment, you can update automatically
+the cache and auto-refresh the page using the
+[*watcher*](#watch).
+
+See [CLI](#cli) for more information about the
 command line.
