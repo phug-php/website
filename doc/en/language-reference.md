@@ -1763,6 +1763,7 @@ p=implode(', ', array_filter([1, 2, 3], function (number) {
 ### Array.prototype emulation
 ```pug
 - arr = [1, 2, 3]
+p=arr.length
 p=arr.filter(nombre => nombre & 1).join(', ')
 p=arr.indexOf(2)
 p=arr.slice(1).join('/')
@@ -1779,6 +1780,7 @@ p=arr.map(n => n * 2).join(', ')
 ### String.prototype emulation
 ```pug
 - text = "abcdef"
+p=text.length
 p=text[1]
 p=text[-1]
 p=text.substr(2, 3)
