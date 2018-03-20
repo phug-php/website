@@ -34,6 +34,8 @@ application.
 
 - Lumen : [bkwld/laravel-pug](https://github.com/BKWLD/laravel-pug#use-in-lumen) fonctionne aussi avec Lumen
 
+- Zend Expressive [infw/pug](https://github.com/kpicaza/infw-pug)
+
 Les adapteurs ci-dessus utilisent **pug-php 3**, ce qui signifie que les
 expressions doivent être écrite en JS par défaut, mais vous pouvez
 utiliser le style natif PHP en règlant l'option `expressionLanguage`
