@@ -36,6 +36,8 @@ application.
 
 - Zend Expressive [infw/pug](https://github.com/kpicaza/infw-pug)
 
+- Zephyrus: [![Latest Stable Version](https://poser.pugx.org/zephyrus/zephyrus/v/stable.png)](https://packagist.org/packages/zephyrus/zephyrus)
+
 Les adapteurs ci-dessus utilisent **pug-php 3**, ce qui signifie que les
 expressions doivent être écrite en JS par défaut, mais vous pouvez
 utiliser le style natif PHP en règlant l'option `expressionLanguage`
@@ -162,7 +164,6 @@ Phug::addExtension(JsPhpizePhug::class);
 Phug::display('p=utilisateur', [
   'utilisateur' => 'Bob',
 ]);
-
 ```
 
 ```pug
