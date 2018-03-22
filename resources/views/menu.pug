@@ -14,7 +14,16 @@ a.home(href="/")
             'ô': 'o', 'õ': 'o', 'ö': 'o', 'ø': 'o', 'ù': 'u', 'ú': 'u', 'û': 'u', 'ý': 'y', 'þ': 'b', 'ÿ': 'y',
             'Ŕ': 'R', 'ŕ': 'r',
         })));
-    }
+    };
+
+    langLink = function (locale) {
+        req = request()
+        if (preg_match('/^[a-z]{2}\./', req.getHttpHost())) {
+            return 'https://' + locale + '.phug-lang.com';
+        }
+
+        return route('lang', {locale: locale});
+    };
 
 nav.collapse.navbar-collapse
     .navbar-nav.mr-auto.d-none.d-lg-flex
@@ -27,7 +36,7 @@ nav.collapse.navbar-collapse
 .languages
     each _locale in locales
         if _locale !== locale
-            a(href=route('lang', {locale: _locale}))
+            a(href=langLink(_locale))
                 img(src="img/flag-" + _locale + ".png" width="24" height="24")
     a(href="https://github.com/phug-php/website#to-edittranslate-this-documentation"):span.add-language +
 

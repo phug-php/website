@@ -30,11 +30,11 @@ class LoadDocumentation
 
         /** @var PugCompiler $compiler */
         $compiler = app()->get('Bkwld\LaravelPug\PugCompiler');
-        $compiler->setCachePath(realpath(storage_path('framework/views/' . app()->getLocale())));
+        $compiler->setCachePath(realpath(storage_path('framework/views/'.app()->getLocale())));
 
         /** @var PugBladeCompiler $compiler */
         $compiler = app()->get('Bkwld\LaravelPug\PugBladeCompiler');
-        $compiler->setCachePath(realpath(storage_path('framework/views/' . app()->getLocale())));
+        $compiler->setCachePath(realpath(storage_path('framework/views/'.app()->getLocale())));
 
         return $next($request);
     }
