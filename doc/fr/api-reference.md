@@ -45,6 +45,25 @@ optimiser le rendu en production.
 Consultez la [section des options](#options) pour voir la liste
 complète des options disponibles.
 
+## display
+
+Se comporte comme `displayFile` mais prend du code source pug
+comme premier argument :
+```php
+$template = '
+div: p.examples
+  em Foo
+  strong(title="Bar") Bar
+';
+Phug::display($template, $variablesLocales, $options);
+```
+
+Note: Si vous utilisez **Pug-php**, il va essayer de détecter si
+la chaîne passée est un chemin de fichier et utiliser `displayFile`
+si c'est le cas. Ce comportement existe pour raison de
+rétro-compatibilité mais vous êtes encouragé à le désactiver en
+réglant l'option `"strict"` à `true`.
+
 ## Méthodes avancées
 
 Voir la [documentation complète de l'API](/api/namespaces/Phug.html).

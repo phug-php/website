@@ -45,6 +45,25 @@ in production.
 Check the [options section](#options) to see the complete list
 of available options.
 
+## display
+
+Behave like `displayFile` but take pug source code as first
+argument:
+```php
+$template = '
+div: p.examples
+  em Foo
+  strong(title="Bar") Bar
+';
+Phug::display($template, $localVariables, $options);
+```
+
+Note: If you use **Pug-php**, it will try to detect if the given
+string is a file
+path and fallback on `displayFile`. This behavior is for backward
+compatibility but you're encouraged to disabled it by setting
+the `"strict"` option to `true`.
+
 ## Advanced methods
 
 See the [complete API documentation](/api/namespaces/Phug.html).
