@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use Bkwld\LaravelPug\PugBladeCompiler;
+use Bkwld\LaravelPug\PugCompiler;
 use Closure;
 use Pug\Pug;
 
@@ -25,6 +27,14 @@ class LoadDocumentation
         ])));
         $pug->setOption('basedir', null);
         $pug->setOption('paths', $paths);
+
+        /** @var PugCompiler $compiler */
+        $compiler = app()->get('Bkwld\LaravelPug\PugCompiler');
+        $compiler->setCachePath(realpath(storage_path('framework/views/' . app()->getLocale())));
+
+        /** @var PugBladeCompiler $compiler */
+        $compiler = app()->get('Bkwld\LaravelPug\PugBladeCompiler');
+        $compiler->setCachePath(realpath(storage_path('framework/views/' . app()->getLocale())));
 
         return $next($request);
     }

@@ -28,6 +28,6 @@ return [
     |
     */
 
-    'compiled' => realpath(storage_path('framework/views')) . '/' . app()->getLocale(),
+    'compiled' => realpath(storage_path('framework/views/' . app()->getLocale())),
 
 ];
