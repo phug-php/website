@@ -97,6 +97,70 @@ path and fallback on `renderFile`. This behavior is for backward
 compatibility but you're encouraged to disabled it by setting
 the `"strict"` option to `true` or use `renderString`.
 
+## renderAndWriteFile
+
+Render a pug file then write the final result (often the HTML)
+in a file.
+
+Returns `true` in case of success, `false` else.
+
+```php
+$input = '/mon/fichier/template.pug';
+$output = '/ma/page.html';
+$variablesLocales = [
+  'nomDeVariable' => 'valeur',
+];
+$options = [/* ... */];
+
+
+// Facade way (with Phug)
+Phug::setOptions($options);
+if (Phug::renderAndWriteFile($input, $output, $localVariables)) {
+  echo 'File written successfully.';
+}
+
+
+// Instance way (with Phug)
+$renderer = new Phug\Renderer($options);
+if ($renderer->renderAndWriteFile($input, $output, $localVariables)) {
+  echo 'File written successfully.';
+}
+
+
+// Facade way (with Pug-php)
+Pug\Facade::setOptions($options);
+Pug\Facade::renderAndWriteFile($input, $output, $localVariables)) {
+  echo 'File written successfully.';
+}
+
+
+// Instance way (with Pug-php)
+$renderer = new Pug($options);
+if ($renderer->renderAndWriteFile($input, $output, $localVariables)) {
+  echo 'File written successfully.';
+}
+```
+
+## renderDirectory
+
+Render all pug template files (recursively) in an input directory and output in an output directory.
+If no output directory specified, the same directory is used for input and output.
+
+Returns an array with success count and error count.
+
+```php
+$renderer = new Phug\Renderer($options); // or $renderer = new Pug($options);
+
+$renderer->renderDirectory('./my-views'); // render with no local variables all templates in ./my-views
+                                          // and write .html files next to pug files
+$renderer->renderDirectory('./my-views', ['foo' => 'bar']); // the same with local variables
+$renderer->renderDirectory('./my-views', './my-pages'); // render with no local variables all templates in ./my-views
+                                                       // and write .html files in ./my-pages
+$renderer->renderDirectory('./my-views', './my-pages', ['foo' => 'bar']); // the same with local variables
+$renderer->renderDirectory('./my-views', './my-pages', '.xml'); // use .xml extension instead of the default .html
+$renderer->renderDirectory('./my-views', './my-pages', '.xml', ['foo' => 'bar']); // the same with local variables
+```
+
 ## compileFile
 
 Compile a file and return the rendering code. It means when
@@ -114,7 +178,8 @@ $options = [
 ];
 
 // Facade way (with Phug)
-Phug::compileFile($template, $options);
+Phug::setOptions($options);
+Phug::compileFile($template);
 
 
 // Instance way (with Phug)
@@ -123,7 +188,8 @@ $renderer->compileFile($template);
 
 
 // Facade way (with Pug-php)
-Pug\Facade::compileFile($template, $options);
+Pug\Facade::setOptions($options);
+Pug\Facade::compileFile($template);
 
 
 // Instance way (with Pug-php)
@@ -134,6 +200,22 @@ $renderer->compileFile($template);
 ## compile
 
 Behave like `compileFile` but takes pug source code as first
+argument.
+
+## cacheFile
+
+Compile a pug file and save it in the cache directory specified
+via the options.
+
+## cacheFileIfChanged
+
+Compile a pug file and save it in the cache directory specified
+via the options except if an up-to-date file is already present
+in it.
+
+## cacheDirectory
+
+Cache all pug files (recursively) in the directory passed as
 argument.
 
 ## Advanced methods
