@@ -340,3 +340,25 @@ If you CLI bootstrap has the default location
 ```shell
 ./vendor/bin/phug watch
 ```
+
+## <i id="browser-reload"></i>Automatically reload the browser on change
+
+Browser auto-reloading also need the `phug/watcher` package
+to be installed (see above).
+
+It allows you to start a development server and a watcher in
+parallel on 2 different ports with the following command:
+
+```shell
+./vendor/bin/phug listen 9000 index.php
+```
+
+It will start a dev server as if you did:
+
+```shell
+php -S localhost:9000 index.php
+```
+
+And add a `<script>` tag in the rendering to watch changes and
+refresh the page when they happen (communicating on a second
+port, by default 8066).
