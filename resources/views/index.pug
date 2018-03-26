@@ -19,7 +19,7 @@ html(lang=locale)
     body
         nav.navbar.navbar-expand-lg.fixed-top.navbar-dark.site-navbar
             include menu.pug
-        aside#try.try-phug.container-fluid(data-example="try")
+        aside#try.try-phug.container-fluid(data-example="try" class=tryOpened ? 'opened' : '')
             include try.pug
         .container-fluid#top: .row.flex-nowrap
             nav.sidebar.col-lg-3.br-ribbed-light(data-anchor=anchor): nav.navbar.contents#contents

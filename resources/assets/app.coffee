@@ -1,4 +1,5 @@
-document.domain = 'phug-lang.com'
+if /phug-lang\.com$/.test location.host
+  document.domain = 'phug-lang.com'
 window.Popper = {}
 $ ->
   tableOfContents = []
