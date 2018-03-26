@@ -356,7 +356,7 @@ automatiquement (tant que la commande sera en cours
 d'exécution).
 
 Si votre démarrage CLI utiliser l'emplacement par
-défaut (phugBoostrap.php), vous pouvez simplement
+défaut (phugBootstrap.php), vous pouvez simplement
 faire :
 ```shell
 ./vendor/bin/phug watch

@@ -336,7 +336,7 @@ and save it, it will automatically refresh the cache
 (as long as the command is running).
 
 If you CLI bootstrap has the default location
-(phugBoostrap.php), you can simply do:
+(phugBootstrap.php), you can simply do:
 ```shell
 ./vendor/bin/phug watch
 ```
