@@ -380,6 +380,31 @@ Ceci va démarrer un serveur de développement comme l'aurait fait :
 php -S localhost:9000 index.php
 ```
 
-Et une balise `<script>` est aussi ajoutée au rendu pour surveiller
-les changements et rafraîcher la page lorsqu'il y en a (en commiunicant
-sur un second port, par défaut 8066).
+En supposant que vous avez chargé l'extension \Phug\WatcherExtension
+dans **index.php**, une balise `<script>` est aussi ajoutée au rendu
+pour surveiller les changements et rafraîcher la page lorsqu'il y en
+a (en commiunicant sur un second port, par défaut 8066).
+
+Par exemple avec une installation basique :
+
+```shell
+composer require phug/watcher
+./vendor/bin/watcher --init
+```
+
+Et le contenu suivant dans **index.php** :
+
+```php
+<?php
+
+include_once __DIR__ . '/vendor/autoload.php';
+
+include_once __DIR__ . '/phugBootstrap.php';
+
+Phug::displayFile('views/basic.pug');
+```
+
+Puis en exécutant `./vendor/bin/phug listen 9000 index.php`, vous
+pourrez charger http://localhost:9000 dans un navigateur web et
+la page se rafraichira tout seule si un changement survient dans
+le dossier `views`.

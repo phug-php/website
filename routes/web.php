@@ -20,7 +20,7 @@ Route::get('/', function (Request $request) {
 
     return view('index', [
         'tryOpened' => $request->has('try') || substr($request->getHttpHost() ?: '', 0, 4) === 'try.',
-        'anchor' => Session::pull('anchor'),
+        'anchor'    => Session::pull('anchor'),
     ]);
 })->name('home');
 

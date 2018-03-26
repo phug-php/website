@@ -359,6 +359,30 @@ It will start a dev server as if you did:
 php -S localhost:9000 index.php
 ```
 
-And add a `<script>` tag in the rendering to watch changes and
+Supposing you load the \Phug\WatcherExtension in **index.php**,
+it will add a `<script>` tag in the rendering to watch changes and
 refresh the page when they happen (communicating on a second
 port, by default 8066).
+
+For example if you did some basic watcher install:
+
+```shell
+composer require phug/watcher
+./vendor/bin/watcher --init
+```
+
+And have the following **index.php**:
+
+```php
+<?php
+
+include_once __DIR__ . '/vendor/autoload.php';
+
+include_once __DIR__ . '/phugBootstrap.php';
+
+Phug::displayFile('views/basic.pug');
+```
+
+Then by runing `./vendor/bin/phug listen 9000 index.php`, you
+will be able to load http://localhost:9000 in a browser and the
+page will auto-refresh if you change the `views` directory.
