@@ -356,8 +356,55 @@ automatiquement (tant que la commande sera en cours
 d'exécution).
 
 Si votre démarrage CLI utiliser l'emplacement par
-défaut (phugBoostrap.php), vous pouvez simplement
+défaut (phugBootstrap.php), vous pouvez simplement
 faire :
 ```shell
 ./vendor/bin/phug watch
 ```
+
+## <i id="browser-reload"></i>Recharger le navigateur automatiquement en cas de changement
+
+L'auto-rechargement du navigateur a aussi besoin du paquet
+`phug/watcher` (voir plus haut pour l'installer).
+
+Il permet de démarrer un serveur de développement et un *watcher*
+en parallèle sur 2 ports différents avec la commande suivante :
+
+```shell
+./vendor/bin/phug listen 9000 index.php
+```
+
+Ceci va démarrer un serveur de développement comme l'aurait fait :
+
+```shell
+php -S localhost:9000 index.php
+```
+
+En supposant que vous avez chargé l'extension \Phug\WatcherExtension
+dans **index.php**, une balise `<script>` est aussi ajoutée au rendu
+pour surveiller les changements et rafraîcher la page lorsqu'il y en
+a (en commiunicant sur un second port, par défaut 8066).
+
+Par exemple avec une installation basique :
+
+```shell
+composer require phug/watcher
+./vendor/bin/watcher --init
+```
+
+Et le contenu suivant dans **index.php** :
+
+```php
+<?php
+
+include_once __DIR__ . '/vendor/autoload.php';
+
+include_once __DIR__ . '/phugBootstrap.php';
+
+Phug::displayFile('views/basic.pug');
+```
+
+Puis en exécutant `./vendor/bin/phug listen 9000 index.php`, vous
+pourrez charger http://localhost:9000 dans un navigateur web et
+la page se rafraichira tout seule si un changement survient dans
+le dossier `views`.

@@ -336,7 +336,53 @@ and save it, it will automatically refresh the cache
 (as long as the command is running).
 
 If you CLI bootstrap has the default location
-(phugBoostrap.php), you can simply do:
+(phugBootstrap.php), you can simply do:
 ```shell
 ./vendor/bin/phug watch
 ```
+
+## <i id="browser-reload"></i>Automatically reload the browser on change
+
+Browser auto-reloading also need the `phug/watcher` package
+to be installed (see above).
+
+It allows you to start a development server and a watcher in
+parallel on 2 different ports with the following command:
+
+```shell
+./vendor/bin/phug listen 9000 index.php
+```
+
+It will start a dev server as if you did:
+
+```shell
+php -S localhost:9000 index.php
+```
+
+Supposing you load the \Phug\WatcherExtension in **index.php**,
+it will add a `<script>` tag in the rendering to watch changes and
+refresh the page when they happen (communicating on a second
+port, by default 8066).
+
+For example if you did some basic watcher install:
+
+```shell
+composer require phug/watcher
+./vendor/bin/watcher --init
+```
+
+And have the following **index.php**:
+
+```php
+<?php
+
+include_once __DIR__ . '/vendor/autoload.php';
+
+include_once __DIR__ . '/phugBootstrap.php';
+
+Phug::displayFile('views/basic.pug');
+```
+
+Then by runing `./vendor/bin/phug listen 9000 index.php`, you
+will be able to load http://localhost:9000 in a browser and the
+page will auto-refresh if you change the `views` directory.

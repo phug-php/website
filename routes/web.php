@@ -11,14 +11,16 @@
 |
 */
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
     header('X-XSS-Protection: 0');
 
     return view('index', [
-        'anchor' => Session::pull('anchor'),
+        'tryOpened' => $request->has('try') || substr($request->getHttpHost() ?: '', 0, 4) === 'try.',
+        'anchor'    => Session::pull('anchor'),
     ]);
 })->name('home');
 

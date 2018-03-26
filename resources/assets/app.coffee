@@ -1,3 +1,5 @@
+if /phug-lang\.com$/.test location.host
+  document.domain = 'phug-lang.com'
 window.Popper = {}
 $ ->
   tableOfContents = []
@@ -193,3 +195,20 @@ $ ->
       return
     do goToAnchor
   return
+
+_paq = _paq || [];
+_paq.push ['setDomains', ['pug-demo.herokuapp.com', 'pug-php-demo-kylekatarn.c9users.io', 'jade-filters.selfbuild.fr', 'pug-filters.selfbuild.fr', 'phug-lang.com', '*.phug-lang.com']]
+_paq.push ['trackPageView']
+_paq.push ['enableLinkTracking']
+do ->
+  u="//piwik.selfbuild.fr/"
+  _paq.push ['setTrackerUrl', u+'piwik.php']
+  _paq.push ['setSiteId', 18]
+  d = document
+  g = d.createElement 'script'
+  s = d.getElementsByTagName('script')[0]
+  g.type = 'text/javascript'
+  g.async = true
+  g.defer = true
+  g.src = u + 'piwik.js'
+  s.parentNode.insertBefore g, s
