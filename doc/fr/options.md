@@ -546,6 +546,13 @@ de la ligne d'erreur par défaut. Mais vous pouvez
 passez n'importe quel nombre à cette option pour
 avoir plus ou moins de contexte.
 
+### exit_on_error
+
+Quand l'option `debug` est `true`, les erreurs non gérées
+quittent le processus en utilisant `exit(1)`, pour désactiver
+ce comportement, vous pouvez régler l'option `exit_on_error`
+sur `false`.
+
 ## Événements
 
 Les événements sont un moyen très puissant d'intercepter

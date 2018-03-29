@@ -517,6 +517,12 @@ above and below the error line by default. But you can
 pass to this option any number to get more or less
 context.
 
+### exit_on_error
+
+When `debug` option is `true`, errors not handled will
+quit the process using `exit(1)`, to disable this behavior,
+your can set the option `exit_on_error` to `false`.
+
 ## Events
 
 Events are a very useful way to intercept different process
