@@ -408,3 +408,12 @@ Puis en exécutant `./vendor/bin/phug listen 9000 index.php`, vous
 pourrez charger http://localhost:9000 dans un navigateur web et
 la page se rafraichira tout seule si un changement survient dans
 le dossier `views`.
+
+## Tests unitaires et couverture
+
+Vous pouvez essayer notre outil CLI expérimental de test qui
+utilise PHPUnit et Xdebug incluant des reporteurs de couverture
+(*coverage*) de code pour fichiers Pug et des aides tout-en-un
+pour PHP et Pug :
+
+https://github.com/phug-php/tester

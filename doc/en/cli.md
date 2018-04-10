@@ -386,3 +386,11 @@ Phug::displayFile('views/basic.pug');
 Then by runing `./vendor/bin/phug listen 9000 index.php`, you
 will be able to load http://localhost:9000 in a browser and the
 page will auto-refresh if you change the `views` directory.
+
+## Unit tests and coverage
+
+You can try out our experimental testing CLI tool using PHPUnit and
+xdebug including Pug files coverage reports and all-in-one PHP and
+Pug unit tests helpers:
+
+https://github.com/phug-php/tester
