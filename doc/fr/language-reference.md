@@ -703,7 +703,7 @@ div
 
 Ce qui va afficher :
 ```html
-&lt;div>GGGggg&lt;/div>
+<div>GGGggg</div>
 ```
 
 La même option est disponible dans **Pug-php** :

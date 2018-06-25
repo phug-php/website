@@ -692,7 +692,7 @@ div
 
 This will output:
 ```html
-&lt;div>GGGggg&lt;/div>
+<div>GGGggg</div>
 ```
 
 The same goes for **Pug-php**:
