@@ -100,13 +100,13 @@ various devices and the final HTML to send to the browser can be very
 verbose. And even if we must send HTML to the browser, we can use an
 other cleaner language and compile it.
  
-A lot a template engines just allow to insert dynamic elements inside
+A lot of template engines just allow to insert dynamic elements inside
 HTML, with an engine like Phug, you will no longer write HTML at all
 and will benefit many features: layouts, mixins, conditions, iterations,
 etc.
 
-Note that Phug support several versions and doctypes of HTML but
-also XML, and you van easily create any format you would need; as
+Note that Phug supports several versions and doctypes of HTML but
+also XML, and you can easily create any format you would need; as
 you can customize expressions handling, etc. Phug has much options
 and extension possibilities, *very* much.
 
