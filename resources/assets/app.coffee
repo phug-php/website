@@ -200,9 +200,10 @@ _paq = _paq || [];
 _paq.push ['setDomains', ['pug-demo.herokuapp.com', 'pug-php-demo-kylekatarn.c9users.io', 'jade-filters.selfbuild.fr', 'pug-filters.selfbuild.fr', 'phug-lang.com', '*.phug-lang.com']]
 _paq.push ['trackPageView']
 _paq.push ['enableLinkTracking']
+_paq.push ['setCustomVariable', 1, 'language', $('html').prop('lang'), 'visit']
 do ->
-  u="//piwik.selfbuild.fr/"
-  _paq.push ['setTrackerUrl', u+'piwik.php']
+  u = '//piwik.selfbuild.fr/'
+  _paq.push ['setTrackerUrl', u + 'piwik.php']
   _paq.push ['setSiteId', 18]
   d = document
   g = d.createElement 'script'
