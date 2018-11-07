@@ -209,7 +209,7 @@ input(value=$utilisateur->nom)
 ]
 ```
 
-### Changer language à l'intérieur des templates
+### Changer de language à l'intérieur des templates
 
 Depuis la version 2.1.0 de js-phpize-phug, il est maintenant possible
 de changer le style des expressions à l'inétérieur des templates.
