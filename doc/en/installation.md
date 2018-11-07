@@ -203,30 +203,30 @@ inside templates.
 
 ```pug
 body
-  // Whatever the options, we swtich to js mode
+  //- Whatever the options, we swtich to js mode
   language js
   - counter = 0
   
   node-language php
   div
-    // This node (the div tag) and its children
-    // will use php mode by default
+    //- This node (the div tag) and its children
+    //- will use php mode by default
     - $counter++
-    span= ++$counter
-    // Switch to js mode until new order
+    span= $counter++
+    //- Switch to js mode until new order
     language js
-    - ++counter
-    - ++counter
-    // And php again
+    - counter++
+    - counter++
+    //- And php again
     language php
     p= $counter
 
   section
-    // Outside the node (div tag), we go back to
-    // the previous mode
+    //- Outside the node (div tag), we go back to
+    //- the previous mode
     p= counter
-    // language and node-language can also be called
-    // throught comments
-    // @language php
+    //- language and node-language can also be called
+    //- throught comments
+    //- @language php
     p= $counter
 ```
