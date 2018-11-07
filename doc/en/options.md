@@ -802,6 +802,21 @@ doctype (for example, if you have set `doctype html`) the
 format here is HtmlFormat (see [format](#format-string)
 and [default_format](#default-format-string) options)
 
+### on_stringify `callable`
+
+Is triggered for each element after being formatted.
+
+Event constant: `\Phug\FormatterEvent::STRINGIFY`
+
+Event type: [`\Phug\Formatter\Event\StringifyEvent`](/api/classes/Phug.Formatter.Event.StringifyEvent.html#method___construct)
+
+Parameter you can get/set:
+- output: output string (HTML and PHP code)
+Parameter you can get:
+- formatEvent: reference to the source format event,
+modifying properties on this event will have no effect
+has it has already been triggered.
+
 ### on_new_format `callable`
 
 Is triggered when the format change (for example when you

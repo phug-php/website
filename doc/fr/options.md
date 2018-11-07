@@ -849,6 +849,21 @@ format ici sera HtmlFormat (voir les options
 [format](#format-string) et
 [default_format](#default-format-string))
 
+### on_stringify `callable`
+
+Est déclenché pour chaque élément après avoir été formatté.
+
+Constante d'événement : `\Phug\FormatterEvent::STRINGIFY`
+
+Type d'événement : [`\Phug\Formatter\Event\StringifyEvent`](/api/classes/Phug.Formatter.Event.StringifyEvent.html#method___construct)
+
+Paramètres utilisable/modifiable :
+- output: output string (HTML and PHP code)
+Paramètres utilisable :
+- formatEvent: référence à l'événement de formattage source
+(FormatEvent), modifier des propriétés de cet événement
+n'aura aucun effet car il a déjà été déclenché.
+
 ### on_new_format `callable`
 
 Est déclenché quand le format change (par exemple quand
