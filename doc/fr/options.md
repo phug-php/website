@@ -861,7 +861,7 @@ Paramètres utilisable/modifiable :
 - output: output string (HTML and PHP code)
 Paramètres utilisable :
 - formatEvent: référence à l'événement de formattage source
-(FormatEvent), modifier des propriétés de cet événement
+(`FormatEvent`), modifier des propriétés de cet événement
 n'aura aucun effet car il a déjà été déclenché.
 
 ### on_new_format `callable`

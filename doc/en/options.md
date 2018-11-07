@@ -813,9 +813,9 @@ Event type: [`\Phug\Formatter\Event\StringifyEvent`](/api/classes/Phug.Formatter
 Parameter you can get/set:
 - output: output string (HTML and PHP code)
 Parameter you can get:
-- formatEvent: reference to the source format event,
-modifying properties on this event will have no effect
-has it has already been triggered.
+- formatEvent: reference to the source format event
+(`FormatEvent`), modifying properties on this event
+will have no effect has it has already been triggered.
 
 ### on_new_format `callable`
 
