@@ -195,3 +195,38 @@ input(value=$user->name)
   ],
 ]
 ```
+
+### Switch expression language inside template
+
+Since js-phpize-phug 2.1.0, it's now possible to switch between both styles
+inside templates.
+
+```pug
+body
+  // Whatever the options, we swtich to js mode
+  language js
+  - counter = 0
+  
+  node-language php
+  div
+    // This node (the div tag) and its children
+    // will use php mode by default
+    - $counter++
+    span= ++$counter
+    // Switch to js mode until new order
+    language js
+    - ++counter
+    - ++counter
+    // And php again
+    language php
+    p= $counter
+
+  section
+    // Outside the node (div tag), we go back to
+    // the previous mode
+    p= counter
+    // language and node-language can also be called
+    // throught comments
+    // @language php
+    p= $counter
+```

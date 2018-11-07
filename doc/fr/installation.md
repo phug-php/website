@@ -208,3 +208,38 @@ input(value=$utilisateur->nom)
   ],
 ]
 ```
+
+### Changer language à l'intérieur des templates
+
+Depuis la version 2.1.0 de js-phpize-phug, il est maintenant possible
+de changer le style des expressions à l'inétérieur des templates.
+
+```pug
+body
+  // Quelque soit l'option, on passe en mode js
+  language js
+  - counter = 0
+  
+  node-language php
+  div
+    // Ce noeud (la balise div) et tous ses enfants
+    // utiliseront par défaut le mode php
+    - $counter++
+    span= ++$counter
+    // On passe en mode js jusqu'à nouvel ordre
+    language js
+    - ++counter
+    - ++counter
+    // Et à nouveau en php
+    language php
+    p= $counter
+
+  section
+    // En ressortant du noeud (balise div), on repasse au mode
+    // précédent
+    p= counter
+    // language et node-language sont aussi disponible en
+    // utilisant des commentaires
+    // @language php
+    p= $counter
+```
