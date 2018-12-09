@@ -226,7 +226,7 @@ The second `display` will outputs:
 
 As you can note in this examples, locals always have the
 precedence and `shared_variables` has the precedence
-on `globals`.
+over `globals`.
 
 The same code would look like this using **pug-php**:
 
