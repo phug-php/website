@@ -4,7 +4,7 @@
 
 **Phug** is the [pug](https://pugjs.org/) template engine for PHP.
 
-Phug offer you a clean way to write your templates (such as HTML pages).
+Phug offers you a clean way to write your templates (such as HTML pages).
 
 Example:
 
