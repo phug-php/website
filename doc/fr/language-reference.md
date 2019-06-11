@@ -1482,15 +1482,15 @@ indenté tel quel depuis n'importe où dans vos templates :
 ```phug
 .machin
   #chose
-    <p>
+    &lt;p>
       Texte non traité #{'sauf pour les interpolations'}
-    </p>
-    <p>
+    &lt;/p>
+    &lt;p>
       Titre
-      <a href="/lien">
+      &lt;a href="/lien">
         Boutton
-      </a>
-    </p>
+      &lt;/a>
+    &lt;/p>
     p Ceci est du code #[strong Phug] à nouveau
 ```
 
