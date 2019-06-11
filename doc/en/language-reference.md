@@ -1436,15 +1436,15 @@ anywhere to your templates:
 ```phug
 .foo
   #bar
-    <p>
+    &lt;p>
       Unprocessed text #{'except for interpolations'}
-    </p>
-    <p>
+    &lt;/p>
+    &lt;p>
       Title
-      <a href="/link">
+      &lt;a href="/link">
         Button
-      </a>
-    </p>
+      &lt;/a>
+    &lt;/p>
     p This is #[strong Phug] code again
 ```
 
