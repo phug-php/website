@@ -2251,3 +2251,43 @@ Affiche :
 ```html
 <img foo="not-bar" biz="biz" />
 ```
+
+### scope_each_variables `boolean | string`
+
+Par défaut (valeur `false`), les variables de clé et valeur créées par les boucles
+`each ... in` ou `for ... in` sont locales à la boucle (depuis **phug/compiler** 0.5.26).
+
+```phug
+- $valeur = 'a'
+- $cle = 'b'
+each $valeur, $cle in ['X', 'Y', 'Z']
+  p= $cle . $valeur
+div= $cle . $valeur
+```
+
+Avec `scope_each_variables` réglé à `false`, les variables utilisées dans each/for
+vont simplement écrasées les variables globales du même nom :
+```phug
+- $valeur = 'a'
+- $cle = 'b'
+each $val, $cle in ['X', 'Y', 'Z']
+  p= $cle . $valeur
+div= $cle . $valeur
+```
+<i data-options='{"scope_each_variables":false}'></i>
+
+L'option `scope_each_variables` utilise sous le capot une variable `$__eachScopeVariables`
+pour enregistrer les nom et valeur des variables d'itération (la valeur et optionnellement la clé)
+et pouvoir les restaurer après la boucle.
+ 
+Vous pouvez aussi passer un nom de variable à `scope_each_variables` pour personnaliser ce stockage,
+par example avec `'scope_each_variables' => 'beforeEach'` :
+
+```phug
+- $valeur = 'a'
+- $cle = 'b'
+each $valeur, $cle in ['X', 'Y', 'Z']
+  p= $beforeEach['key'] . $beforeEach['valeur']
+div= $cle . $valeur
+```
+<i data-options='{"scope_each_variables":"beforeEach"}'></i>

@@ -2162,3 +2162,43 @@ Output:
 ```html
 <img foo="not-bar" biz="biz" />
 ```
+
+### scope_each_variables `boolean | string`
+
+By default (`false` value), key and value variables created by `each ... in` or `for ... in`
+loops are scoped (since **phug/compiler** 0.5.26).
+
+```phug
+- $val = 'a'
+- $key = 'b'
+each $val, $key in ['X', 'Y', 'Z']
+  p= $key . $val
+div= $key . $val
+```
+
+With `scope_each_variables` set to `false`, the used key and value variables used in each/for
+will simply erase the global one:
+```phug
+- $val = 'a'
+- $key = 'b'
+each $val, $key in ['X', 'Y', 'Z']
+  p= $key . $val
+div= $key . $val
+```
+<i data-options='{"scope_each_variables":false}'></i>
+
+`scope_each_variables` option use internally a `$__eachScopeVariables` variable to store
+the iteration variables (value and optionally key) name and values they had before the loop
+to restore them after the loop.
+ 
+You can also pass a string to `scope_each_variables` to choose the variable name,
+for example with `'scope_each_variables' => 'beforeEach'`:
+
+```phug
+- $val = 'a'
+- $key = 'b'
+each $val, $key in ['X', 'Y', 'Z']
+  p= $beforeEach['key'] . $beforeEach['val']
+div= $key . $val
+```
+<i data-options='{"scope_each_variables":"beforeEach"}'></i>
