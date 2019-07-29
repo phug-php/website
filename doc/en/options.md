@@ -1766,7 +1766,7 @@ each $val, $key in ['X', 'Y', 'Z']
   p= $key . $val
 div= $key . $val
 ```
-<i data-options='{"scopeEachEariables":false}'></i>
+<i data-options='{"scopeEachVariables":false}'></i>
 
 `scope_each_variables` option use internally a `$__eachScopeVariables` variable to store
 the iteration variables (value and optionally key) name and values they had before the loop
@@ -1782,7 +1782,7 @@ each $val, $key in ['X', 'Y', 'Z']
   p= $beforeEach['key'] . $beforeEach['val']
 div= $key . $val
 ```
-<i data-options='{"scopeEachEariables":"beforeEach"}'></i>
+<i data-options='{"scopeEachVariables":"beforeEach"}'></i>
 
 ### adapter_class_name `string`
 
