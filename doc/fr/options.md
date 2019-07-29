@@ -1826,11 +1826,11 @@ vont simplement écraser les variables globales du même nom :
 ```phug
 - $valeur = 'a'
 - $cle = 'b'
-each $val, $cle in ['X', 'Y', 'Z']
+each $valeur, $cle in ['X', 'Y', 'Z']
   p= $cle . $valeur
 div= $cle . $valeur
 ```
-<i data-options='{"scope_each_variables":false}'></i>
+<i data-options='{"scopeEachEariables":false}'></i>
 
 L'option `scope_each_variables` utilise sous le capot une variable `$__eachScopeVariables`
 pour enregistrer les nom et valeur des variables d'itération (la valeur et optionnellement la clé)
@@ -1846,7 +1846,7 @@ each $valeur, $cle in ['X', 'Y', 'Z']
   p= $beforeEach['cle'] . $beforeEach['valeur']
 div= $cle . $valeur
 ```
-<i data-options='{"scope_each_variables":"beforeEach"}'></i>
+<i data-options='{"scopeEachEariables":"beforeEach"}'></i>
 
 ### adapter_class_name `string`
 
