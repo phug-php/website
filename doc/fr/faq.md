@@ -107,7 +107,7 @@ méthodes ou objets PHP dans vos templates, alors vous
 pouvez utiliser le paquet pugjs natif de npm. **Pug-php**
 a une option pour ça :
 ```php
-<?php
+&lt?php
 
 use Pug\Pug;
 
@@ -118,7 +118,7 @@ $pug = new Pug([
 ]);
 
 // Moteur Phug ignoré, pugjs utilisé à la place
-$pug->display('p=9..toString()');
+$pug-&gt;display('p=9..toString()');
 
 // Dans ce mode, vous pouvez `require` n'importe quel
 // fichier JS ou paquet npm :
