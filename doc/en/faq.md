@@ -28,7 +28,7 @@ p=_K
 
 Is it still possible to disable constants this way:
 ```php
-<?php
+&lt;?php
 
 use Pug\Pug;
 
@@ -97,6 +97,7 @@ package you would use, check there is no equivalent in PHP.
 - If you don't need to call PHP functions/methods/objects
 in your templates, then you can use the native npm pugjs
 package. **Pug-php** have a wrapper for that:
+
 ```php
 <?php
 
@@ -121,6 +122,7 @@ p=moment("20111031", "YYYYMMDD").fromNow()
 - You can pass a helper function as any other variable via
 `share` or `render` that can call a CLI program (so node or
 anything else):
+
 ```php
 $pug->share('dateDisplay', function ($date) {
     return shell_exec('node your-js-script.js ' . escapeshellarg($date));
@@ -129,6 +131,7 @@ $pug->share('dateDisplay', function ($date) {
 
 - You can use the V8Js engine
 (http://php.net/manual/en/book.v8js.php):
+
 ```php
 $pug->share('dateDisplay', function ($date) {
     $v8 = new V8Js('values', array('date' => '2016-05-09'));
