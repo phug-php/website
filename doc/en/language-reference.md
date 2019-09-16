@@ -538,6 +538,8 @@ If you [use JS-style](#use-javascript-expressions):
     p.description User has no description
 ```
 
+**Note:** When using [JS-style](#use-javascript-expressions), multiple conditionals such as `if truthy && truthy` or `if falsy && falsy` do not work as expected (See [this issue](https://github.com/pug-php/pug/issues/216)). You will need to wrap each statement in parentheses, eg `if (truthy) && (falsy)`
+
 **Phug** also provides the conditional `unless`, which works
 like a negated `if`.
 
