@@ -89,8 +89,10 @@ div(class='div-class' '[click]'='play()')
 
 A small note about a syntax you may hav known in **pugjs 1**:
 `a(href="/#{url}") Link`, this syntax is no longer valid in **pugjs 2**
-and so we decided to not support it in **Phug**. You can PHP
-interpolation:
+and so we decided to not support it in **Phug**. You can use native
+interpolation depending on the expression style:
+
+PHP interpolation (default options of `Phug` without js-phpize module):
 ```phug
 - $btnType = 'info'
 - $btnSize = 'lg'
@@ -98,7 +100,15 @@ button(type="button" class="btn btn-$btnType btn-$btnSize")
 - $btn = (object) ['size' => 'lg']
 button(type="button" class="btn btn-{$btn->size}")
 ```
-For JS expressions, use concatenation `" + btnType + "`.
+For JS expressions (default options of `Pug` or with js-phpize module):
+```pug
+- btnType = 'info'
+- btnSize = 'lg'
+button(type="button" class=`btn btn-${btnType} btn-${btnType}`)
+- btn = {size: 'lg'}
+button(type="button" class=`btn btn-${btn.size}`)
+```
+Or use concatenation `" + btnType + "`.
 
 ### Unescaped Attributes
 
