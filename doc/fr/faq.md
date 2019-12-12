@@ -106,6 +106,7 @@ vérifiez d'abord qu'il n'existe pas d'équivalent en PHP.
 méthodes ou objets PHP dans vos templates, alors vous
 pouvez utiliser le paquet pugjs natif de npm. **Pug-php**
 a une option pour ça :
+
 ```php
 <?php
 
@@ -118,7 +119,7 @@ $pug = new Pug([
 ]);
 
 // Moteur Phug ignoré, pugjs utilisé à la place
-$pug->display('p=9..toString()');
+$pug-&gt;display('p=9..toString()');
 
 // Dans ce mode, vous pouvez `require` n'importe quel
 // fichier JS ou paquet npm :
@@ -131,6 +132,7 @@ p=moment("20111031", "YYYYMMDD").fromNow()
 - Vous pouvez passer une fonction comme n'importe quelle
 autre variable via `share` ou `render` qui peut appeler un
 programme CLI (comme node ou n'importe quoi d'autre) :
+
 ```php
 $pug->share('afficheDate', function ($date) {
     return shell_exec('node votre-script.js ' . escapeshellarg($date));
@@ -139,6 +141,7 @@ $pug->share('afficheDate', function ($date) {
 
 - Vous pouvez utiliser le moteur V8Js
 (http://php.net/manual/fr/book.v8js.php) :
+
 ```php
 $pug->share('afficheDate', function ($date) {
     $v8 = new V8Js('valeurs', array('date' => '2016-05-09'));
