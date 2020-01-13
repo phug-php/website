@@ -1425,6 +1425,20 @@ mixin liste(id, ...elements)
 +liste('ma-liste', 1, 2, 3, 4)
 ```
 
+## Component
+
+Comme cette fonctionnalité n'est pas disponible dans Pug.js nous la fournissons
+en tant que plugin à installer via composer :
+```
+composer require phug/component
+```
+
+Les components (composants) sont des mixin multi-slots (plusieurs emplacements
+remplaçables) similaires aux components de technologies comme
+Vue.js, Angular, React ou Blade.
+
+Documentation complète : https://github.com/phug-php/component
+
 ## Texte brut
 
 **Phug** fournit quatre manières d'obtenir du *texte brut* —

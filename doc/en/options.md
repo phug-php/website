@@ -1444,6 +1444,28 @@ Output:
 
 ## Mixins
 
+### mixin_keyword
+
+Determine the start keyword of mixin declaration.
+
+Value by default: `"mixin"`
+
+It can be changed for an other string or an array to allow multiple keywords such as: `["mixin", "component"]`
+
+String can contain regular expression, it means you can use `[a-z]` to identify lower letter, `\d` for digit etc.
+but it also means you need to escape special characters such as `[]?!.{}()^$/` if you want to use them as text.
+
+### mixin_call_keyword
+
+Determine the start keyword of mixin call.
+
+Value by default: `"\\+"`
+
+It can be changed for an other string or an array to allow multiple keywords such as: `["\\+", "@"]`
+
+String can contain regular expression, it means you can use `[a-z]` to identify lower letter, `\d` for digit etc.
+but it also means you need to escape special characters such as `[]?!.{}()^$/` if you want to use them as text.
+
 ### mixin_merge_mode `string`
 
 Alias of `allowMixinOverride` in **Pug-php**.

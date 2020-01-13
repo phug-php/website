@@ -1388,6 +1388,19 @@ mixin list(id, ...items)
 +list('my-list', 1, 2, 3, 4)
 ```
 
+## Component
+
+As this feature is not available in Pug.js we provide it as a plugin
+to install using composer:
+```
+composer require phug/component
+```
+
+Components are multi-slots mixins similar to components in technologies like
+Vue.js, Angular, React or Blade.
+
+See complete documentation: https://github.com/phug-php/component
+
 ## Plain Text
 
 **Phug** provides four ways of getting *plain text* — that is, any code

@@ -1498,6 +1498,30 @@ Affiche :
 
 ## Mixins
 
+### mixin_keyword
+
+Determine le mot-clé de début des déclarations de mixin.
+
+Valeur par défaut: `"mixin"`
+
+Vous pouvez le changer ppour une autre chaîne ou un array pour autoriser plueirus mots-clé comme: `["mixin", "component"]`
+
+Le chaîne peut contenir des expressions régulières, ça signifie que vous pouvez utiliser `[a-z]` to identifier les
+lettres minuscules, `\d` pour les chiffres etc. mais ça signifie également que vous avez besoin d'échapper des caractères
+spéciaux tels que `[]?!.{}()^$/` si vous voulez les utiliser en tant que texte.
+
+### mixin_call_keyword
+
+Determine le mot-clé de début des appels de mixin.
+
+Valeur par défaut: `"\\+"`
+
+Vous pouvez le changer ppour une autre chaîne ou un array pour autoriser plueirus mots-clé comme: `["\\+", "@"]`
+
+Le chaîne peut contenir des expressions régulières, ça signifie que vous pouvez utiliser `[a-z]` to identifier les
+lettres minuscules, `\d` pour les chiffres etc. mais ça signifie également que vous avez besoin d'échapper des caractères
+spéciaux tels que `[]?!.{}()^$/` si vous voulez les utiliser en tant que texte.
+
 ### mixin_merge_mode `string`
 
 Alias de `allowMixinOverride` dans **Pug-php**.
