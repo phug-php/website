@@ -76,10 +76,7 @@ suivante :
 
 ```php
 Phug::setOption('on_output', function (OutputEvent $event) {
-  $event->setOutput(
-    '<?php namespace QuelquePart; ?>'.
-    $event->getOutput()
-  );
+  $event->prependCode('namespace QuelquePart;');
 });
 ```
 

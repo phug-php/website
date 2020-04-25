@@ -70,10 +70,7 @@ all templates this way:
 
 ```php
 Phug::setOption('on_output', function (OutputEvent $event) {
-  $event->setOutput(
-    '<?php namespace SomeWhere; ?>'.
-    $event->getOutput()
-  );
+  $event->prependCode('namespace SomeWhere;');
 });
 ```
 
