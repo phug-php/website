@@ -21,7 +21,7 @@ Failed to parse: Failed to outdent: No parent to outdent to. Seems the parser mo
 Near: indent
 
 Line: 3
-Offset: 1 
+Offset: 1
 ```
 
 Avec l'option **filename**, un chemin est fournit :
@@ -48,7 +48,7 @@ Phug::compile("\n  indentation\ncassée", 'quelque-chose.pug');
 ...
 Line: 3
 Offset: 1
-Path: quelque-chose.pug 
+Path: quelque-chose.pug
 ```
 
 Il en va de même pour `compileFile`, `renderFile` et `displayFile`:
@@ -60,7 +60,7 @@ Phug::displayFile('quelque-chose.pug');
 ...
 Line: 3
 Offset: 1
-Path: quelque-chose.pug 
+Path: quelque-chose.pug
 ```
 
 ### basedir `string`
@@ -478,7 +478,7 @@ est uniquement disponible pour le *parser*).
 Permet de gérer l'affichage des erreurs PHP qui surviennent
 lors de l'exécution d'un template. Par défaut, les erreurs
 levées par la configuration PHP courante (voir
-[error_reporting](php.net/manual/fr/function.error-reporting))
+[error_reporting](https://php.net/manual/fr/function.error-reporting))
 sont transformées en exceptions que Phug peut alors retracer
 l'origine dans le code du template pug. Les autres erreurs
 sont masquées.
@@ -1205,19 +1205,19 @@ héritée).
 Mais vous pouvez spécifier explicitement la cible
 avec les options suivantes :
 
-### compiler_modules `array` 
+### compiler_modules `array`
 
 Modules réservés au compiler (voir [modules](#modules-array)).
 
-### formatter_modules `array` 
+### formatter_modules `array`
 
 Modules réservés au formatter (voir [modules](#modules-array)).
 
-### parser_modules `array` 
+### parser_modules `array`
 
 Modules réservés au parser (voir [modules](#modules-array)).
 
-### lexer_modules `array` 
+### lexer_modules `array`
 
 Modules réservés au lexer (voir [modules](#modules-array)).
 
@@ -1357,7 +1357,7 @@ Affiche :
 ### php_token_handlers `array`
 
 Ce paramètre vous permet d'intercepter
-[n'importe quel token PHP](http://php.net/manual/fr/tokens.php)
+[n'importe quel token PHP](https://php.net/manual/fr/tokens.php)
 et de le remplacer par un autre code PHP.
 Cela fonctionne aussi avec les expressions à
 l'intérieur des boucles `each`, des conditions
@@ -1390,7 +1390,7 @@ Affiche :
 ```
 
 Si vous passez une chaîne de caractères,
-[`sprintf`](http://php.net/manual/fr/function.sprintf.php)
+[`sprintf`](https://php.net/manual/fr/function.sprintf.php)
 est utilisé pour la gérée, donc si la chaîne contient
 `%s`, ce sera remplacé par la chaîne d'entrée du *token*.
 
@@ -1916,7 +1916,7 @@ include 'fichier.php';
 
 [EvalAdapter](/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
 est l'*adapter* par défaut et utilise
-[eval](http://php.net/manual/fr/function.eval.php).
+[eval](https://php.net/manual/fr/function.eval.php).
 Vous pouvez avoir entendu que `eval` est dangereux. Et
 oui, si vous ne filtrez pas les entrées utilisateur/externes
 que la chaîne que vous passez à `eval` peut contenir, c'est
