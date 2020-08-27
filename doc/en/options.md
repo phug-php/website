@@ -1305,7 +1305,7 @@ Display:
 ### php_token_handlers `array`
 
 This setting allow you to intercept
-[any PHP token](http://php.net/manual/en/tokens.php)
+[any PHP token](https://php.net/manual/en/tokens.php)
 and replace it with an other string of PHP code.
 It also works with expressions inside `each` loop,
 `if` statements, etc. and even if the expression come from
@@ -1338,7 +1338,7 @@ Output:
 ```
 
 If you pass a string,
-[`sprintf`](http://php.net/manual/en/function.sprintf.php)
+[`sprintf`](https://php.net/manual/en/function.sprintf.php)
 is used to handle it, so if it contains `%s`, it will be
 replaced with the input token string.
 
@@ -1848,7 +1848,7 @@ include 'file.php';
 
 [EvalAdapter](/api/classes/Phug.Renderer.Adapter.EvalAdapter.html)
 is the default adapter and uses
-[eval](http://php.net/manual/en/function.eval.php).
+[eval](https://php.net/manual/en/function.eval.php).
 You may have heard that `eval` is dangerous. And yes,
 if you don't filter user/external input the string you
 pass to `eval` may contain, this is unsafe. But this
