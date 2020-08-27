@@ -19,7 +19,7 @@ Failed to parse: Failed to outdent: No parent to outdent to. Seems the parser mo
 Near: indent
 
 Line: 3
-Offset: 1 
+Offset: 1
 ```
 
 With the **filename** option, it provides a fallback:
@@ -45,7 +45,7 @@ Phug::compile("\n  broken\nindent", 'something.pug');
 ...
 Line: 3
 Offset: 1
-Path: something.pug 
+Path: something.pug
 ```
 
 The same goes for `compileFile`, `renderFile` and `displayFile`:
@@ -57,7 +57,7 @@ Phug::displayFile('something.pug');
 ...
 Line: 3
 Offset: 1
-Path: something.pug 
+Path: something.pug
 ```
 
 ### basedir `string`
@@ -405,7 +405,7 @@ it automatically pass to `50*1024*1024` (50MB).
 If the profiler detect the memory usage exceed the limit,
 it will throw an exception. But be aware, if this limit
 is greater than the machine limit or the PHP limit, the Phug
-limit will have no effect. 
+limit will have no effect.
 
 ### execution_max_time `integer`
 
@@ -418,7 +418,7 @@ If the profiler detect Phug is running for a longer
 time than the specified limit, it will throw an
 exception. But be aware, if this limit is greater than
 the PHP limit,
-the Phug limit will have no effect. 
+the Phug limit will have no effect.
 
 ### enable_profiler `boolean`
 
@@ -452,15 +452,10 @@ the parser).
 
 ### error_reporting `callable | int`
 
-Allow to handle PHP errors display that comes up during the
-template execution. By default, errors raised by current
-PHP setting (see
-[error_reporting](php.net/manual/en/function.error-reporting))
-are turned into exception Phug is able to trace the origine
-in the template pug code. Other errors are hidden.
+Allow to handle PHP errors display that comes up during the template execution. By default, errors raised by current PHP setting (see [error_reporting](https://php.net/manual/en/function.error-reporting)) are turned into exception Phug is able to trace the origine in the template pug code. Other errors are hidden.
 
-You can pass an custom error level that will override
-the PHP setting.
+You can pass an custom error level that will override the PHP setting.
+
 ```php
 $renderer = new Renderer([
     'error_reporting' => E_ALL ^ E_NOTICE,
@@ -1153,19 +1148,19 @@ module class extended).
 But you can specify explicitly a target with following
 options:
 
-### compiler_modules `array` 
+### compiler_modules `array`
 
 Modules reserved to the compiler (see [modules](#modules-array)).
 
-### formatter_modules `array` 
+### formatter_modules `array`
 
 Modules reserved to the formatter (see [modules](#modules-array)).
 
-### parser_modules `array` 
+### parser_modules `array`
 
 Modules reserved to the parser (see [modules](#modules-array)).
 
-### lexer_modules `array` 
+### lexer_modules `array`
 
 Modules reserved to the lexer (see [modules](#modules-array)).
 
@@ -1793,7 +1788,7 @@ div= $key . $val
 `scope_each_variables` option use internally a `$__eachScopeVariables` variable to store
 the iteration variables (value and optionally key) name and values they had before the loop
 to restore them after the loop.
- 
+
 You can also pass a string to `scope_each_variables` to choose the variable name,
 for example with `'scope_each_variables' => 'beforeEach'`:
 
