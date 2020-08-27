@@ -452,9 +452,15 @@ the parser).
 
 ### error_reporting `callable | int`
 
-Allow to handle PHP errors display that comes up during the template execution. By default, errors raised by current PHP setting (see [error_reporting](https://php.net/manual/en/function.error-reporting)) are turned into exception Phug is able to trace the origine in the template pug code. Other errors are hidden.
+Allow to handle PHP errors display that comes up during
+the template execution. By default, errors raised by current
+PHP setting (see
+[error_reporting](https://php.net/manual/en/function.error-reporting))
+are turned into exception Phug is able to trace the origin
+in the template pug code. Other errors are hidden.
 
-You can pass an custom error level that will override the PHP setting.
+You can pass an custom error level that will override
+the PHP setting.
 
 ```php
 $renderer = new Renderer([
