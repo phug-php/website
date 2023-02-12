@@ -25,7 +25,8 @@ html(lang=locale)
             nav.sidebar.col-lg-3.br-ribbed-light(data-anchor=anchor): nav.navbar.contents#contents
                 nav.nav.flex-column
                     .d-lg-none
-                        a.nav-link#try-link(href="#try" data-action="sidebar-nav" data-toggle="try")=__('index.try_phug')
+                        //- a.nav-link#try-link(href="#try" data-action="sidebar-nav" data-toggle="try")=__('index.try_phug')
+                        a.nav-link#try-link(href="https://play.phpsandbox.io/phug/phug?input=%3C%3Fphp%0A%0A%24code%20%3D%20trim(%3C%3C%3C%27EOF%27%0A%0Adoctype%20html%0Ahtml(lang%3D%22en%22)%0Ahead%0A%20%20%20%20title%3D%20pageTitle%0A%20%20%20%20script(type%3D%27text%2Fjavascript%27).%0A%20%20%20%20if%20(foo)%20%7B%0A%20%20%20%20%20%20%20%20bar(1%20%2B%205)%0A%20%20%20%20%7D%0Abody%0A%20%20%20%20h1%3D%20pageTitle%0A%20%20%20%20%23container.col%0A%20%20%20%20if%20youAreUsingJade%0A%20%20%20%20%20%20%20%20p%20You%20are%20amazing%0A%20%20%20%20else%0A%20%20%20%20%20%20%20%20p%20Get%20on%20it!%0A%20%20%20%20p.%0A%20%20%20%20%20%20%20%20Pug.php%20is%20PHP%20port%20Pug%20(JS)%0A%20%20%20%20%20%20%20%20the%20node%20template%20engine%0A%20%20%20%20%20%20%20%20(previously%20named%20Jade).%0A%0AEOF)%3B%0A%0A%24variables%20%3D%20%5B%0A%20%20%27pageTitle%27%20%3D%3E%20%27Try%20Pug.php%20and%20never%20recode%20HTML%20again%27%2C%0A%20%20%27youAreUsingJade%27%20%3D%3E%20true%2C%0A%5D%3B%0A%0Aecho%20htmlspecialchars(Phug%3A%3Arender(%24code%2C%20%24variables))%3B%0A" target="_blank")=__('index.try_phug')
                         a.nav-link(href="#language-reference" data-action="sidebar-nav")=__('index.language_reference')
                         a.nav-link(href="/api/namespaces/Phug.html" data-action="sidebar-nav")=__('index.api_reference')
                         a.nav-link(href="#resources" data-action="sidebar-nav" data-close="try")=__('index.resources')
