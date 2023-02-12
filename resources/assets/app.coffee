@@ -85,25 +85,25 @@ $ ->
       $next.find('i[data-options]').remove()
       if ($next.html() || '').trim() is ''
         $next.remove()
-      $pre.replaceWith '<iframe data-src="https://pug-demo.herokuapp.com/' +
-        '?embed&theme=xcode&border=silver&options-color=rgba(120,120,120,0.5)' +
-        '&engine=' + (if $code.hasClass('language-phug') then 'phug' else 'pug-php') +
-        '&input=' + encodeURIComponent(code) +
-        '&options=' + encodeURIComponent(JSON.stringify(options)) +
-        '&save_as=' + saveAs +
-        (if language
-          '&language=' + language +
-          '&hide-output'
-        else
-          ''
-        ) +
-        (if vars
-          '&vars=' + encodeURIComponent(vars) + '&vars-height=' + (varsLines * 100 / (outputLines + 2 + varsLines))
-        else
-          '&hide-vars'
-        ) +
-        '" class="live-code" style="height: ' + Math.max(minHeight, lines * lineHeight + 2) + 'px;"></iframe>' +
-        '<div class="live-code-resizer"></div>'
+#       $pre.replaceWith '<iframe data-src="https://pug-demo.herokuapp.com/' +
+#         '?embed&theme=xcode&border=silver&options-color=rgba(120,120,120,0.5)' +
+#         '&engine=' + (if $code.hasClass('language-phug') then 'phug' else 'pug-php') +
+#         '&input=' + encodeURIComponent(code) +
+#         '&options=' + encodeURIComponent(JSON.stringify(options)) +
+#         '&save_as=' + saveAs +
+#         (if language
+#           '&language=' + language +
+#           '&hide-output'
+#         else
+#           ''
+#         ) +
+#         (if vars
+#           '&vars=' + encodeURIComponent(vars) + '&vars-height=' + (varsLines * 100 / (outputLines + 2 + varsLines))
+#         else
+#           '&hide-vars'
+#         ) +
+#         '" class="live-code" style="height: ' + Math.max(minHeight, lines * lineHeight + 2) + 'px;"></iframe>' +
+#         '<div class="live-code-resizer"></div>'
       return
     return
   $('.table-of-content').append tableOfContents
