@@ -17,11 +17,11 @@ body
 Au lieu d'écrire de verbeuses balises, Phug est structuré par indentation
 (comme le Python, CoffeeScript ou Stylus).
 Ici `<h1>` est à l'intérieur de `<body>` car `h1` a un niveau
-d'indentation de plus. Essayez de supprimer les espaces, vous verez
+d'indentation de plus. Essayez de supprimer les espaces, vous verrez
 que `<h1>` et `<body>` sont alors au même niveau. Vous pouvez indenter
 avec autant de tabulations ou espaces que vous voulez, Phug va toujours
 essayer de deviner la structure en détectant les niveaux d'indentation.
-Toutefois il est recommandé d'avoir un indentation constante dans vos
+Toutefois, il est recommandé d'avoir une indentation constante dans vos
 fichiers.
 
 En tant que moteur de templates, Phug fournit aussi un moyen optimisé
@@ -93,7 +93,7 @@ Maintenant que vous savez ce qu'est Phug, vous pouvez :
  - [consulter le projet original pugjs](https://pugjs.org)
  - [voir toutes les fonctionnalités de ce language](#language-reference)
  
-Si vous n'êtes pas sûr que Phug est adapté à vos besoin, consultez
+Si vous n'êtes pas sûr que Phug est adapté à vos besoins, consultez
 la section **Pourquoi** ci-dessous :
 
 ## Pourquoi Phug ?
@@ -131,11 +131,11 @@ responsabilités), vous pourrez alors organiser vos vues en pages
 et composants visuels sans aucune contrainte vis-à-vis de votre
 code PHP.
 
-Enfin, si vous respecter ce principe (en évitant entre autre d'insérer
+Enfin, si vous respectez ce principe (en évitant entre autre d'insérer
 des traitements dans vos templates), alors vos templates ne
-contiendront pas de code complexe mais simplement des insertions
+contiendront pas de code complexe, mais simplement des insertions
 de variable, ce qui rend ce code aisément modifiable même pour
-quelqu'un qui connaît pas le back-end de votre application, le
+quelqu'un qui ne connaît pas le back-end de votre application, le
 développeur qui a la responsabilité de modifier les fichiers `.pug`
 n'a apriori même pas besoin de connaître le PHP.
 
@@ -147,9 +147,9 @@ d'y arriver. Voyez la section [alternatives](#alternatives)
 pour plus de détails. Mais sachez que cette approche a des
 limites. La plus importante est l'aplatissement des données.
 N'importe quelle instance de classe deviendra un objet plat
-pour être passé à pugjs, c'est à dire qu'il perdra ces méthodes.
+pour être passé à pugjs, c'est-à-dire qu'il perdra ces méthodes.
 
-Voici un exemple de ce que Phug permet mais que pugjs ne pourra
+Voici un exemple de ce que Phug permet, mais que pugjs ne pourra
 pas faire s'il est appelé à travers un proxy ou une commande :
 
 ```pug
@@ -167,13 +167,13 @@ Vous utilisez peut-être déjà une autre librairie PHP proposant
 la syntaxe Pug.
 
 Tout d'abord si vous n'utilisez pas composer, je ne peux que vous
-encouragez à adopter ce système de gestion des dépendences.
-Il est sans équivalent dans l'écosystème PHP en terme de paquets
+encourager à adopter ce système de gestion des dépendences.
+Il est sans équivalent dans l'écosystème PHP en termes de paquets
 disponibles et il vous permettra de garder vos dépendences à
 jour très facilement. Je vous invite donc à choisir votre
 librairie parmi celle disponible via composer (voir https://packagist.org/) 
 
-Ensuite sachez que si vous utilisez un projet dont le nom
+Ensuite, sachez que si vous utilisez un projet dont le nom
 contient "jade", il y a de grandes chances qu'il soit obsolète
 car jade est l'ancien nom de pug, par exemple les packages
 **kylekatarnls/jade-php**, **ronan-gloo/jadephp**,
@@ -186,7 +186,7 @@ version 2, il utilise toujours le même moteur. Sa version 3 quant
 à elle utilise désormais Phug.
 De même **talesoft/tale-jade** a été remplacé par
 **talesoft/tale-pug** et la version 2 de **talesoft/tale-pug**
-utilisera elle aussi Phug.
+utilisera, elle aussi, Phug.
 
 **talesoft/tale-pug** et **pug-php/pug** sont les ports PHP de
 Pug les plus utilisés et sont activement maintenus. En utilisant
