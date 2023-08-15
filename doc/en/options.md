@@ -2225,3 +2225,102 @@ Output:
 ```html
 <img foo="not-bar" biz="biz" />
 ```
+
+### attribute_precedence `"assignment"` (default value), `"attribute"`, `"left"`, `"right"`, `callable` 
+
+Allow to customize precedence between attributes and `&attribute` assignment.
+
+```php
+Phug::display('
+| Last assignment
+- $data = ["href" => "/c"]
+a(href="/a")&attributes(["href" => "/b"])&attributes($data)(href="/d")
+', [], [
+    'attribute_precedence' => 'assignment',
+]);
+
+Phug::display('
+| Last attribute
+- $data = ["href" => "/c"]
+a(href="/a")&attributes(["href" => "/b"])&attributes($data)(href="/d")
+', [], [
+    'attribute_precedence' => 'attribute',
+]);
+
+Phug::display('
+| First token (either it’s attribute or assignment)
+- $data = ["href" => "/c"]
+a(href="/a")&attributes(["href" => "/b"])&attributes($data)(href="/d")
+', [], [
+    'attribute_precedence' => 'left',
+]);
+
+Phug::display('
+| Last token (either it’s attribute or assignment)
+- $data = ["href" => "/c"]
+a(href="/a")&attributes(["href" => "/b"])&attributes($data)(href="/d")
+', [], [
+    'attribute_precedence' => 'right',
+]);
+
+Phug::display('
+| First assignment
+- $data = ["href" => "/c"]
+a(href="/a")&attributes(["href" => "/b"])&attributes($data)(href="/d")
+', [], [
+    'attribute_precedence' => static function (array $assignments, array $attributes) {
+        // Sort in reverse-order (right-most tokens to left-most tokens)
+        usort($assignments, static function (\Phug\Util\OrderedValue $a, \Phug\Util\OrderedValue $b) {
+            return $b->getOrder() - $a->getOrder();
+        });
+        usort($attributes, static function (\Phug\Util\OrderedValue $a, \Phug\Util\OrderedValue $b) {
+            return $b->getOrder() - $a->getOrder();
+        });
+
+        // Return order in which values will merge
+        // So from lowest to highest precedence
+        return array_merge($attributes, $assignments);
+    },
+]);
+
+Phug::display('
+| First attribute
+- $data = ["href" => "/c"]
+a(href="/a")&attributes(["href" => "/b"])&attributes($data)(href="/d")
+', [], [
+    'attribute_precedence' => static function (array $assignments, array $attributes) {
+        // Sort in reverse-order (right-most tokens to left-most tokens)
+        usort($assignments, static function (\Phug\Util\OrderedValue $a, \Phug\Util\OrderedValue $b) {
+            return $b->getOrder() - $a->getOrder();
+        });
+        usort($attributes, static function (\Phug\Util\OrderedValue $a, \Phug\Util\OrderedValue $b) {
+            return $b->getOrder() - $a->getOrder();
+        });
+
+        // Return order in which values will merge
+        // So from lowest to highest precedence
+        return array_merge($assignments, $attributes);
+    },
+]);
+```
+
+Output:
+```html
+Last assignment
+<a href="/c"></a>
+
+Last attribute
+<a href="/d"></a>
+
+First token (either it’s attribute or assignment)
+<a href="/a"></a>
+
+Last token (either it’s attribute or assignment)
+<a href="/d"></a>
+
+First assignment
+<a href="/b"></a>
+
+First attribute
+<a href="/a"></a>
+```
