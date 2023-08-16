@@ -7,27 +7,27 @@ correspondant pour installer phug directement dans votre
 application.
 
 - Laravel :
-[![Latest Stable Version](https://poser.pugx.org/bkwld/laravel-pug/v/stable.png)](https://packagist.org/packages/bkwld/laravel-pug)
+[![Latest Stable Version](https://poser.pugx.org/bkwld/laravel-pug/v)](https://packagist.org/packages/bkwld/laravel-pug)
 [bkwld/laravel-pug](https://github.com/BKWLD/laravel-pug)
 
 - Symfony :
-[![Latest Stable Version](https://poser.pugx.org/pug-php/pug-symfony/v/stable.png)](https://packagist.org/packages/pug-php/pug-symfony)
+[![Latest Stable Version](https://poser.pugx.org/pug-php/pug-symfony/v)](https://packagist.org/packages/pug-php/pug-symfony)
 [pug-php/pug-symfony](https://github.com/pug-php/pug-symfony)
 
 - Phalcon :
-[![Latest Stable Version](https://poser.pugx.org/pug-php/pug-phalcon/v/stable.png)](https://packagist.org/packages/pug-php/pug-phalcon)
+[![Latest Stable Version](https://poser.pugx.org/pug-php/pug-phalcon/v)](https://packagist.org/packages/pug-php/pug-phalcon)
 [pug-php/pug-phalcon](https://github.com/pug-php/pug-phalcon)
 
 - CodeIgniter :
-[![Latest Stable Version](https://poser.pugx.org/ci-pug/ci-pug/v/stable.png)](https://packagist.org/packages/ci-pug/ci-pug)
+[![Latest Stable Version](https://poser.pugx.org/ci-pug/ci-pug/v)](https://packagist.org/packages/ci-pug/ci-pug)
 [ci-pug/ci-pug](https://github.com/pug-php/ci-pug-engine)
 
 - Yii 2 :
-[![Latest Stable Version](https://poser.pugx.org/pug/yii2/v/stable.png)](https://packagist.org/packages/pug/yii2)
+[![Latest Stable Version](https://poser.pugx.org/pug/yii2/v)](https://packagist.org/packages/pug/yii2)
 [pug/yii2](https://github.com/pug-php/pug-yii2)
 
 - Slim 3 :
-[![Latest Stable Version](https://poser.pugx.org/pug/slim/v/stable.png)](https://packagist.org/packages/pug/slim)
+[![Latest Stable Version](https://poser.pugx.org/pug/slim/v)](https://packagist.org/packages/pug/slim)
 [pug/slim](https://github.com/pug-php/pug-slim)
 
 - Silex : [exemple d'implementation](https://gist.github.com/kylekatarnls/ba13e4361ab14f4ff5d2a5775eb0cc10)
@@ -36,7 +36,7 @@ application.
 
 - Zend Expressive [infw/pug](https://github.com/kpicaza/infw-pug)
 
-- Zephyrus: [![Latest Stable Version](https://poser.pugx.org/zephyrus/zephyrus/v/stable.png)](https://packagist.org/packages/zephyrus/zephyrus)
+- Zephyrus: [![Latest Stable Version](https://poser.pugx.org/zephyrus/zephyrus/v)](https://packagist.org/packages/zephyrus/zephyrus)
 
 Les adapteurs ci-dessus utilisent **pug-php 3**, ce qui signifie que les
 expressions doivent être écrite en JS par défaut, mais vous pouvez
