@@ -30,7 +30,7 @@ html(lang=locale)
                         a.nav-link(href="#language-reference" data-action="sidebar-nav")=__('index.language_reference')
                         a.nav-link(href="/api/namespaces/Phug.html" data-action="sidebar-nav")=__('index.api_reference')
                         a.nav-link(href="#resources" data-action="sidebar-nav" data-close="try")=__('index.resources')
-                        a.nav-link(href="https://github.com/phug-php/phug/" data-action="sidebar-nav" data-close="try") GitHub
+                        a.nav-link(href="https://github.com/phug-php/phug" data-action="sidebar-nav" data-close="try") GitHub
                         hr
                     .table-of-content
             main.main.col-lg-9.ml-auto
@@ -41,18 +41,16 @@ html(lang=locale)
                     | &nbsp;
                     a(href="https://packagist.org/packages/phug/phug")
                         img(
-                            src="https://camo.githubusercontent.com/9ff236cbfba46cf8c9a6be7502a500f1bb09bd52/68747470733a2f2f706f7365722e707567782e6f72672f706875672f706875672f762f737461626c652e706e67"
+                            src="https://poser.pugx.org/phug/phug/v/stable.png"
                             alt=__('index.last_release')
-                            data-canonical-src="https://poser.pugx.org/phug/phug/v/stable.png"
                         )
                     | &nbsp; &nbsp; | &nbsp;&nbsp;
                     =__('index.build_status')
                     | &nbsp;
-                    a(href="https://travis-ci.org/phug-php/phug")
+                    a(href="https://github.com/phug-php/phug/actions/workflows/tests.yml")
                         img(
-                            src="https://camo.githubusercontent.com/4d30d769cc4ee366702a649921389a3aceebb130/68747470733a2f2f7472617669732d63692e6f72672f706875672d7068702f706875672e7376673f6272616e63683d6d6173746572"
+                            src="https://github.com/phug-php/phug/actions/workflows/tests.yml/badge.svg"
                             alt=__('index.build_status')
-                            data-canonical-src="https://travis-ci.org/phug-php/phug.svg?branch=master"
                         )
 
                 include documentation.pug
