@@ -26,7 +26,7 @@ application.
 [![Latest Stable Version](https://poser.pugx.org/pug/yii2/v)](https://packagist.org/packages/pug/yii2)
 [pug/yii2](https://github.com/pug-php/pug-yii2)
 
-- Slim 3 :
+- Slim :
 [![Latest Stable Version](https://poser.pugx.org/pug/slim/v)](https://packagist.org/packages/pug/slim)
 [pug/slim](https://github.com/pug-php/pug-slim)
 
